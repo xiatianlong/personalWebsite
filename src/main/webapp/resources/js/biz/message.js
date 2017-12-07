@@ -4,7 +4,7 @@
  */
 
 // 菜单
-var messageMenu = ['bold','italic','underline','strikeThrough','foreColor','link','emoticon'];
+var messageMenu = ['bold','italic','underline','strikeThrough','foreColor','link','code','emoticon'];
 
 //建立编辑器
 var messageE = window.wangEditor;
