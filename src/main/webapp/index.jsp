@@ -11,7 +11,6 @@
     <title>Title</title>
 </head>
 <body>
-<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 <script>
     window.location.href="${pageContext.request.contextPath}/home";
 </script>
