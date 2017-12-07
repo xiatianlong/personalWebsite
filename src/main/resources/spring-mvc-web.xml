@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd"
+       default-lazy-init="true">
+
+    <!-- 启用Spring基于annotation的DI, 使用户可以在Spring MVC中使用Spring的强大功能。 激活 @Required
+       @Autowired,JSR 250's @PostConstruct, @PreDestroy and @Resource 等标注 -->
+    <context:annotation-config />
+
+    <!-- DispatcherServlet上下文， 只管理@Controller类型的bean， 忽略其他型的bean, 如@Service -->
+    <context:component-scan base-package="com.personalWebsite.controller" />
+
+    <!-- 扩充了注解驱动，可以将请求参数绑定到控制器参数 -->
+    <mvc:annotation-driven />
+
+    <!--  映射路径 : 1.加入静态路径的处理 2. 允许使用"/"做整体路径 -->
+    <mvc:default-servlet-handler />
+
+    <!-- 静态资源处理， css， js， imgs -->
+    <mvc:resources mapping="/resources/**" location="/resources/" />
+
+    <!--  拦截器  -->
+    <mvc:interceptors>
+
+        <!--菜单拦截-->
+        <mvc:interceptor>
+            <mvc:mapping path="/home"/>
+            <mvc:mapping path="/home/**"/>
+            <mvc:mapping path="/article"/>
+            <mvc:mapping path="/article/**"/>
+            <mvc:mapping path="/note"/>
+            <mvc:mapping path="/note/**"/>
+            <mvc:mapping path="/message"/>
+            <mvc:mapping path="/message/**"/>
+            <mvc:mapping path="/about"/>
+            <mvc:mapping path="/about/**"/>
+            <mvc:mapping path="/member/**"/>
+            <bean id="menuInterceptor" class="com.personalWebsite.interceptor.MenuInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass"
+                  value="org.springframework.web.servlet.view.JstlView" />
+        <property name="prefix" value="/WEB-INF/template/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+    <!--     国际化消息 -->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>classpath:message</value>
+            </list>
+        </property>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+
+</beans>
