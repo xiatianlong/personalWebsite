@@ -15,7 +15,7 @@
 <div class="layui-container">
     <span class="layui-breadcrumb">
       <a href="${pageContext.request.contextPath}/home"><i class="layui-icon">&#xe68e;</i></a>
-        <a href="${pageContext.request.contextPath}/member/personalCenter/"><i class="layui-icon">&#xe68e;</i></a>
+        <a href="${pageContext.request.contextPath}/member/personalCenter/">个人中心</a>
       <a><cite>设置</cite></a>
     </span>
 </div>
@@ -28,9 +28,45 @@
     <div class="layui-row">
         <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block padding-t-30 padding-b-30">
 
+            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 text-c">
+                <div id="personalCenterHeadImg"><img src="${pageContext.request.contextPath}/resources/images/icon/website_logo_64px.png"></div>
+                <div class="margin-t-10 font-size-22">夏天龙</div>
+            </div>
 
+            <%--设置部分 begin--%>
+            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                <form class="layui-form" action="">
 
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">开放访问<i class="layui-icon" id="openLookIcon">&#xe60b;</i></label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" checked="" name="open" lay-skin="switch" lay-text="ON|OFF">
+                        </div>
+                    </div>
 
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">QQ</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="qq" lay-verify="qq" autocomplete="off" placeholder="留下QQ方便联系哦..." class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">自我介绍</label>
+                        <div class="layui-input-block">
+                            <textarea name="introduction" lay-verify="introduction" placeholder="请简单的介绍下自己吧..." class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="submitSettingForm"><i class="layui-icon">&#xe609;</i> 立即保存</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <%--设置部分 end--%>
 
         </div>
     </div>
@@ -48,5 +84,46 @@
 <!-- 你的HTML代码 -->
 
 <jsp:include page="../base/footer.jsp"/>
+<script>
+
+    //Demo
+    layui.use(['layer', 'form'], function(){
+        var form = layui.form,layer = layui.layer;
+        var tipsIndex;
+        $("#openLookIcon").hover(function(){
+            tipsIndex = layer.tips('开放访问即允许别人访问我的个人中心', '#openLookIcon', {
+                tips: [2, 'rgba(0,0,0,.6)'] //还可配置颜色
+            });
+        }, function(){
+            layer.close(tipsIndex);
+        });
+
+        //自定义验证规则
+        form.verify({
+            qq: function(value){
+                if(!EasyCheck.StringUtils.isEmpty(value) && !EasyCheck.StringUtils.isNumeric(value)){
+                    return 'QQ只能输数字哦~';
+                }
+                if (value.length > 10){
+                    return 'QQ位数太长了~';
+                }
+            },
+            introduction: function(value){
+                console.log(value);
+                if(value.length > 5){
+                    return '介绍最多5个字哦~';
+                }
+            }
+        });
+
+        //监听提交
+        form.on('submit(submitSettingForm)', function(data){
+            console.log(data.field);
+//            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+
+</script>
 </body>
 </html>

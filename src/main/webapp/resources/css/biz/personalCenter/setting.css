@@ -1,0 +1,9 @@
+
+#personalCenterHeadImg > img{
+    height: 80px;
+    width: auto;
+    border-radius: 50%;
+}
+.layui-form-item label > i{
+    cursor: pointer;
+}
