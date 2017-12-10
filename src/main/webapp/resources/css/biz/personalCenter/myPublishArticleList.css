@@ -1,4 +1,8 @@
 
+
+.xtl-article-card:hover{
+    cursor: default;
+}
 #article-status-content > a.active{
     border: 2px solid #FF5722;
 }

@@ -21,8 +21,8 @@ $("#xtl-message-submit-btn").on('click', function () {
     var messageVal = messageEditor.txt.html();
     // 防止xss攻击
     messageVal = filterXSS(messageVal);
-    var appentHtml = buildCommonHTML(messageVal, 1);
-    $("#xtl-comment-content").append(appentHtml);
+    var appendHtml = buildCommonHTML(messageVal, 1);
+    $("#xtl-comment-content").append(appendHtml);
 });
 
 // 创建回复富文本

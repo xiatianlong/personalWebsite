@@ -1,6 +1,7 @@
 package com.personalWebsite.controller.member;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -19,7 +20,14 @@ public class MemberArticleController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(){
 
-        return "/personalCenter/myPublishArtivleList";
+        return "personalCenter/article/myPublishArtivleList";
+    }
+
+    @RequestMapping(value = "/{articleId}", method = RequestMethod.GET)
+    public String articleDetail(@PathVariable("articleId") String articleId){
+
+
+        return "personalCenter/article/myArticleDetail";
     }
 
 }

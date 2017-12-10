@@ -344,10 +344,21 @@ body{
     top: 10px;
 }
 
+/*layui样式重写 begin*/
 .layui-nav .layui-nav-item{
     line-height: 50px;
 }
-
+fieldset{
+    border: 1px solid #b3b3b3;
+    padding: 0;
+}
+fieldset legend{
+    margin-left: 20px;
+    padding: 0 10px;
+    font-size: 16px;
+    color: #5FB878;
+}
+/*layui样式重写 end*/
 
 .submission-and-leaveMessage{
     height: 200px;

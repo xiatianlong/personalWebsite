@@ -22,7 +22,7 @@
 <div class="layui-container">
 
 
-    <div class="layui-row">
+    <div class="layui-row layui-col-space15">
         <div class="layui-col-xs12 layui-col-sm12 layui-col-md8">
 
             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block xtl-article-card">
@@ -187,18 +187,10 @@
 
         </div>
 
-        <div class="layui-col-xs-12 layui-col-sm12 layui-col-md4 padding-l-15">
+        <div class="layui-col-xs-12 layui-col-sm12 layui-col-md4">
 
             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block">
-                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 text-c horizontal-vertical-middle submission-and-leaveMessage">
-                    <div>
-                        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 blue sal-text">欢迎投稿、留言</div>
-                        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
-                            <a class="layui-btn layui-btn-normal">我要投稿</a>
-                            <a href="${pageContext.request.contextPath}/message" class="layui-btn layui-btn-primary">我要留言</a>
-                        </div>
-                    </div>
-                </div>
+                <jsp:include page="../base/publish&Message.jsp" />
             </div>
 
             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block margin-t-15">
