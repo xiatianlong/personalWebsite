@@ -4,8 +4,7 @@
 <head>
     <jsp:include page="../../base/head.jsp"/>
     <title>Title</title>
-    <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/resources/css/biz/personalCenter/myPublishArticleList.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/biz/personalCenter/article/myPublishArticleList.css">
 </head>
 <body>
 

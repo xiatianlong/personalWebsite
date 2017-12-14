@@ -1,20 +1,21 @@
-package com.personalWebsite.controller;
+package com.personalWebsite.controller.member;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * Created by xiatianlong on 2017/12/4.
+ * 发布controller
+ * Created by xiatianlong on 2017/12/10.
  */
 @Controller
-@RequestMapping("/article")
-public class ArticleController {
+@RequestMapping("/member/publish")
+public class PublishController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String list(){
+    public String init(){
 
-        return "article/list";
+        return "personalCenter/init";
     }
 
 }

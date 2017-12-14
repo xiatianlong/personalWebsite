@@ -17,7 +17,7 @@ public class HomeController extends BaseController{
     public String home(){
 
 
-        return "/index";
+        return "index";
     }
 
 

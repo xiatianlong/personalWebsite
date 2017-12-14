@@ -14,6 +14,6 @@ public class MessageController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String list(){
 
-        return "/message/init";
+        return "message/init";
     }
 }

@@ -1,0 +1,9 @@
+
+#xtl-publish-tips{
+    color: #FFB800;
+    display: inline-block;
+}
+#xtl-publish-tips:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}

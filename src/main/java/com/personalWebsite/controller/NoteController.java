@@ -14,6 +14,6 @@ public class NoteController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String list(){
 
-        return "/note/list";
+        return "note/list";
     }
 }

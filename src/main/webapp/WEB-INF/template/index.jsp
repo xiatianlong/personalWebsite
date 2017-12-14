@@ -47,7 +47,7 @@
                     <div>
                         <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 blue sal-text">欢迎投稿、留言</div>
                         <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
-                            <a class="layui-btn layui-btn-normal">我要投稿</a>
+                            <a href="${pageContext.request.contextPath}/member/publish" class="layui-btn layui-btn-normal">我要投稿</a>
                             <a href="${pageContext.request.contextPath}/message" class="layui-btn layui-btn-primary">我要留言</a>
                         </div>
                     </div>

@@ -19,7 +19,7 @@ public class PersonalCenterController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String personalCenter(){
 
-        return "/personalCenter/personalCenter";
+        return "personalCenter/personalCenter";
     }
 
     /**
@@ -29,7 +29,7 @@ public class PersonalCenterController {
     @RequestMapping(value = "/setting", method = RequestMethod.GET)
     public String setting(){
 
-        return "/personalCenter/setting";
+        return "personalCenter/setting";
     }
 
 }
