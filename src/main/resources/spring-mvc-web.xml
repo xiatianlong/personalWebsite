@@ -51,15 +51,5 @@
         <property name="suffix" value=".jsp" />
     </bean>
 
-    <!--     国际化消息 -->
-    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <property name="basenames">
-            <list>
-                <value>classpath:message</value>
-            </list>
-        </property>
-        <property name="defaultEncoding" value="UTF-8"/>
-    </bean>
-
 
 </beans>
