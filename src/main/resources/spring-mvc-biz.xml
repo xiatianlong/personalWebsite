@@ -15,8 +15,8 @@
         <property name="defaultEncoding" value="UTF-8"/>
     </bean>
 
-    <!-- FreeMarker模板模板配置 -->
-    <bean id="template" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+    <!-- 邮件FreeMarker模板模板配置 -->
+    <bean id="mailTemplate" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <!-- 指定模板文件目录 -->
         <property name="templateLoaderPath" value="classpath:mailTemplate"/>
         <!-- 设置FreeMarker环境属性 -->
@@ -29,5 +29,25 @@
             </props>
         </property>
     </bean>
+
+    <!-- 邮箱配置 -->
+    <bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.qq.com"/>
+        <property name="port" value="587"/>
+        <property name="username" value="675500969@qq.com"/>
+        <property name="password" value="fqovhgshcvjybdci"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.timeout">25000</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="simpleMailMessage" class="org.springframework.mail.SimpleMailMessage">
+        <property name="from" value="675500969@qq.com" />
+        <property name="subject" value="You have mail from [xiatianlong.com]" />
+    </bean>
+
 
 </beans>

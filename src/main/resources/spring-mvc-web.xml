@@ -12,7 +12,7 @@
     <context:annotation-config />
 
     <!-- DispatcherServlet上下文， 只管理@Controller类型的bean， 忽略其他型的bean, 如@Service -->
-    <context:component-scan base-package="com.personalWebsite.controller" />
+    <context:component-scan base-package="com.personalWebsite.controller,com.personalWebsite.common.mail" />
 
     <!-- 扩充了注解驱动，可以将请求参数绑定到控制器参数 -->
     <mvc:annotation-driven />
