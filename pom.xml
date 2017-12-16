@@ -110,6 +110,13 @@
       <version>4.3.5.RELEASE</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
+    <dependency>
+      <groupId>org.freemarker</groupId>
+      <artifactId>freemarker</artifactId>
+      <version>2.3.23</version>
+    </dependency>
+
 
     <!-- https://mvnrepository.com/artifact/taglibs/standard -->
     <dependency>
