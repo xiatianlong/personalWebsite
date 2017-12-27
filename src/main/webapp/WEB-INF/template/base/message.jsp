@@ -6,18 +6,27 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block padding-l-15 padding-r-15">
     <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
         <fieldset class="layui-elem-field layui-field-title">
-            <legend class="font-size-16"><a href="" class="green">夏天龙</a>，留下您的脚印！</legend>
+            <c:choose>
+                <c:when test="${not empty LOGIN_USER}">
+                    <legend class="font-size-16"><a href="" class="green">${LOGIN_USER.userName}</a>，留下您的脚印！</legend>
+                </c:when>
+                <c:otherwise>
+                    <legend class="font-size-16">请点击右上方的QQ图标登录，登录后即可留言！</legend>
+                </c:otherwise>
+            </c:choose>
         </fieldset>
     </div>
     <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
         <%--富文本区域 begin--%>
         <div id="xtl-message-editor"></div>
         <%--富文本区域 end--%>
-        <a class="layui-btn layui-btn-normal layui-btn-sm margin-t-15 margin-b-15 float-r"
+            <a class="layui-btn layui-btn-normal layui-btn-sm margin-t-15 margin-b-15 float-r <c:if test="${empty LOGIN_USER}">layui-btn-disabled</c:if> "
            id="xtl-message-submit-btn"><i class="layui-icon">&#xe609;</i> 提交留言</a>
+
     </div>
     <hr class="layui-bg-green">
     <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">

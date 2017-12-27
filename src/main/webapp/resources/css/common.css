@@ -338,10 +338,18 @@ body{
 .xtl-header .layui-nav{
     margin-left: 60px;
 }
+.xtl-header .layui-nav *{
+    font-size: 16px;
+}
 .xtl-header .xtl-logo{
     position: absolute;
     left: 15px;
     top: 10px;
+}
+.xtl-header #xtl-header-user-img{
+    height: 30px;
+    width: auto;
+    border-radius: 50%;
 }
 
 /*layui样式重写 begin*/

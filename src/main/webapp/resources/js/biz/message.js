@@ -29,6 +29,11 @@ $("#xtl-message-submit-btn").on('click', function () {
 var commentEditor = null;
 $("#xtl-comment-content").off('click', '.xtl-comment-reply');
 $("#xtl-comment-content").on('click', '.xtl-comment-reply', function () {
+    // 校验单登录
+    if (!xtlUserIsLogin){
+        layer.msg('请先登录！', {icon: 7});
+        return;
+    }
     // 先清除全部的富文本
     $(this).parents("#xtl-comment-content").find("div.xtl-comment-reply-content").empty();
     // 设置样式

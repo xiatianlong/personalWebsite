@@ -15,7 +15,7 @@ public class PublishController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String init(){
 
-        return "personalCenter/init";
+        return "personalCenter/publish";
     }
 
 }
