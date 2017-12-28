@@ -11,8 +11,8 @@
        @Autowired,JSR 250's @PostConstruct, @PreDestroy and @Resource 等标注 -->
     <context:annotation-config />
 
-    <!-- DispatcherServlet上下文， 只管理Controller\Service\Common三个包 -->
-    <context:component-scan base-package="com.personalWebsite.controller,com.personalWebsite.common,com.personalWebsite.service" />
+    <!-- DispatcherServlet上下文 -->
+    <context:component-scan base-package="com.personalWebsite" />
 
     <!-- 扩充了注解驱动，可以将请求参数绑定到控制器参数 -->
     <mvc:annotation-driven />
