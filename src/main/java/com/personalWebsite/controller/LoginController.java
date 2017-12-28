@@ -1,12 +1,16 @@
 package com.personalWebsite.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.personalWebsite.common.system.Constant;
+import com.personalWebsite.entity.UserEntity;
+import com.personalWebsite.service.UserService;
 import com.personalWebsite.utils.MD5Util;
 import com.qq.connect.api.OpenID;
 import com.qq.connect.api.qzone.UserInfo;
 import com.qq.connect.javabeans.AccessToken;
 import com.qq.connect.javabeans.qzone.UserInfoBean;
 import com.qq.connect.oauth.Oauth;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.Date;
 
 /**
  * Created by xiatianlong on 2017/12/24.
@@ -23,6 +28,9 @@ import java.net.URLEncoder;
 @Controller
 @RequestMapping("/login")
 public class LoginController extends BaseController {
+
+    @Autowired
+    private UserService userService;
 
     /**
      * 调起qq登录时的浏览器地址，用户qq登录成功的重定向
@@ -79,14 +87,36 @@ public class LoginController extends BaseController {
                 System.out.println("openID:" + openID);
                 System.out.println("userInfoBean:" + userInfoBean);
 
+                Date now = new Date();
                 // 根据openid查询数据库是否存在此用户，存在即更新数据，不存在插入数据
+                UserEntity userEntity = userService.findUserByOpenId(openID);
+                if (userEntity == null){
+                    userEntity = new UserEntity();
+                    userEntity.setUserId(MD5Util.encryp(openID));
+                    userEntity.setOpenId(openID);
+                    userEntity.setCreateTime(now);
+                    userEntity.setCreateUser(Constant.ADMIN);
+                }
+                userEntity.setAccessToken(accessToken);
+                userEntity.setUserName(userInfoBean.getNickname());
+                userEntity.setUserGender(userInfoBean.getGender());
+                userEntity.setUserHeadImgSmall(userInfoBean.getAvatar().getAvatarURL50());
+                userEntity.setUserHeadImgLarge(userInfoBean.getAvatar().getAvatarURL100());
+                userEntity.setLastLoginTime(now);
+                userEntity.setUpdateTime(now);
+                userEntity.setUpdateUser(Constant.ADMIN);
+                userService.saveAndFlush(userEntity);
+
+                // 登录成功部分信息存入session
                 com.personalWebsite.vo.UserInfo u = new com.personalWebsite.vo.UserInfo();
-                u.setUserName(userInfoBean.getNickname());
-                u.setUserId(MD5Util.encryp(openID));
-                if(!StringUtils.isEmpty(userInfoBean.getAvatar().getAvatarURL100())){
-                    u.setHeadImg(userInfoBean.getAvatar().getAvatarURL100());
+                u.setUserName(userEntity.getUserName());
+                u.setUserId(userEntity.getUserId());
+                u.setGender(userEntity.getUserGender());
+                u.setEmail(userEntity.getUserEmail());
+                if(!StringUtils.isEmpty(userEntity.getUserHeadImgLarge())){
+                    u.setHeadImg(userEntity.getUserHeadImgLarge());
                 }else{
-                    u.setHeadImg(userInfoBean.getAvatar().getAvatarURL50());
+                    u.setHeadImg(userEntity.getUserHeadImgSmall());
                 }
 
                 // 完成后将用户放入SESSION
