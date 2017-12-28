@@ -15,6 +15,11 @@
         <property name="defaultEncoding" value="UTF-8"/>
     </bean>
 
+    <!-- 全局消息工具 -->
+    <bean class="com.personalWebsite.common.system.MessageSourceUtil">
+        <constructor-arg name="messageSource" ref="messageSource" />
+    </bean>
+
     <!-- 邮件FreeMarker模板模板配置 -->
     <bean id="mailTemplate" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <!-- 指定模板文件目录 -->

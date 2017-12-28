@@ -121,6 +121,6 @@
     <tx:annotation-driven />
 
     <!-- 配置spring data-->
-    <jpa:repositories base-package="com.personalWebsite" entity-manager-factory-ref="entityManagerFactory"/>
+    <jpa:repositories base-package="com.personalWebsite.dao" entity-manager-factory-ref="entityManagerFactory"/>
 
 </beans>
