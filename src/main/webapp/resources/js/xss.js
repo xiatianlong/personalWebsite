@@ -515,7 +515,7 @@
             if (tagStart === false) {
                 if (c === '<') {
                     tagStart = currentPos;
-                    continue;
+
                 }
             } else {
                 if (quoteStart === false) {
@@ -541,12 +541,12 @@
                     // HTML标签内的引号仅当前一个字符是等于号时才有效
                     if ((c === '"' || c === "'") && html.charAt(currentPos - 1) === '=') {
                         quoteStart = c;
-                        continue;
+
                     }
                 } else {
                     if (c === quoteStart) {
                         quoteStart = false;
-                        continue;
+
                     }
                 }
             }
@@ -583,8 +583,7 @@
             if (name.length < 1) return;
             var ret = onAttr(name, value || '');
             if (ret) retAttrs.push(ret);
-        };
-
+        }
         // 逐个分析字符
         for (var i = 0; i < len; i++) {
             var c = html.charAt(i);
@@ -619,10 +618,10 @@
                         addAttr(v);
                         tmpName = false;
                         lastPos = i + 1;
-                        continue;
+
                     } else {
                         i = j - 1;
-                        continue;
+
                     }
                 } else {
                     j = findBeforeEqual(html, i - 1);
@@ -632,9 +631,9 @@
                         addAttr(tmpName, v);
                         tmpName = false;
                         lastPos = i + 1;
-                        continue;
+
                     } else {
-                        continue;
+
                     }
                 }
             }
@@ -676,17 +675,14 @@
         } else {
             return false;
         }
-    };
-
+    }
     function stripQuoteWrap (text) {
         if (isQuoteWrapString(text)) {
             return text.substr(1, text.length - 2);
         } else {
             return text;
         }
-    };
-
-
+    }
     exports.parseTag = parseTag;
     exports.parseAttr = parseAttr;
 
@@ -908,7 +904,7 @@
                         // 非白名单属性，调用onIgnoreTagAttr处理
                         var ret = onIgnoreTagAttr(tag, name, value, isWhiteAttr);
                         if (!isNull(ret)) return ret;
-                        return;
+
                     }
                 });
 

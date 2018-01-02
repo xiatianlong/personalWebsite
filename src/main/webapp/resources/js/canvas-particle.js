@@ -51,17 +51,17 @@ var CanvasParticle = (function(){
 		canvasSize(canvas.element);
 		window.onresize = function(){
 			canvasSize(canvas.element);
-		}
+		};
 		body.onmousemove = function(e){
 			var event = e || window.event;
 			canvas.mouse = {
 				x: event.clientX,
 				y: event.clientY
 			}
-		}
+		};
 		document.onmouseleave = function(){
 			canvas.mouse = undefined;
-		}
+		};
 		setInterval(function(){
 			drawPoint(canvas);
 		}, 40);
@@ -147,7 +147,7 @@ var CanvasParticle = (function(){
 						canvas.points[i].max_conn++;
 						// 距离越远，线条越细，而且越透明
 						context.lineWidth = 0.5 - dist / canvas.config.dist;
-						context.strokeStyle = "rgba("+ canvas.config.stroke + ","+ (1 - dist / canvas.config.dist) +")"
+						context.strokeStyle = "rgba("+ canvas.config.stroke + ","+ (1 - dist / canvas.config.dist) +")";
 						context.beginPath();
 						context.moveTo(canvas.points[i].x, canvas.points[i].y);
 						context.lineTo(canvas.points[j].x, canvas.points[j].y);

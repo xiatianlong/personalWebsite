@@ -200,18 +200,17 @@
     </properties>
 
     <build>
-        <finalName>personalWebsite</finalName>
-        <plugins>
+        <finalName>personalWebsite-v1.0.0</finalName>
+        <!--<plugins>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-war-plugin</artifactId>-->
+                <!--<version>2.1.1</version>-->
+                <!--<configuration>-->
+                    <!--<packagingExcludes>WEB-INF/web.xml</packagingExcludes>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.1.1</version>
-                <configuration>
-                    <packagingExcludes>WEB-INF/web.xml</packagingExcludes>
-                </configuration>
-            </plugin>
-
-        </plugins>
+        <!--</plugins>-->
     </build>
 </project>

@@ -30,7 +30,7 @@
             <c:choose>
                 <c:when test="${not empty LOGIN_USER}">
                     <li class="layui-nav-item float-r <c:if test="${not empty menu_member && menu_member}">layui-this</c:if>">
-                        <a href="javascript:;"><img src="${LOGIN_USER.headImg}" id="xtl-header-user-img"></a>
+                        <a href="javascript:"><img src="${LOGIN_USER.headImg}" id="xtl-header-user-img"></a>
                         <dl class="layui-nav-child">
                             <dd><a href="${pageContext.request.contextPath}/member/personalCenter">个人中心</a></dd>
                             <dd><a href="">我的文章</a></dd>
@@ -40,8 +40,8 @@
                 </c:when>
                 <c:otherwise>
                     <li class="layui-nav-item float-r <c:if test="${not empty menu_member && menu_member}">layui-this</c:if>">
-                        <a href="javascript:;" id="qq-login-btn"><i class="fa fa-qq font-size-18"
-                                                                    aria-hidden="true"></i></a>
+                        <a href="javascript:" id="qq-login-btn"><i class="fa fa-qq font-size-18"
+                                                                   aria-hidden="true"></i></a>
                     </li>
                 </c:otherwise>
             </c:choose>
