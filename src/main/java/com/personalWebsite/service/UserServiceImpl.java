@@ -16,12 +16,22 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * 保存用户对象
+     *
+     * @param userEntity user
+     */
     @Transactional
     @Override
     public void saveAndFlush(UserEntity userEntity) {
         userRepository.saveAndFlush(userEntity);
     }
 
+    /**
+     * 根据OpenId获取用户
+     * @param openId openId
+     * @return user
+     */
     @Override
     public UserEntity findUserByOpenId(String openId) {
 

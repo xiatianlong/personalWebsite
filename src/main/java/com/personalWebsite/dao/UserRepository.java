@@ -4,7 +4,7 @@ import com.personalWebsite.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * UserRepository
+ * 用户 Repository
  * Created by xiatianlong on 2017/12/27.
  */
 public interface UserRepository extends JpaRepository<UserEntity, String> {
