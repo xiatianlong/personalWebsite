@@ -15,10 +15,8 @@
         <property name="defaultEncoding" value="UTF-8"/>
     </bean>
 
-    <!-- 全局消息工具 -->
-    <bean class="com.personalWebsite.common.system.MessageSourceUtil">
-        <constructor-arg name="messageSource" ref="messageSource" />
-    </bean>
+    <!-- 异常处理 -->
+    <bean id="applicationExceptionResolver" class="com.personalWebsite.common.exception.ApplicationExceptionResolver" />
 
     <!-- 邮件FreeMarker模板模板配置 -->
     <bean id="mailTemplate" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
@@ -53,6 +51,5 @@
         <property name="from" value="675500969@qq.com" />
         <property name="subject" value="You have mail from [xiatianlong.com]" />
     </bean>
-
 
 </beans>

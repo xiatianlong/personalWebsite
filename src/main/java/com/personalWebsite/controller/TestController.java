@@ -19,8 +19,12 @@ public class TestController extends BaseController{
     @RequestMapping(value = "/testEmail", method = RequestMethod.GET)
     public String testEmail() throws Exception{
 
+//        System.out.println(MessageSourceUtil.getMessage("error.unknown exception"));
+
 
          throw new ApplicationException(getMessage("do.fail"));
+
+
 
 //        MailInfo mailInfo = new MailInfo();
 //        mailInfo.setTo("xiatianlong@hotmail.com");
