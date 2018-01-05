@@ -21,4 +21,9 @@ public class Constant {
      */
     public static final String FAIL = "fail";
 
+    /**
+     * 默认邮箱
+     */
+    public static final String DEFAULT_EMAIL = "xiatianlong@hotmail.com";
+
 }

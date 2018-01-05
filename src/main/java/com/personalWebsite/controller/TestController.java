@@ -1,6 +1,5 @@
 package com.personalWebsite.controller;
 
-import com.personalWebsite.common.exception.ApplicationException;
 import com.personalWebsite.common.mail.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,9 +21,10 @@ public class TestController extends BaseController{
 //        System.out.println(MessageSourceUtil.getMessage("error.unknown exception"));
 
 
-         throw new ApplicationException(getMessage("do.fail"));
+//         throw new ApplicationException(getMessage("do.fail"));
 
 
+        System.out.println(5 / 0);
 
 //        MailInfo mailInfo = new MailInfo();
 //        mailInfo.setTo("xiatianlong@hotmail.com");
@@ -34,7 +34,7 @@ public class TestController extends BaseController{
 //        mailInfo.setArguments(map);
 //        mailSender.sendMail(mailInfo);
 
-//        return "success";
+        return "success";
     }
 
 }
