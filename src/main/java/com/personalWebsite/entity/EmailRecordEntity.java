@@ -18,6 +18,11 @@ public class EmailRecordEntity extends BaseEntity {
     private String emailTo;
 
     /**
+     * 邮件标题
+     */
+    private String emailSubject;
+
+    /**
      * 发送文本
      */
     private String emailContent;
@@ -51,6 +56,21 @@ public class EmailRecordEntity extends BaseEntity {
      */
     public void setEmailTo(String emailTo) {
         this.emailTo = emailTo;
+    }
+
+    /**
+     * 获取 邮件标题
+     */
+    @Column(name = "EMAIL_SUBJECT")
+    public String getEmailSubject() {
+        return this.emailSubject;
+    }
+
+    /**
+     * 设置 邮件标题
+     */
+    public void setEmailSubject(String emailSubject) {
+        this.emailSubject = emailSubject;
     }
 
     /**
