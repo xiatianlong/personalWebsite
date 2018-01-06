@@ -66,5 +66,14 @@ public class EmailServiceImplTest {
 
     }
 
+    @Test
+    @Transactional
+    @Rollback(false)
+    public void testBatchSendEmail() {
+
+        emailRecordService.getUnsendEmailList();
+
+
+    }
 
 }

@@ -40,7 +40,7 @@ public class MailSender {
      *
      * @param mailInfo 邮件信息
      */
-    public void sendMail(MailInfo mailInfo) {
+    public boolean sendMail(MailInfo mailInfo) {
 
         // 邮件发送成功与否标志位
         boolean isSuccess = false;
@@ -99,17 +99,12 @@ public class MailSender {
             isSuccess = true;
 
         } catch (Exception e) {
-            // do something
+            isSuccess = false;
+            // do nothing
             e.printStackTrace();
         }
 
-        if (isSuccess) {
-            // do something
-
-
-        }
-
-
+        return isSuccess;
     }
 
 }

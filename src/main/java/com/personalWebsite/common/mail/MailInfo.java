@@ -12,6 +12,11 @@ import java.util.Set;
 public class MailInfo {
 
     /**
+     * 邮件唯一标识
+     */
+    private String mailCode;
+
+    /**
      * 单一收件人地址
      */
     private String to;
@@ -141,5 +146,20 @@ public class MailInfo {
      */
     public void setArguments(Map<String, Object> arguments) {
         this.arguments = arguments;
+    }
+
+
+    /**
+     * 获取 邮件唯一标识
+     */
+    public String getMailCode() {
+        return this.mailCode;
+    }
+
+    /**
+     * 设置 邮件唯一标识
+     */
+    public void setMailCode(String mailCode) {
+        this.mailCode = mailCode;
     }
 }
