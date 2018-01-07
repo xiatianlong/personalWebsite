@@ -6,7 +6,6 @@ import com.personalWebsite.common.system.Constant;
 import com.personalWebsite.dao.EmailRecordRepository;
 import com.personalWebsite.entity.EmailRecordEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,25 +51,20 @@ public class EmailRecordServiceImpl extends BaseServiceImpl implements EmailReco
      *
      * @param entity 邮件实体
      */
-    @Async
     @Transactional
-    public void asysncSendEmail(EmailRecordEntity entity) {
-        entity = emailRecordRepository.findByEmailCode(entity.getEmailCode());
-        if (!entity.isSuccess()) {
-            MailInfo mailInfo = new MailInfo();
-            mailInfo.setMailCode(entity.getEmailCode());
-            mailInfo.setTo(entity.getEmailTo());
-            mailInfo.setSubject(entity.getEmailSubject());
-            mailInfo.setContent(entity.getEmailContent());
-            boolean isSuccess = mailSender.sendMail(mailInfo);
-            if (isSuccess) {
-                entity.setSuccess(true);
-                entity.setUpdateTime(new Date());
-                entity.setUpdateUser(Constant.ADMIN);
-                emailRecordRepository.saveAndFlush(entity);
-            }
+    public void sendEmail(EmailRecordEntity entity) {
+        MailInfo mailInfo = new MailInfo();
+        mailInfo.setMailCode(entity.getEmailCode());
+        mailInfo.setTo(entity.getEmailTo());
+        mailInfo.setSubject(entity.getEmailSubject());
+        mailInfo.setContent(entity.getEmailContent());
+        boolean isSuccess = mailSender.sendMail(mailInfo);
+        if (isSuccess) {
+            entity.setSuccess(true);
+            entity.setUpdateTime(new Date());
+            entity.setUpdateUser(Constant.ADMIN);
+            emailRecordRepository.saveAndFlush(entity);
         }
-
     }
 }
 

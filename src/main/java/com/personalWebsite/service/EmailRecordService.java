@@ -27,6 +27,6 @@ public interface EmailRecordService extends BaseService {
      *
      * @param entity 邮件实体
      */
-    void asysncSendEmail(EmailRecordEntity entity);
+    void sendEmail(EmailRecordEntity entity);
 
 }

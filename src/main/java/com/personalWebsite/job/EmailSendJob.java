@@ -22,12 +22,12 @@ public class EmailSendJob {
      */
     public void execute() {
         // 是否开启邮件发送
-        Boolean isOpenEmail = Boolean.getBoolean(PropertiesUtil.getProperty("is_open_email"));
+        Boolean isOpenEmail = Boolean.parseBoolean(PropertiesUtil.getProperty("is_open_email"));
         if (isOpenEmail) {
             List<EmailRecordEntity> recordEntityList = emailRecordService.getUnsendEmailList();
             if (recordEntityList != null && !recordEntityList.isEmpty()) {
                 for (EmailRecordEntity email : recordEntityList) {
-                    emailRecordService.asysncSendEmail(email);
+                    emailRecordService.sendEmail(email);
                 }
             }
         }
