@@ -2,7 +2,7 @@ package com.personalWebsite.common.exception;
 
 import com.personalWebsite.common.system.Constant;
 import com.personalWebsite.entity.EmailRecordEntity;
-import com.personalWebsite.model.AsynchronousResult;
+import com.personalWebsite.model.response.AsynchronousResult;
 import com.personalWebsite.service.EmailRecordService;
 import com.personalWebsite.utils.AsynchronousRequestUtil;
 import com.personalWebsite.utils.DateUtil;

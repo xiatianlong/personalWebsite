@@ -1,4 +1,4 @@
-package com.personalWebsite.model;
+package com.personalWebsite.model.response;
 
 import com.personalWebsite.common.system.Constant;
 
