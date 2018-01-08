@@ -4,7 +4,7 @@ package com.personalWebsite.common.enums;
  * 评论类型
  * Created by xiatianlong on 2017/1/8.
  */
-public enum CommentType {
+public enum CommentBizType {
 
     /**
      * 草稿
@@ -23,7 +23,7 @@ public enum CommentType {
 
     private String code;
 
-    CommentType(String code) {
+    CommentBizType(String code) {
         this.code = code;
     }
 
