@@ -29,7 +29,6 @@
 
     <!--  拦截器  -->
     <mvc:interceptors>
-
         <!--菜单拦截-->
         <mvc:interceptor>
             <mvc:mapping path="/home"/>
@@ -44,6 +43,11 @@
             <mvc:mapping path="/about/**"/>
             <mvc:mapping path="/member/**"/>
             <bean id="menuInterceptor" class="com.personalWebsite.interceptor.MenuInterceptor" />
+        </mvc:interceptor>
+        <!--登录拦截-->
+        <mvc:interceptor>
+            <mvc:mapping path="/message/add"/>
+            <bean id="loginInterceptor" class="com.personalWebsite.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 
