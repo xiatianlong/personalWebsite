@@ -19,8 +19,6 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -56,6 +54,7 @@ public class ApplicationExceptionResolver implements HandlerExceptionResolver {
 
         // 打印异常信息
         System.out.println("进入异常处理--------------");
+        ex.printStackTrace();
         try {
             ApplicationException applicationException;
 
@@ -86,17 +85,11 @@ public class ApplicationExceptionResolver implements HandlerExceptionResolver {
                     map.put("userId", "--");
                 }
                 // 获取整个错误栈
-                ByteArrayOutputStream out = new ByteArrayOutputStream();
-                PrintStream pout = new PrintStream(out);
-                ex.printStackTrace(pout);
-                String ret = new String(out.toByteArray());
-                pout.close();
-                try {
-                    out.close();
-                } catch (Exception exc) {
-                    exc.printStackTrace();
+                StringBuilder exceptionStack = new StringBuilder();
+                for (StackTraceElement stackTraceElement : ex.getStackTrace()) {
+                    exceptionStack.append(stackTraceElement.toString()).append("<br>");
                 }
-                map.put("errorLogText", ret);
+                map.put("errorLogText", exceptionStack.toString());
                 String content = FreeMarkerTemplateUtils.processTemplateIntoString(template, map);
                 emailRecordEntity.setEmailContent(content);
                 emailRecordService.saveEmailRecord(emailRecordEntity);
