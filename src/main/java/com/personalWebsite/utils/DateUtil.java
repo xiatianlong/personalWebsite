@@ -14,7 +14,9 @@ public class DateUtil {
 
     public final static String DEFAULT_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
     public final static String DATEFORMATTER_YYYY_MM_DD = "yyyy-MM-dd";
-    public final static String DATEFORMATTER_YYMM = "yyyyMM";
+    public final static String DATEFORMATTER_YYMM = "yyyy-MM";
+    public final static String DATEFORMATTER_HHmm = "HH:mm";
+    public final static String DATEFORMATTER_MMDDHHmm = "MM-dd HH:mm";
     public final static String DATEFORMATTER_HHMM = "yyyy-MM-dd HH:mm";
     public final static String DEFAULT_DATE_PATTERN_CN = "yyyy年MM月dd日 HH:mm:ss";
     public final static String DATEFORMATTER_YYMM_CN = "yyyy年MM月";
@@ -57,5 +59,59 @@ public class DateUtil {
         }
         return null;
     }
+
+
+    /**
+     * 获取时间距离
+     *
+     * @param date 时间
+     * @return str
+     */
+    public static String getStrDate(Date date) {
+        if (date == null) {
+            return "--";
+        }
+        // 定义最终返回的结果字符串。
+        String interval;
+
+        long millisecond = new Date().getTime() - date.getTime();
+
+        long second = millisecond / 1000;
+
+        if (second <= 0) {
+            second = 0;
+        }
+        if (second == 0) {
+            interval = "刚刚";
+        } else if (second < 30) {
+            interval = second + "秒前";
+        } else if (second < 60) {
+            interval = "半分钟前";
+        } else if (second < 60 * 60) {//大于1分钟 小于1小时
+            long minute = second / 60;
+            interval = minute + "分钟前";
+        } else if (second < 60 * 60 * 24) {//大于1小时 小于24小时
+            long hour = (second / 60) / 60;
+            if (hour <= 3) {
+                interval = hour + "小时前";
+            } else {
+                interval = format(date, DATEFORMATTER_HHmm);
+            }
+        } else if (second <= 60 * 60 * 24 * 2) {//大于1D 小于2D
+            interval = "昨天" + format(date, DATEFORMATTER_HHmm);
+        } else if (second <= 60 * 60 * 24 * 7) {//大于2D小时 小于 7天
+            long day = ((second / 60) / 60) / 24;
+            interval = day + "天前";
+        } else if (second <= 60 * 60 * 24 * 365) {//大于7天小于365天
+            interval = format(date, DATEFORMATTER_MMDDHHmm);
+        } else {//大于365天
+            interval = format(date, DATEFORMATTER_HHMM);
+        }
+
+        return interval;
+
+    }
+
+
 
 }

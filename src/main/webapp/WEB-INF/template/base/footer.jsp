@@ -14,6 +14,7 @@
 <script src="${pageContext.request.contextPath}/resources/plugins/wangEditor_v3.0.15/emoji.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/xss.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/easy-check.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 <script>
     layui.use(['element', 'code', 'layer'], function(){
         //导航的hover效果、二级菜单等功能，需要依赖element模块

@@ -21,4 +21,20 @@ public interface UserService extends BaseService {
      * @return  user
      */
     UserEntity findUserByOpenId(String openId);
+
+    /**
+     * 根据userId获取用户
+     *
+     * @param userId userId
+     * @return user
+     */
+    UserEntity findUserByUserId(String userId);
+
+    /**
+     * 获取最后一个用户
+     *
+     * @return user
+     */
+    UserEntity findLastUser();
+
 }

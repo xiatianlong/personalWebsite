@@ -57,5 +57,10 @@ public class UserServiceImplTest{
 
     }
 
+    @Test
+    public void testFindLastUser() {
+        userService.findLastUser();
+    }
+
 
 }

@@ -5,7 +5,7 @@ import com.personalWebsite.common.exception.ApplicationException;
 import com.personalWebsite.common.system.Constant;
 import com.personalWebsite.entity.UserEntity;
 import com.personalWebsite.service.UserService;
-import com.personalWebsite.utils.MD5Util;
+import com.personalWebsite.utils.AccountUtil;
 import com.qq.connect.api.OpenID;
 import com.qq.connect.api.qzone.UserInfo;
 import com.qq.connect.javabeans.AccessToken;
@@ -90,7 +90,7 @@ public class LoginController extends BaseController {
             UserEntity userEntity = userService.findUserByOpenId(openID);
             if (userEntity == null) {
                 userEntity = new UserEntity();
-                userEntity.setUserId(MD5Util.encryp(openID));
+                userEntity.setUserId(getUserId());
                 userEntity.setOpenId(openID);
                 userEntity.setOpen(true);
                 userEntity.setCreateTime(now);
@@ -127,5 +127,18 @@ public class LoginController extends BaseController {
         }
     }
 
+    /**
+     * 创建用户ID
+     *
+     * @return 用户ID
+     */
+    private synchronized String getUserId() {
+        UserEntity lastUser = userService.findLastUser();
+        if (lastUser == null) {
+            return AccountUtil.getTheFirstAccountId();
+        } else {
+            return AccountUtil.getTheNextAccountId(lastUser.getUserId());
+        }
+    }
 
 }

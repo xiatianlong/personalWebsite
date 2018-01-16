@@ -1,8 +1,11 @@
 package com.personalWebsite.entity;
 
+import org.springframework.util.StringUtils;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.Date;
 
 /**
@@ -233,5 +236,15 @@ public class UserEntity extends BaseEntity {
      */
     public void setLastLoginTime(Date lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
+    }
+
+    /**
+     * 获取用户头像
+     *
+     * @return str
+     */
+    @Transient
+    public String getUserHeadImg() {
+        return StringUtils.isEmpty(getUserHeadImgLarge()) ? getUserHeadImgSmall() : getUserHeadImgLarge();
     }
 }

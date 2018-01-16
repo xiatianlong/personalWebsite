@@ -37,4 +37,25 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 
         return userRepository.findByOpenId(openId);
     }
+
+    /**
+     * 根据userId获取用户
+     *
+     * @param userId userId
+     * @return user
+     */
+    @Override
+    public UserEntity findUserByUserId(String userId) {
+        return userRepository.findOne(userId);
+    }
+
+    /**
+     * 获取最后一个用户
+     *
+     * @return user
+     */
+    @Override
+    public UserEntity findLastUser() {
+        return userRepository.findLastUser();
+    }
 }

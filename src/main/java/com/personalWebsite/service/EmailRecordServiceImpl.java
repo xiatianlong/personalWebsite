@@ -60,8 +60,10 @@ public class EmailRecordServiceImpl extends BaseServiceImpl implements EmailReco
         mailInfo.setContent(entity.getEmailContent());
         boolean isSuccess = mailSender.sendMail(mailInfo);
         if (isSuccess) {
+            Date now = new Date();
             entity.setSuccess(true);
-            entity.setUpdateTime(new Date());
+            entity.setSendSuccessTime(now);
+            entity.setUpdateTime(now);
             entity.setUpdateUser(Constant.ADMIN);
             emailRecordRepository.saveAndFlush(entity);
         }

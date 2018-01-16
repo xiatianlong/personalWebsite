@@ -7,19 +7,24 @@ package com.personalWebsite.common.enums;
 public enum CommentBizType {
 
     /**
-     * 草稿
+     * 文章
      */
     ARTICLE("004001"),
 
     /**
-     * 审核中
+     * 笔记
      */
     NOTE("004002"),
 
     /**
-     * 下线
+     * 留言
      */
-    MESSAGE("004003");
+    MESSAGE("004003"),
+
+    /**
+     * 回复
+     */
+    REPLY("004004");
 
     private String code;
 

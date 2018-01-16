@@ -1,4 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,6 +25,10 @@
     <div class="layui-row">
 
         <!--评论部分begin-->
+        <c:set value="${dataList}" var="messageDataList" scope="request"/>
+        <c:set value="${totalCnt}" var="messageTotalCnt" scope="request"/>
+        <c:set value="${pageNo}" var="messagePageNo" scope="request"/>
+        <c:set value="${pageSize}" var="messagePageSize" scope="request"/>
         <jsp:include page="../base/message.jsp" />
         <!--评论部分end-->
 

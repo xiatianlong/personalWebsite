@@ -26,4 +26,9 @@ public class Constant {
      */
     public static final String DEFAULT_EMAIL = "xiatianlong@hotmail.com";
 
+    /**
+     * 留言业务ID
+     */
+    public static final String MESSAGE_BIZ_ID = "message";
+
 }
