@@ -76,7 +76,7 @@
             </a>
         </div>
         <div class="layui-col-xs4 layui-col-sm3 layui-col-md3 horizontal-vertical-middle personal-center-item">
-            <a class="item-red-bg">
+            <a href="${pageContext.request.contextPath}/login/logout" class="item-red-bg">
                 <div><i class="fa fa-sign-out" aria-hidden="true"></i></div>
                 <div>注销</div>
             </a>
