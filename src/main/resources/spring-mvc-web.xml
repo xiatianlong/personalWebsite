@@ -47,6 +47,7 @@
         <!--登录拦截-->
         <mvc:interceptor>
             <mvc:mapping path="/message/add"/>
+            <mvc:mapping path="/member/**"/>
             <bean id="loginInterceptor" class="com.personalWebsite.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

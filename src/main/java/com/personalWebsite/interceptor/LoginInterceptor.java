@@ -1,6 +1,7 @@
 package com.personalWebsite.interceptor;
 
 import com.personalWebsite.common.exception.ApplicationException;
+import com.personalWebsite.utils.AsynchronousRequestUtil;
 import com.personalWebsite.vo.UserInfo;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,7 +20,12 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         UserInfo userInfo = (UserInfo) request.getSession().getAttribute("LOGIN_USER");
         if (userInfo == null) {
-            throw new ApplicationException("请登录");
+            if (AsynchronousRequestUtil.isAsynchronousRequest(request)) {
+                throw new ApplicationException("请登录");
+            } else {
+                // 同步从定向去登录
+                response.sendRedirect("/login/qq?qqRequestUrl=" + request.getRequestURL());
+            }
         }
         return true;
     }
