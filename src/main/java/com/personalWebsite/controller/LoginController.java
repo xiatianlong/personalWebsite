@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Date;
@@ -64,7 +65,6 @@ public class LoginController extends BaseController {
      */
     @GetMapping("/qq/callback")
     public void qqLoginCallBack(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 
         AccessToken accessTokenObj = (new Oauth()).getAccessTokenByRequest(request);
         if (StringUtils.isEmpty(accessTokenObj.getAccessToken())) {
@@ -139,6 +139,19 @@ public class LoginController extends BaseController {
         } else {
             return AccountUtil.getTheNextAccountId(lastUser.getUserId());
         }
+    }
+
+    /**
+     * 注销
+     *
+     * @param session session
+     * @return 首页
+     */
+    @GetMapping(value = "/logout")
+    public String Logout(HttpSession session) {
+        session.removeAttribute("LOGIN_USER");
+        session.removeAttribute("LOGIN_USER_JSON");
+        return "index";
     }
 
 }
