@@ -25,6 +25,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             } else {
                 // 同步从定向去登录
                 response.sendRedirect("/login/qq?qqRequestUrl=" + request.getRequestURL());
+                return false;
             }
         }
         return true;
