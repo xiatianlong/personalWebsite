@@ -22,12 +22,12 @@ public class UserEntity extends BaseEntity {
     private String userId;
 
     /**
-     * openID （qq）
+     * openID
      */
     private String openId;
 
     /**
-     * accessToken （qq）
+     * accessToken
      */
     private String accessToken;
 
@@ -55,6 +55,16 @@ public class UserEntity extends BaseEntity {
      * 用户邮箱
      */
     private String userEmail;
+
+    /**
+     * QQ
+     */
+    private String userQQ;
+
+    /**
+     * 个人简介
+     */
+    private String userIntroduction;
 
     /**
      * 是否开放个人中心访问
@@ -191,6 +201,36 @@ public class UserEntity extends BaseEntity {
      */
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+    /**
+     * 获取 qq
+     */
+    @Column(name = "USER_QQ", length = 15)
+    public String getUserQQ() {
+        return userQQ;
+    }
+
+    /**
+     * 获取 qq
+     */
+    public void setUserQQ(String userQQ) {
+        this.userQQ = userQQ;
+    }
+
+    /**
+     * 获取 个人简介
+     */
+    @Column(name = "USER_INTRODUCTION", length = 255)
+    public String getUserIntroduction() {
+        return this.userIntroduction;
+    }
+
+    /**
+     * 设置 个人简介
+     */
+    public void setUserIntroduction(String userIntroduction) {
+        this.userIntroduction = userIntroduction;
     }
 
     /**
