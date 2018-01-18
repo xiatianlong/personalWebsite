@@ -37,7 +37,7 @@ $("#xtl-message-submit-btn").on('click', function () {
         },
         success: function (data) {
             if (data.result == 'success') {
-                layer.msg('留言成功', {icon: 1});
+                layer.msg('留言成功', {icon: 6});
                 messageEditor.txt.clear();
                 var commentInfo = {
                     commentUserName: data.commentUserName,
@@ -121,7 +121,7 @@ $("#xtl-comment-content").on('click', '#xtl-comment-editor-submit-btn', function
         },
         success: function (data) {
             if (data.result == 'success') {
-                layer.msg('评论成功', {icon: 1});
+                layer.msg('评论成功', {icon: 6});
                 commentEditor.txt.clear()
                 var commentInfo = {
                     commentUserName: data.commentUserName,
