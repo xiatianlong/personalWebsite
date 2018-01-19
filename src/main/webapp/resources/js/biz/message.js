@@ -23,7 +23,7 @@ $("#xtl-message-submit-btn").on('click', function () {
     }
     var messageVal = messageEditor.txt.html();
     if (EasyCheck.StringUtils.isEmpty(messageVal) || messageVal == '<p><br></p>') {
-        layer.msg('请输入内容！', {icon: 7});
+        layer.msg('请输入内容！', {icon: 7, anim: 6});
         return;
     }
     // 防止xss攻击
@@ -50,7 +50,7 @@ $("#xtl-message-submit-btn").on('click', function () {
                 var appendHtml = buildCommentHTML(messageVal, 1, commentInfo);
                 $("#xtl-comment-content").append(appendHtml);
             } else {
-                layer.msg(data.message, {icon: 7});
+                layer.msg(data.message, {icon: 7, anim: 6});
             }
         }
     });
@@ -66,7 +66,7 @@ $("#xtl-comment-content").on('click', '.xtl-comment-reply', function () {
     var commentId = $(this).data("commentId");
     // 校验单登录
     if (!xtlUserIsLogin){
-        layer.msg('请先登录！', {icon: 7});
+        layer.msg('请先登录！', {icon: 7, anim: 6});
         return;
     }
     // 先清除全部的富文本
@@ -104,7 +104,7 @@ $("#xtl-comment-content").on('click', '#xtl-comment-editor-submit-btn', function
     var commentRootId = $(this).parents(".level1").data("commentId");
     var commentParentId = $(this).data("parentCommentId");
     if (EasyCheck.StringUtils.isEmpty(commentVal) || commentVal == '<p><br></p>') {
-        layer.msg('请输入内容！', {icon: 7});
+        layer.msg('请输入内容！', {icon: 7, anim: 6});
         return;
     }
     // 防止xss攻击
@@ -137,7 +137,7 @@ $("#xtl-comment-content").on('click', '#xtl-comment-editor-submit-btn', function
                 // 清除全部的回复富文本相关
                 that.parents("#xtl-comment-content").find("div.xtl-comment-reply-content").empty();
             } else {
-                layer.msg(data.message, {icon: 7});
+                layer.msg(data.message, {icon: 7, anim: 6});
             }
         }
     });
