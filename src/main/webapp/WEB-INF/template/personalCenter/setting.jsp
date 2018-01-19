@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,8 +30,8 @@
         <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block padding-t-30 padding-b-30">
 
             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 text-c">
-                <div id="personalCenterHeadImg"><img src="${pageContext.request.contextPath}/resources/images/icon/website_logo_64px.png"></div>
-                <div class="margin-t-10 font-size-22">夏天龙</div>
+                <div id="personalCenterHeadImg"><img src="${LOGIN_USER.headImg}"></div>
+                <div class="margin-t-10 font-size-22">${LOGIN_USER.userName}</div>
             </div>
 
             <%--设置部分 begin--%>
@@ -40,21 +41,35 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">开放访问<i class="layui-icon" id="openLookIcon">&#xe60b;</i></label>
                         <div class="layui-input-block">
-                            <input type="checkbox" checked="" name="open" lay-skin="switch" lay-text="ON|OFF">
+                            <input type="checkbox"
+                                   <c:if test="${not empty isOpen && isOpen}">checked="checked"</c:if> name="open"
+                                   lay-skin="switch" lay-text="ON|OFF">
                         </div>
                     </div>
 
                     <div class="layui-form-item">
                         <label class="layui-form-label">QQ</label>
                         <div class="layui-input-block">
-                            <input type="text" name="qq" lay-verify="qq" autocomplete="off" placeholder="留下QQ方便联系哦..." class="layui-input">
+                            <input type="text" name="qq" lay-verify="qq" autocomplete="off" placeholder="留下QQ方便联系哦..."
+                                   class="layui-input" value="${userQQ}">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">Email</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="email" lay-verify="email" autocomplete="off"
+                                   placeholder="留下邮箱便于接收提醒哦..." class="layui-input" value="${userEmail}">
                         </div>
                     </div>
 
                     <div class="layui-form-item layui-form-text">
                         <label class="layui-form-label">自我介绍</label>
                         <div class="layui-input-block">
-                            <textarea name="introduction" lay-verify="introduction" placeholder="请简单的介绍下自己吧..." class="layui-textarea"></textarea>
+                            <textarea name="introduction" lay-verify="introduction" placeholder="请简单的介绍下自己吧..."
+                                      class="layui-textarea">${userIntroduction}</textarea>
+                            <span class="float-r" id="introduction-cnt"><c:choose><c:when
+                                    test="${not empty userIntroduction}">${userIntroduction.length()}/200</c:when><c:otherwise>0/200</c:otherwise></c:choose></span>
                         </div>
                     </div>
 
@@ -98,6 +113,12 @@
             layer.close(tipsIndex);
         });
 
+        // 隔热和介绍字数监听
+        $("textarea[name='introduction']").on('input', function () {
+            var that = $(this);
+            $("#introduction-cnt").text(that.val().length + "/200");
+        });
+
         //自定义验证规则
         form.verify({
             qq: function(value){
@@ -108,18 +129,37 @@
                     return 'QQ位数太长了~';
                 }
             },
+            email: function (value) {
+                if (EasyCheck.StringUtils.isNotEmpty(value) && !EasyCheck.EmailUtils.isEmail(value)) {
+                    return '请输入正确的邮箱格式哦~';
+                }
+            },
             introduction: function(value){
-                console.log(value);
-                if(value.length > 5){
-                    return '介绍最多5个字哦~';
+                if (value.length > 200) {
+                    return '介绍最多200个字哦~';
                 }
             }
         });
 
         //监听提交
         form.on('submit(submitSettingForm)', function(data){
-            console.log(data.field);
-//            layer.msg(JSON.stringify(data.field));
+            var requestParamParam = {};
+            requestParamParam['userQQ'] = data.field.qq;
+            requestParamParam['userEmail'] = data.field.email;
+            requestParamParam['userIntroduction'] = data.field.introduction;
+            requestParamParam['open'] = data.field.open === "on";
+            common.ajax({
+                url: "/member/personalCenter/setting",
+                type: "POST",
+                data: requestParamParam,
+                success: function (res) {
+                    if (res.result === 'success') {
+                        layer.msg('保存成功', {icon: 6});
+                    } else {
+                        layer.msg(res.message, {icon: 5, anim: 6});
+                    }
+                }
+            });
             return false;
         });
     });

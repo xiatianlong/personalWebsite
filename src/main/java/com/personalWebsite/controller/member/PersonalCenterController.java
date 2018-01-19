@@ -1,8 +1,24 @@
 package com.personalWebsite.controller.member;
 
+import com.personalWebsite.common.exception.ApplicationException;
+import com.personalWebsite.common.system.Constant;
+import com.personalWebsite.controller.BaseController;
+import com.personalWebsite.entity.UserEntity;
+import com.personalWebsite.model.request.member.SettingForm;
+import com.personalWebsite.model.response.AsynchronousResult;
+import com.personalWebsite.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.validation.Valid;
+import java.util.List;
 
 /**
  * 个人中心
@@ -10,13 +26,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 @RequestMapping("/member/personalCenter")
-public class PersonalCenterController {
+public class PersonalCenterController extends BaseController {
+
+    @Autowired
+    private UserService userService;
 
     /**
      * 个人中心首页
      * @return  个人中心画面
      */
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @GetMapping(value = "")
     public String personalCenter(){
 
         return "personalCenter/personalCenter";
@@ -26,10 +45,43 @@ public class PersonalCenterController {
      * 个人设置
      * @return  个人中心画面
      */
-    @RequestMapping(value = "/setting", method = RequestMethod.GET)
-    public String setting(){
+    @GetMapping(value = "/setting")
+    public String setting(Model model) throws Exception {
+        UserEntity userEntity = userService.findUserByUserId(getLoinUser().getUserId());
+        if (userEntity == null) {
+            throw new ApplicationException(getMessage("login.null"));
+        }
+        model.addAttribute("isOpen", userEntity.isOpen());
+        model.addAttribute("userEmail", userEntity.getUserEmail());
+        model.addAttribute("userQQ", userEntity.getUserQQ());
+        model.addAttribute("userIntroduction", userEntity.getUserIntroduction());
 
         return "personalCenter/setting";
+    }
+
+    /**
+     * 个人设置提交
+     *
+     * @param form 表单
+     * @return result
+     */
+    @PostMapping(value = "/setting")
+    @ResponseBody
+    public AsynchronousResult saveSettings(@Valid SettingForm form, BindingResult bindingResult) {
+        AsynchronousResult result = new AsynchronousResult();
+        // 校验
+        if (bindingResult.hasErrors()) {
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            for (ObjectError error : errors) {
+                System.out.println(error.getDefaultMessage());
+            }
+            result.setMessage(getMessage(errors.get(0).getDefaultMessage()));
+            return result;
+        }
+        // 更新设置信息
+        userService.settingUserInfo(form);
+        result.setResult(Constant.SUCCESS);
+        return result;
     }
 
 }

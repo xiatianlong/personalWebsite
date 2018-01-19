@@ -2,6 +2,7 @@ package com.personalWebsite.service;
 
 import com.personalWebsite.dao.UserRepository;
 import com.personalWebsite.entity.UserEntity;
+import com.personalWebsite.model.request.member.SettingForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,5 +58,25 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
     @Override
     public UserEntity findLastUser() {
         return userRepository.findLastUser();
+    }
+
+    /**
+     * 个人中心信息设置
+     *
+     * @param form 设置表单
+     */
+    @Transactional
+    @Override
+    public void settingUserInfo(SettingForm form) {
+
+        String userId = getLoinUser().getUserId();
+        UserEntity userEntity = findUserByUserId(userId);
+        if (userEntity != null) {
+            userEntity.setOpen(form.isOpen());
+            userEntity.setUserQQ(form.getUserQQ());
+            userEntity.setUserEmail(form.getUserEmail());
+            userEntity.setUserIntroduction(form.getUserIntroduction());
+            userRepository.saveAndFlush(userEntity);
+        }
     }
 }

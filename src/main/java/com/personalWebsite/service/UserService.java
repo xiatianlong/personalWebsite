@@ -1,6 +1,7 @@
 package com.personalWebsite.service;
 
 import com.personalWebsite.entity.UserEntity;
+import com.personalWebsite.model.request.member.SettingForm;
 
 /**
  * User Service.
@@ -36,5 +37,12 @@ public interface UserService extends BaseService {
      * @return user
      */
     UserEntity findLastUser();
+
+    /**
+     * 个人中心信息设置
+     *
+     * @param form 设置表单
+     */
+    void settingUserInfo(SettingForm form);
 
 }
