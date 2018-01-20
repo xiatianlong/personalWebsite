@@ -16,7 +16,7 @@
 <script src="${pageContext.request.contextPath}/resources/js/easy-check.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 <script>
-    layui.use(['element', 'code', 'layer'], function(){
+    layui.use(['element', 'code'], function () {
         //导航的hover效果、二级菜单等功能，需要依赖element模块
 
         //引用code方法, 对code标签的内容做代码格式化
@@ -26,8 +26,6 @@
             encode: true,
             about: false
         });
-
-        // 弹窗、message 等模块依赖layer模块
     });
 
 
