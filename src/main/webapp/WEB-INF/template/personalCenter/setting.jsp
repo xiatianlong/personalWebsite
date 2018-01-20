@@ -36,7 +36,7 @@
 
             <%--设置部分 begin--%>
             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
-                <form class="layui-form" action="">
+                <form class="layui-form">
 
                     <div class="layui-form-item">
                         <label class="layui-form-label">开放访问<i class="layui-icon" id="openLookIcon">&#xe60b;</i></label>
