@@ -7,3 +7,25 @@
     text-decoration: underline;
     cursor: pointer;
 }
+
+#uploadImgPreView {
+    width: 160px;
+    height: 90px;
+}
+
+.layui-upload-list {
+    position: relative;
+}
+
+#removeUploadImgBtn {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 22px;
+    height: auto;
+    display: none;
+}
+
+#removeUploadImgBtn:hover {
+    cursor: pointer;
+}

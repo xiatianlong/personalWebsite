@@ -30,7 +30,7 @@ public class FileRelationEntity extends BaseEntity {
     /**
      * 文件大小
      */
-    private int fileSize;
+    private long fileSize;
 
     /**
      * 文件备注
@@ -88,14 +88,14 @@ public class FileRelationEntity extends BaseEntity {
      * 获取 文件大小
      */
     @Column(name = "FILE_SIZE", nullable = false)
-    public int getFileSize() {
+    public long getFileSize() {
         return this.fileSize;
     }
 
     /**
      * 设置 文件大小
      */
-    public void setFileSize(int fileSize) {
+    public void setFileSize(long fileSize) {
         this.fileSize = fileSize;
     }
 
