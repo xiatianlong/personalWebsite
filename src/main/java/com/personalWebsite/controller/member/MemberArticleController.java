@@ -76,8 +76,9 @@ public class MemberArticleController extends BaseController {
             return result;
         }
         // 二级校验
-        if (!StringUtils.isEmpty(validSaveOrUpdateArticle(form))) {
-            result.setMessage(validSaveOrUpdateArticle(form));
+        String errorStr = validSaveOrUpdateArticle(form);
+        if (!StringUtils.isEmpty(errorStr)) {
+            result.setMessage(errorStr);
             return result;
         }
         // 保存文章操作
@@ -115,8 +116,9 @@ public class MemberArticleController extends BaseController {
             return result;
         }
         // 二级校验
-        if (!StringUtils.isEmpty(validSaveOrUpdateArticle(form))) {
-            result.setMessage(validSaveOrUpdateArticle(form));
+        String errorStr = validSaveOrUpdateArticle(form);
+        if (!StringUtils.isEmpty(errorStr)) {
+            result.setMessage(errorStr);
             return result;
         }
         // 保存文章操作

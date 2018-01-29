@@ -47,7 +47,7 @@ public class MemberNoteController extends BaseController {
      * @return 笔记页
      */
     @RequestMapping(value = "/{noteId}", method = RequestMethod.GET)
-    public String articleDetail(@PathVariable("noteId") String noteId, Model model) throws Exception {
+    public String noteDetail(@PathVariable("noteId") String noteId, Model model) throws Exception {
 
         NoteEntity noteEntity = noteService.getNoteById(noteId);
         if (noteEntity == null) {
@@ -70,7 +70,7 @@ public class MemberNoteController extends BaseController {
      */
     @PostMapping("/create")
     @ResponseBody
-    public AsynchronousResult createArticle(@Valid SaveOrUpdateForm form, BindingResult bindingResult) {
+    public AsynchronousResult createNote(@Valid SaveOrUpdateForm form, BindingResult bindingResult) {
         AsynchronousResult result = new AsynchronousResult();
         // 基本校验
         if (bindingResult.hasErrors()) {
@@ -78,20 +78,87 @@ public class MemberNoteController extends BaseController {
             return result;
         }
         // 二级校验
-        if (!StringUtils.isEmpty(validSaveOrUpdateNote(form))) {
-            result.setMessage(validSaveOrUpdateNote(form));
+        String errorStr = validSaveOrUpdateNote(form);
+        if (!StringUtils.isEmpty(errorStr)) {
+            result.setMessage(errorStr);
             return result;
         }
-        // 保存文章操作
+        // 保存笔记操作
         noteService.saveNote(form);
 
         result.setResult(Constant.SUCCESS);
         return result;
     }
 
+    /**
+     * 更新笔记
+     *
+     * @param form          form
+     * @param noteId        noteId
+     * @param bindingResult bindingResult
+     * @return result
+     * @throws Exception e
+     */
+    @PostMapping("/update/{noteId}")
+    @ResponseBody
+    public AsynchronousResult updateNote(@Valid SaveOrUpdateForm form, @PathVariable("noteId") String noteId, BindingResult bindingResult) throws Exception {
+        AsynchronousResult result = new AsynchronousResult();
+        NoteEntity noteEntity = noteService.getNoteById(noteId);
+        if (noteEntity == null) {
+            result.setMessage(getMessage("note.null"));
+            return result;
+        }
+        if (!noteEntity.getUserId().equals(getLoinUser().getUserId())) {
+            result.setMessage(getMessage("permissions.error"));
+            return result;
+        }
+        // 基本校验
+        if (bindingResult.hasErrors()) {
+            result.setMessage(getMessage(bindingResult.getAllErrors().get(0).getDefaultMessage()));
+            return result;
+        }
+        // 二级校验
+        String errorStr = validSaveOrUpdateNote(form);
+        if (!StringUtils.isEmpty(errorStr)) {
+            result.setMessage(errorStr);
+            return result;
+        }
+        // 保存笔记操作
+        noteService.updateNote(form, noteEntity);
+
+        result.setResult(Constant.SUCCESS);
+        return result;
+    }
 
     /**
-     * 文章保存更新校验
+     * 删除笔记
+     *
+     * @param noteId noteId
+     * @return result
+     * @throws Exception e
+     */
+    @PostMapping("/delete/{noteId}")
+    @ResponseBody
+    public AsynchronousResult updateNote(@PathVariable("noteId") String noteId) throws Exception {
+        AsynchronousResult result = new AsynchronousResult();
+        NoteEntity noteEntity = noteService.getNoteById(noteId);
+        if (noteEntity == null) {
+            result.setMessage(getMessage("note.null"));
+            return result;
+        }
+        if (!noteEntity.getUserId().equals(getLoinUser().getUserId())) {
+            result.setMessage(getMessage("permissions.error"));
+            return result;
+        }
+        // 保存笔记操作
+        noteService.removeNote(noteEntity);
+
+        result.setResult(Constant.SUCCESS);
+        return result;
+    }
+
+    /**
+     * 笔记保存更新校验
      *
      * @param form form
      * @return 错误信息
