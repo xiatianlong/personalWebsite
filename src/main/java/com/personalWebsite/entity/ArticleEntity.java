@@ -1,8 +1,6 @@
 package com.personalWebsite.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * 文章表实体
@@ -56,6 +54,11 @@ public class ArticleEntity extends BaseEntity {
      * 文章作者id
      */
     private String userId;
+
+    /**
+     * 文章封面图片文件
+     */
+    private FileRelationEntity articleImgFile;
 
 
     /**
@@ -192,5 +195,22 @@ public class ArticleEntity extends BaseEntity {
      */
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+
+    /**
+     * 获取 文章封面图片文件
+     */
+    @ManyToOne
+    @JoinColumn(name = "ARTICLE_IMG", referencedColumnName = "FILE_NO", updatable = false, insertable = false)
+    public FileRelationEntity getArticleImgFile() {
+        return this.articleImgFile;
+    }
+
+    /**
+     * 设置 文章封面图片文件
+     */
+    public void setArticleImgFile(FileRelationEntity articleImgFile) {
+        this.articleImgFile = articleImgFile;
     }
 }

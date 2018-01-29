@@ -11,14 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * 个人中心
@@ -71,11 +69,7 @@ public class PersonalCenterController extends BaseController {
         AsynchronousResult result = new AsynchronousResult();
         // 校验
         if (bindingResult.hasErrors()) {
-            List<ObjectError> errors = bindingResult.getAllErrors();
-            for (ObjectError error : errors) {
-                System.out.println(error.getDefaultMessage());
-            }
-            result.setMessage(getMessage(errors.get(0).getDefaultMessage()));
+            result.setMessage(getMessage(bindingResult.getAllErrors().get(0).getDefaultMessage()));
             return result;
         }
         // 更新设置信息

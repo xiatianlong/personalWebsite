@@ -1,7 +1,6 @@
 package com.personalWebsite.service;
 
 import com.personalWebsite.entity.UserEntity;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,9 +50,13 @@ public class UserServiceImplTest{
     @Test
     public void testFindUserByOpenId(){
 
-        UserEntity userEntity = userService.findUserByOpenId("2222");
-        Assert.assertNotNull(userEntity);
-        System.out.println(userEntity.getUserId());
+        UserEntity userEntity = userService.findUserByOpenId("asxasxas");
+        if (userEntity == null) {
+            System.out.println("没有找到数据");
+        } else {
+            System.out.println(userEntity.getUserId());
+        }
+
 
     }
 

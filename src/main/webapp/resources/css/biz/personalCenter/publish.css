@@ -11,6 +11,10 @@
 #uploadImgPreView {
     width: 160px;
     height: 90px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .layui-upload-list {
