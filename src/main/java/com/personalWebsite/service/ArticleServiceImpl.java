@@ -3,16 +3,31 @@ package com.personalWebsite.service;
 import com.personalWebsite.common.enums.ArticleStatus;
 import com.personalWebsite.common.exception.ApplicationException;
 import com.personalWebsite.dao.ArticleRepository;
+import com.personalWebsite.entity.ArticleCategoryEntity;
 import com.personalWebsite.entity.ArticleEntity;
+import com.personalWebsite.entity.FileRelationEntity;
+import com.personalWebsite.model.request.article.ArticlePageForm;
 import com.personalWebsite.model.request.article.SaveOrUpdateForm;
+import com.personalWebsite.model.response.article.ArticleCard;
+import com.personalWebsite.utils.DateUtil;
 import com.personalWebsite.utils.IdUtil;
 import com.personalWebsite.vo.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 文章Service 服务类.
@@ -54,7 +69,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
         // 访问量
         articleEntity.setArticleViewsCnt(0);
         // 是否删除
-        articleEntity.setDelete(false);
+        articleEntity.setDeleted(false);
         // 作者id
         articleEntity.setUserId(userInfo.getUserId());
 
@@ -124,4 +139,101 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
         }
         return articleRepository.findByArticleId(articleId);
     }
+
+    /**
+     * 获取我的文章列表
+     *
+     * @param articlePageForm form
+     * @return 文章列表
+     */
+    @Override
+    public List<ArticleCard> getMyArticleList(final ArticlePageForm articlePageForm) {
+
+        // 创建时间倒序
+        Sort.Order order = new Sort.Order(Sort.Direction.DESC, "articleId");
+        Pageable pageable = new PageRequest(articlePageForm.getPageNo() - 1, articlePageForm.getPageSize(), new Sort(order));
+        Specification<ArticleEntity> specification = new Specification<ArticleEntity>() {
+            @Override
+            public Predicate toPredicate(Root<ArticleEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+
+                List<Predicate> predicateList = new ArrayList<>();
+
+                predicateList.add(cb.equal(root.get("userId"), getLoinUser().getUserId()));
+                predicateList.add(cb.equal(root.get("deleted"), false));
+
+                // 查询条件-状态
+                if (articlePageForm.getArticleStatus() != null && articlePageForm.getArticleStatus().length > 0) {
+                    CriteriaBuilder.In<String> in = cb.in(root.<String>get("articleStatus"));
+                    for (String str : articlePageForm.getArticleStatus()) {
+                        in.value(str);
+                    }
+                    predicateList.add(in);
+                }
+
+                // 排序条件
+                if (!StringUtils.isEmpty(articlePageForm.getArticleId())) {
+                    predicateList.add(cb.lessThan(root.<String>get("articleId"), articlePageForm.getArticleId()));
+                }
+
+                Predicate[] pre = new Predicate[predicateList.size()];
+                return cb.and(predicateList.toArray(pre));
+            }
+        };
+
+        return buildArticleCard(articleRepository.findAll(specification, pageable).getContent());
+    }
+
+    /**
+     * 构建文章卡片信息
+     *
+     * @param articleEntities 文章实体对象集合
+     * @return 卡片集合
+     */
+    private List<ArticleCard> buildArticleCard(List<ArticleEntity> articleEntities) {
+
+        if (articleEntities != null && !articleEntities.isEmpty()) {
+            List<ArticleCard> articleCards = new ArrayList<>();
+            for (ArticleEntity articleEntity : articleEntities) {
+                ArticleCard articleCard = new ArticleCard();
+                // 文章id
+                articleCard.setArticleId(articleEntity.getArticleId());
+                // 文章标题
+                articleCard.setArticleTitle(articleEntity.getArticleTitle());
+                // 文章摘要
+                articleCard.setArticleIntroduction(articleEntity.getArticleIntroduction());
+                // 文章封面图片
+                FileRelationEntity fileRelationEntity = articleEntity.getArticleImgFile();
+                if (fileRelationEntity != null) {
+                    articleCard.setArticleImgUrl(fileRelationEntity.getFileUrl());
+                }
+                // 文章分类
+                List<ArticleCategoryEntity> categoryEntities = articleEntity.getCategoryEntityList();
+                if (categoryEntities != null && !categoryEntities.isEmpty()) {
+                    List<String> strArr = new ArrayList<>();
+                    StringBuilder fmtStr = new StringBuilder();
+                    for (int i = 0; i < categoryEntities.size(); i++) {
+                        strArr.add(categoryEntities.get(i).getArticleCategory());
+                        fmtStr.append(categoryEntities.get(i).getArticleCategory());
+                        if (categoryEntities.size() != (i + 1)) {
+                            fmtStr.append(",");
+                        }
+                    }
+                    articleCard.setCategoryList(strArr);
+                    articleCard.setFmtCategoryList(fmtStr.toString());
+                }
+                // 文章状态
+                articleCard.setArticleStatus(articleEntity.getArticleStatus());
+                // 文章创建时间
+                articleCard.setCreateTime(articleEntity.getCreateTime());
+                // 文章创建时间(格式化)
+                articleCard.setFmtCreateTime(DateUtil.defaultFormat(articleEntity.getCreateTime()));
+
+                articleCards.add(articleCard);
+            }
+            return articleCards;
+        } else {
+            return null;
+        }
+    }
+
 }

@@ -31,7 +31,7 @@ public class MessageController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "")
+    @GetMapping
     public String list(Model model, PageForm form) {
 
         PageVO<CommentEntity> pageVO = commentService.getCommentListByPage(form);

@@ -2,13 +2,14 @@ package com.personalWebsite.dao;
 
 import com.personalWebsite.entity.ArticleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 /**
  * 文章 Repository
  * Created by xiatianlong on 2018/01/22.
  */
-public interface ArticleRepository extends JpaRepository<ArticleEntity, String> {
+public interface ArticleRepository extends JpaRepository<ArticleEntity, String>, JpaSpecificationExecutor<ArticleEntity> {
 
     /**
      * 根据id查询文章

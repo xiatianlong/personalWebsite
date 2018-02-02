@@ -40,7 +40,7 @@ public class NoteEntity extends BaseEntity {
     /**
      * 是否删除
      */
-    private boolean delete;
+    private boolean deleted;
 
     /**
      * 笔记作者id
@@ -128,15 +128,15 @@ public class NoteEntity extends BaseEntity {
      * 获取 是否删除
      */
     @Column(name = "IS_DELETE", nullable = false)
-    public boolean isDelete() {
-        return this.delete;
+    public boolean isDeleted() {
+        return this.deleted;
     }
 
     /**
      * 设置 是否删除
      */
-    public void setDelete(boolean delete) {
-        this.delete = delete;
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     /**

@@ -21,7 +21,7 @@ public class ArticleController extends BaseController {
      *
      * @return str
      */
-    @GetMapping("")
+    @GetMapping
     public String list(){
 
         return "article/list";

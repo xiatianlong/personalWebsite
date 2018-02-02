@@ -1,6 +1,7 @@
 package com.personalWebsite.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * 文章表实体
@@ -48,7 +49,7 @@ public class ArticleEntity extends BaseEntity {
     /**
      * 是否删除
      */
-    private boolean delete;
+    private boolean deleted;
 
     /**
      * 文章作者id
@@ -60,6 +61,10 @@ public class ArticleEntity extends BaseEntity {
      */
     private FileRelationEntity articleImgFile;
 
+    /**
+     * 文章所属类别
+     */
+    private List<ArticleCategoryEntity> categoryEntityList;
 
     /**
      * 获取 文章id
@@ -171,15 +176,15 @@ public class ArticleEntity extends BaseEntity {
      * 获取 是否删除
      */
     @Column(name = "IS_DELETE", nullable = false)
-    public boolean isDelete() {
-        return this.delete;
+    public boolean isDeleted() {
+        return this.deleted;
     }
 
     /**
      * 设置 是否删除
      */
-    public void setDelete(boolean delete) {
-        this.delete = delete;
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     /**
@@ -212,5 +217,22 @@ public class ArticleEntity extends BaseEntity {
      */
     public void setArticleImgFile(FileRelationEntity articleImgFile) {
         this.articleImgFile = articleImgFile;
+    }
+
+
+    /**
+     * 获取 文章所属类别
+     */
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumns(value = {@JoinColumn(name = "ARTICLE_ID", referencedColumnName = "ARTICLE_ID", updatable = false, insertable = false)})
+    public List<ArticleCategoryEntity> getCategoryEntityList() {
+        return this.categoryEntityList;
+    }
+
+    /**
+     * 设置 文章所属类别
+     */
+    public void setCategoryEntityList(List<ArticleCategoryEntity> categoryEntityList) {
+        this.categoryEntityList = categoryEntityList;
     }
 }

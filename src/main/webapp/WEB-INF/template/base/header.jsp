@@ -33,7 +33,7 @@
                         <a href="javascript:"><img src="${LOGIN_USER.headImg}" id="xtl-header-user-img"></a>
                         <dl class="layui-nav-child">
                             <dd><a href="${pageContext.request.contextPath}/member/personalCenter">个人中心</a></dd>
-                            <dd><a href="">我的文章</a></dd>
+                            <dd><a href="${pageContext.request.contextPath}/member/article/list">我的文章</a></dd>
                             <dd><a href="">我的笔记</a></dd>
                         </dl>
                     </li>

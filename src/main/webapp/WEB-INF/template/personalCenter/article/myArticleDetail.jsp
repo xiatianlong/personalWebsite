@@ -83,21 +83,19 @@
 
 <jsp:include page="../../base/footer.jsp"/>
 <script>
-    layui.use(['layer'], function() {
-        var layer = layui.layer;
-        $("#removeArticle").on('click', function(){
 
-            layer.confirm('确定要删除这篇文章?', {icon: 3, title:'提示', btn: ['取消','确认']}, function(index){
-                layer.close(index);
-            }, function(){
-                layer.msg('删除成功！', {icon: 6, shade: 0.01}, function(){
-                    // do something
-                    console.log("关闭了");
-                });
+    $("#removeArticle").on('click', function () {
+
+        layer.confirm('确定要删除这篇文章?', {icon: 3, title: '提示', btn: ['取消', '确认']}, function (index) {
+            layer.close(index);
+        }, function () {
+            layer.msg('删除成功！', {icon: 6, shade: 0.01}, function () {
+                // do something
+                console.log("关闭了");
             });
         });
-
     });
+
 </script>
 </body>
 </html>

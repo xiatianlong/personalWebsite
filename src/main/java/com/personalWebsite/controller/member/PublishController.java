@@ -1,8 +1,8 @@
 package com.personalWebsite.controller.member;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * 发布controller
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/member/publish")
 public class PublishController {
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @GetMapping
     public String init(){
 
         return "personalCenter/publish";

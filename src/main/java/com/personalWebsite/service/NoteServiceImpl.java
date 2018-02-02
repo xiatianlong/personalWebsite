@@ -61,7 +61,7 @@ public class NoteServiceImpl extends BaseServiceImpl implements NoteService {
         // 访问量
         noteEntity.setNoteViewCnt(0);
         // 是否删除
-        noteEntity.setDelete(false);
+        noteEntity.setDeleted(false);
         // 作者id
         noteEntity.setUserId(userInfo.getUserId());
 

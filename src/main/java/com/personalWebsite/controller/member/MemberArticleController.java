@@ -5,8 +5,11 @@ import com.personalWebsite.common.exception.ApplicationException;
 import com.personalWebsite.common.system.Constant;
 import com.personalWebsite.controller.BaseController;
 import com.personalWebsite.entity.ArticleEntity;
+import com.personalWebsite.model.request.article.ArticlePageForm;
 import com.personalWebsite.model.request.article.SaveOrUpdateForm;
 import com.personalWebsite.model.response.AsynchronousResult;
+import com.personalWebsite.model.response.article.ArticleCard;
+import com.personalWebsite.model.response.article.ArticleQueryResult;
 import com.personalWebsite.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * 会员发布的文章
@@ -32,10 +36,29 @@ public class MemberArticleController extends BaseController {
      * 文章列表
      * @return 文章列表页
      */
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String list(){
+    @GetMapping("/list")
+    public String list(ArticlePageForm form, Model model) {
 
-        return "personalCenter/article/myPublishArtivleList";
+        List<ArticleCard> articleCards = articleService.getMyArticleList(form);
+        model.addAttribute("myArticleList", articleCards);
+        model.addAttribute("hasMore", articleCards != null && articleCards.size() >= form.getPageSize());
+        return "personalCenter/article/myPublishArticleList";
+    }
+
+    /**
+     * 文章列表
+     *
+     * @return 文章列表页
+     */
+    @PostMapping("/query")
+    @ResponseBody
+    public ArticleQueryResult query(ArticlePageForm form) {
+        ArticleQueryResult result = new ArticleQueryResult();
+        List<ArticleCard> articleCards = articleService.getMyArticleList(form);
+        result.setArticleCardList(articleCards);
+        result.setHasMore(articleCards != null && articleCards.size() >= form.getPageSize());
+        result.setResult(Constant.SUCCESS);
+        return result;
     }
 
     /**
@@ -45,7 +68,7 @@ public class MemberArticleController extends BaseController {
      * @param model     model
      * @return 文章页
      */
-    @RequestMapping(value = "/{articleId}", method = RequestMethod.GET)
+    @GetMapping("/{articleId}")
     public String articleDetail(@PathVariable("articleId") String articleId, Model model) throws Exception {
 
         ArticleEntity articleEntity = articleService.getArticleById(articleId);

@@ -60,6 +60,18 @@ public class DateUtil {
         return null;
     }
 
+    /**
+     * 使用默认参数Format将字符串转为Date
+     */
+    public static Date defaultParse(String strDate) {
+        try {
+            return StringUtils.isBlank(strDate) ? null : new SimpleDateFormat(DEFAULT_DATE_PATTERN).parse(strDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     /**
      * 获取时间距离

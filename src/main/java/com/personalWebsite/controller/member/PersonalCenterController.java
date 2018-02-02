@@ -33,7 +33,7 @@ public class PersonalCenterController extends BaseController {
      * 个人中心首页
      * @return  个人中心画面
      */
-    @GetMapping(value = "")
+    @GetMapping
     public String personalCenter(){
 
         return "personalCenter/personalCenter";

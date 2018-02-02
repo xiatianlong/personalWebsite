@@ -2,8 +2,8 @@ package com.personalWebsite.controller;
 
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * 首页
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/home")
 public class HomeController extends BaseController{
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @GetMapping
     public String home(){
 
 

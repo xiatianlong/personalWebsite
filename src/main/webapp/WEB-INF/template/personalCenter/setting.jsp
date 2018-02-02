@@ -102,8 +102,8 @@
 <script>
 
     //Demo
-    layui.use(['layer', 'form'], function(){
-        var form = layui.form,layer = layui.layer;
+    layui.use(['form'], function () {
+        var form = layui.form;
         var tipsIndex;
         $("#openLookIcon").hover(function(){
             tipsIndex = layer.tips('开放访问即允许别人访问我的个人中心', '#openLookIcon', {

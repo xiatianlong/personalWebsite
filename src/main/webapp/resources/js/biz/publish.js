@@ -1,5 +1,5 @@
-layui.use(['form', 'layer', 'upload'], function () {
-    var form = layui.form, layer = layui.layer, upload = layui.upload;
+layui.use(['form', 'upload'], function () {
+    var form = layui.form, upload = layui.upload;
 
     $("#xtl-publish-tips").on('click', function () {
         var tipsContent = "为了网站内容的质量，所有发布的内容需由管理员进行审核才可上线，管理员将在6小时内完成审核。<br>审核结果可在\"个人中心\"的文章、笔记详情页面进行查看。如果您的个人信息中完善了邮箱信息，那么管理员也会将审核结果通过邮件的方式通知您！";

@@ -46,7 +46,7 @@
 
     <div class="layui-row layui-col-space20">
         <div class="layui-col-xs4 layui-col-sm3 layui-col-md3 horizontal-vertical-middle personal-center-item">
-            <a>
+            <a href="${pageContext.request.contextPath}/member/publish">
                 <div><i class="layui-icon layui-anim"  data-anim="layui-anim-rotate">&#xe608;</i></div>
                 <div>发布</div>
             </a>

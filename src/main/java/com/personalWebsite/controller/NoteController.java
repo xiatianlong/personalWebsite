@@ -1,8 +1,8 @@
 package com.personalWebsite.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Created by xiatianlong on 2017/12/4.
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/note")
 public class NoteController {
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @GetMapping
     public String list(){
 
         return "note/list";

@@ -74,7 +74,7 @@ public class UserEntity extends BaseEntity {
     /**
      * 是否删除
      */
-    private boolean delete;
+    private boolean deleted;
 
     /**
      * 最后登录时间
@@ -252,15 +252,15 @@ public class UserEntity extends BaseEntity {
      * 获取 是否删除
      */
     @Column(name = "IS_DELETE", nullable = false)
-    public boolean isDelete() {
-        return this.delete;
+    public boolean isDeleted() {
+        return this.deleted;
     }
 
     /**
      * 设置 是否删除
      */
-    public void setDelete(boolean delete) {
-        this.delete = delete;
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     /**
