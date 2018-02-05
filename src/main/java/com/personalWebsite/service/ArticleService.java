@@ -51,4 +51,11 @@ public interface ArticleService extends BaseService {
      */
     List<ArticleCard> getMyArticleList(ArticlePageForm articlePageForm);
 
+    /**
+     * 获取文章类别
+     *
+     * @return 类别集合
+     */
+    List<String> getArticleCategory();
+
 }

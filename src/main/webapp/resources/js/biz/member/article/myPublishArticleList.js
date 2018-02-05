@@ -20,6 +20,24 @@ $(function () {
         submitQuery();
     });
 
+    // 文章分类查询处理
+    $(".query-article-category").on('click', function () {
+        var that = $(this);
+        var articleCategory = that.text();
+        if (that.hasClass("active")) {
+            that.removeClass("active");
+            if ($("#myArticleListQuestForm").find("input#articleCategory" + articleCategory).length > 0) {
+                $("#myArticleListQuestForm").find("input#articleCategory" + articleCategory).remove();
+            }
+        } else {
+            that.addClass("active");
+            $("#myArticleListQuestForm").append('<input type="hidden" name="articleCategory" value="' + articleCategory + '" id="articleCategory' + articleCategory + '">')
+        }
+        submitQuery();
+    });
+
+
+
     // 加载更多查询
     $("#loadMore").on('click', function () {
         $("#myArticleListQuestForm").append('<input type="hidden" name="articleId" value="' + $("input[name='loadMoreArticleId']").last().val() + '">');
@@ -29,21 +47,21 @@ $(function () {
             data: $("#myArticleListQuestForm").serialize(),
             success: function (res) {
                 if (res.result === 'success') {
+                    // 是否显示加载更多
+                    if (res.hasMore) {
+                        $("#hasMoreContent").removeClass("hide");
+                        $("#hasMoreContent").addClass("show");
+                    } else {
+                        $("#hasMoreContent").removeClass("show");
+                        $("#hasMoreContent").addClass("hide");
+                    }
                     if (EasyCheck.StringUtils.isNotEmpty(res.articleCardList) && res.articleCardList.length > 0) {
-                        // 是否显示加载更多
-                        if (res.hasMore) {
-                            $("#hasMoreContent").removeClass("hide");
-                            $("#hasMoreContent").addClass("show");
-                        } else {
-                            $("#hasMoreContent").removeClass("show");
-                            $("#hasMoreContent").addClass("hide");
-                        }
                         // 拼装数据
                         for (var i = 0; i < res.articleCardList.length; i++) {
                             $("#myArticleListContent").append(buildArticleCard(res.articleCardList[i]));
                         }
                     } else {
-                        layer.msg("没有更多数据了", {icon: 5, anim: 6});
+                        layer.msg("没有更多数据了", {icon: 7, anim: 6});
                     }
                 } else {
                     layer.msg(res.message, {icon: 5, anim: 6});
@@ -65,23 +83,26 @@ $(function () {
             data: $("#myArticleListQuestForm").serialize(),
             success: function (res) {
                 if (res.result === 'success') {
+                    // 是否显示加载更多
+                    if (res.hasMore) {
+                        $("#hasMoreContent").removeClass("hide");
+                        $("#hasMoreContent").addClass("show");
+                    } else {
+                        $("#hasMoreContent").removeClass("show");
+                        $("#hasMoreContent").addClass("hide");
+                    }
                     $("#myArticleListContent").empty();
                     if (EasyCheck.StringUtils.isNotEmpty(res.articleCardList) && res.articleCardList.length > 0) {
-                        // 是否显示加载更多
-                        if (res.hasMore) {
-                            $("#hasMoreContent").removeClass("hide");
-                            $("#hasMoreContent").addClass("show");
-                        } else {
-                            $("#hasMoreContent").removeClass("show");
-                            $("#hasMoreContent").addClass("hide");
-                        }
                         // 拼装数据
                         for (var i = 0; i < res.articleCardList.length; i++) {
                             $("#myArticleListContent").append(buildArticleCard(res.articleCardList[i]));
                         }
                     } else {
-                        // TODO 没有数据
-                        layer.msg("没有查询到数据", {icon: 5, anim: 6});
+                        var html = '<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 horizontal-vertical-middle xtl-blank-page">';
+                        html += '   <div><img src="/resources/images/fish.png" draggable="false"></div>';
+                        html += '   <div>没有搜索到结果....</div>';
+                        html += '</div>';
+                        $("#myArticleListContent").append(html);
                     }
                 } else {
                     layer.msg(res.message, {icon: 5, anim: 6});
@@ -92,6 +113,11 @@ $(function () {
     }
 
 
+    /**
+     * 构建文章卡片html
+     * @param article
+     * @returns {string}
+     */
     function buildArticleCard(article) {
         var html = '';
         html += '<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block xtl-article-card">';
@@ -166,7 +192,7 @@ $(function () {
         html += '</div>';
         html += '<div class="layui-col-xs5 layui-col-sm4 layui-col-md4 text-r">';
         html += '<div class="layui-btn-group">';
-        html += '<a href="${pageContext.request.contextPath}/member/article/${article.articleId}" class="layui-btn layui-btn-primary layui-btn-sm" title="详情">';
+        html += '<a href="/member/article/' + article.articleId + '" class="layui-btn layui-btn-primary layui-btn-sm" title="详情">';
         html += '<i class="layui-icon">&#xe60b;</i>';
         html += '</a>';
         html += '<button class="layui-btn layui-btn-primary layui-btn-sm" title="编辑">';

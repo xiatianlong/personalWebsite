@@ -19,6 +19,11 @@ public class ArticlePageForm extends PageForm {
     private String[] articleStatus;
 
     /**
+     * 文章类别
+     */
+    private String[] articleCategory;
+
+    /**
      * 获取 文章id
      */
     public String getArticleId() {
@@ -45,5 +50,20 @@ public class ArticlePageForm extends PageForm {
      */
     public void setArticleStatus(String[] articleStatus) {
         this.articleStatus = articleStatus;
+    }
+
+
+    /**
+     * 获取 文章类别
+     */
+    public String[] getArticleCategory() {
+        return this.articleCategory;
+    }
+
+    /**
+     * 设置 文章类别
+     */
+    public void setArticleCategory(String[] articleCategory) {
+        this.articleCategory = articleCategory;
     }
 }

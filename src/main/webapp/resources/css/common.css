@@ -304,6 +304,7 @@ body{
     align-items: center;
     -webkit-justify-content: center;
     justify-content: center;
+    flex-wrap: wrap;
 }
 /*垂直居中，水平靠右*/
 .vertical-middle-horizontal-right {
@@ -461,6 +462,30 @@ fieldset legend{
     text-decoration: underline;
     color: #5FB878;
     cursor: pointer;
+}
+
+.xtl-blank-page {
+    padding: 2em 0;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.xtl-blank-page > div {
+    width: 100%;
+    text-align: center;
+}
+
+.xtl-blank-page > div > img {
+    width: 10em;
+    height: auto;
+}
+
+.xtl-blank-page > div:nth-child(2) {
+    font-size: 14px;
+    margin-top: 1em;
+    color: #757575;
 }
 
 

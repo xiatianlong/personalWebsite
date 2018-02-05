@@ -16,6 +16,16 @@
         </param-value>
     </context-param>
 
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/css/*</url-pattern>
+        <url-pattern>/fonts/*</url-pattern>
+        <url-pattern>/images/*</url-pattern>
+        <url-pattern>/js/*</url-pattern>
+        <url-pattern>/layui/*</url-pattern>
+        <url-pattern>/plugins/*</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>springMvc</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

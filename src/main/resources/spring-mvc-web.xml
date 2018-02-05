@@ -21,11 +21,11 @@
     <!-- 扩充了注解驱动，可以将请求参数绑定到控制器参数 -->
     <mvc:annotation-driven />
 
-    <!--  映射路径 : 1.加入静态路径的处理 2. 允许使用"/"做整体路径 -->
-    <mvc:default-servlet-handler />
-
     <!-- 静态资源处理， css， js， imgs -->
     <mvc:resources mapping="/resources/**" location="/resources/" />
+
+    <!--  映射路径 : 1.加入静态路径的处理 2. 允许使用"/"做整体路径 -->
+    <mvc:default-servlet-handler/>
 
     <!--  拦截器  -->
     <mvc:interceptors>

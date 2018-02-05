@@ -21,10 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -170,10 +167,23 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
                     predicateList.add(in);
                 }
 
+                // 查询条件-类别
+                if (articlePageForm.getArticleCategory() != null && articlePageForm.getArticleCategory().length > 0) {
+                    Join<ArticleEntity, ArticleCategoryEntity> categoryJoin = root.join("categoryEntityList", JoinType.LEFT);
+                    CriteriaBuilder.In<String> in = cb.in(categoryJoin.<String>get("articleCategory"));
+                    for (String str : articlePageForm.getArticleCategory()) {
+                        in.value(str);
+                    }
+                    predicateList.add(in);
+                }
+
                 // 排序条件
                 if (!StringUtils.isEmpty(articlePageForm.getArticleId())) {
                     predicateList.add(cb.lessThan(root.<String>get("articleId"), articlePageForm.getArticleId()));
                 }
+
+                // 去重处理
+                query.distinct(true);
 
                 Predicate[] pre = new Predicate[predicateList.size()];
                 return cb.and(predicateList.toArray(pre));
@@ -181,6 +191,16 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
         };
 
         return buildArticleCard(articleRepository.findAll(specification, pageable).getContent());
+    }
+
+    /**
+     * 获取文章类别
+     *
+     * @return 类别集合
+     */
+    @Override
+    public List<String> getArticleCategory() {
+        return articleRepository.getMyArticleCategory(getLoinUser().getUserId());
     }
 
     /**

@@ -40,7 +40,11 @@
                         </c:forEach>
                     </c:when>
                     <c:otherwise>
-                        暂无文章
+                        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 horizontal-vertical-middle xtl-blank-page">
+                            <div><img src="${pageContext.request.contextPath}/resources/images/fish.png"
+                                      draggable="false"></div>
+                            <div>没有搜索到结果....</div>
+                        </div>
                     </c:otherwise>
                 </c:choose>
             </div>
@@ -69,19 +73,17 @@
                 </div>
             </div>
 
-            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block margin-t-15">
-                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 blue xtl-block-title">文章分类</div>
-                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 margin-t-10 article-classification">
-                    <a class="layui-btn layui-btn-primary layui-btn-sm">分类1分类1</a>
-                    <a class="layui-btn layui-btn-primary layui-btn-sm active">分类</a>
-                    <a class="layui-btn layui-btn-primary layui-btn-sm">分类1类1</a>
-                    <a class="layui-btn layui-btn-primary layui-btn-sm">分类21</a>
-                    <a class="layui-btn layui-btn-primary layui-btn-sm">分类1分类1</a>
-                    <a class="layui-btn layui-btn-primary layui-btn-sm">分类</a>
-                    <a class="layui-btn layui-btn-primary layui-btn-sm">分类1类1</a>
-                    <a class="layui-btn layui-btn-primary layui-btn-sm">分类21</a>
+            <c:if test="${not empty articleCategoryList && articleCategoryList.size() gt 0}">
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block margin-t-15">
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 blue xtl-block-title">文章分类</div>
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 margin-t-10 article-classification">
+                        <c:forEach items="${articleCategoryList}" var="category">
+                            <a class="layui-btn layui-btn-primary layui-btn-sm query-article-category">${category}</a>
+                        </c:forEach>
+                    </div>
                 </div>
-            </div>
+            </c:if>
+
         </div>
     </div>
 

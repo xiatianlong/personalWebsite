@@ -40,8 +40,12 @@ public class MemberArticleController extends BaseController {
     public String list(ArticlePageForm form, Model model) {
 
         List<ArticleCard> articleCards = articleService.getMyArticleList(form);
+        // 文章集合
         model.addAttribute("myArticleList", articleCards);
+        // 是否显示加载更多
         model.addAttribute("hasMore", articleCards != null && articleCards.size() >= form.getPageSize());
+        // 分类集合
+        model.addAttribute("articleCategoryList", articleService.getArticleCategory());
         return "personalCenter/article/myPublishArticleList";
     }
 
