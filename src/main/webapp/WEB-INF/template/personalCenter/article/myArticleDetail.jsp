@@ -1,4 +1,10 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.personalWebsite.common.enums.ArticleStatus" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="DRAFT" value="<%=ArticleStatus.DRAFT.getCode()%>" scope="request"/>
+<c:set var="UNDER_REVIEW" value="<%=ArticleStatus.UNDER_REVIEW.getCode()%>" scope="request"/>
+<c:set var="REVIEW_PASSED" value="<%=ArticleStatus.REVIEW_PASSED.getCode()%>" scope="request"/>
+<c:set var="REVIEW_NOT_PASSED" value="<%=ArticleStatus.REVIEW_NOT_PASSED.getCode()%>" scope="request"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +22,7 @@
     <span class="layui-breadcrumb">
         <a href="${pageContext.request.contextPath}/home"><i class="layui-icon">&#xe68e;</i></a>
         <a href="${pageContext.request.contextPath}/member/personalCenter">个人中心</a>
+         <a href="${pageContext.request.contextPath}/member/article/list">我的文章</a>
         <a><cite>文章详情</cite></a>
     </span>
 </div>
@@ -30,38 +37,53 @@
             <fieldset class="margin-b-20">
                 <legend>文章标题</legend>
                 <div class="layui-field-box">
-                    我是一偏文章的标题我是一偏文章的标题我是一偏文章的标题
+                    ${article.articleTitle}
                 </div>
             </fieldset>
 
             <fieldset class="margin-b-20">
                 <legend>文章状态</legend>
                 <div class="layui-field-box">
-                    <span class="layui-badge">审核中</span>
+                    <c:choose>
+                        <c:when test="${DRAFT eq article.articleStatusCode}"> <span
+                                class="layui-badge layui-bg-gray">草稿</span></c:when>
+                        <c:when test="${UNDER_REVIEW eq article.articleStatusCode}"> <span
+                                class="layui-badge layui-bg-orange">审核中</span></c:when>
+                        <c:when test="${REVIEW_PASSED eq article.articleStatusCode}"> <span
+                                class="layui-badge layui-bg-green">已发布</span></c:when>
+                        <c:when test="${REVIEW_NOT_PASSED eq article.articleStatusCode}"> <span
+                                class="layui-badge layui-bg-red">审核不通过</span></c:when>
+                    </c:choose>
                 </div>
             </fieldset>
 
             <fieldset class="margin-b-20">
                 <legend>文章发布时间</legend>
                 <div class="layui-field-box">
-                    <div>创建时间：2012/12/12 15:15:15</div>
-                    <div class="margin-t-10">最后更新时间：2012/12/12 15:15:15</div>
+                    <div>创建时间：${article.fmtCreateTime}</div>
+                    <div class="margin-t-10">最后更新时间：${article.fmtUpdateTime}</div>
                 </div>
             </fieldset>
 
             <fieldset class="margin-b-20">
                 <legend>文章访问数</legend>
                 <div class="layui-field-box">
-                    <span class="layui-badge-rim red">1000</span>
+                    <span class="layui-badge-rim red">${article.articleViewsCnt}</span>
                 </div>
             </fieldset>
 
-            <fieldset class="margin-b-20">
-                <legend>评论次数</legend>
-                <div class="layui-field-box">
-                    <span class="layui-badge-rim red">50</span>
-                </div>
-            </fieldset>
+            <c:if test="${not empty article.categoryList && article.categoryList.size() gt 0}">
+                <fieldset class="margin-b-20">
+                    <legend>文章所属分类</legend>
+                    <div class="layui-field-box">
+                        <c:forEach items="${article.categoryList}" var="category">
+                            <span class="layui-badge-rim red margin-r-10">${category}</span>
+                        </c:forEach>
+                    </div>
+                </fieldset>
+            </c:if>
+
+
 
 
             <a class="layui-btn layui-btn-sm layui-btn-radius layui-btn-normal">去查看</a>
@@ -73,12 +95,7 @@
     <!--上部部分end-->
 
 
-
-
 </div>
-
-
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 <!-- 你的HTML代码 -->
 
 <jsp:include page="../../base/footer.jsp"/>

@@ -67,6 +67,11 @@ public class ArticleEntity extends BaseEntity {
     private List<ArticleCategoryEntity> categoryEntityList;
 
     /**
+     * 文章作者信息
+     */
+    private UserEntity user;
+
+    /**
      * 获取 文章id
      */
     @Id
@@ -234,5 +239,22 @@ public class ArticleEntity extends BaseEntity {
      */
     public void setCategoryEntityList(List<ArticleCategoryEntity> categoryEntityList) {
         this.categoryEntityList = categoryEntityList;
+    }
+
+
+    /**
+     * 获取 文章作者信息
+     */
+    @ManyToOne
+    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID", updatable = false, insertable = false)
+    public UserEntity getUser() {
+        return this.user;
+    }
+
+    /**
+     * 设置 文章作者信息
+     */
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 }

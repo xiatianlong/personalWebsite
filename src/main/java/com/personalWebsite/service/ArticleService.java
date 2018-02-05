@@ -4,6 +4,7 @@ import com.personalWebsite.entity.ArticleEntity;
 import com.personalWebsite.model.request.article.ArticlePageForm;
 import com.personalWebsite.model.request.article.SaveOrUpdateForm;
 import com.personalWebsite.model.response.article.ArticleCard;
+import com.personalWebsite.model.response.article.ArticleInfo;
 
 import java.util.List;
 
@@ -57,5 +58,13 @@ public interface ArticleService extends BaseService {
      * @return 类别集合
      */
     List<String> getArticleCategory();
+
+    /**
+     * 构建文章信息
+     *
+     * @param articleEntity 文章实体对象
+     * @return info
+     */
+    ArticleInfo buildArticleInfo(ArticleEntity articleEntity);
 
 }

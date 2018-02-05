@@ -82,7 +82,7 @@ public class MemberArticleController extends BaseController {
         if (!articleEntity.getUserId().equals(getLoinUser().getUserId())) {
             throw new ApplicationException(getMessage("permissions.error"));
         }
-        model.addAttribute("article", articleEntity);
+        model.addAttribute("article", articleService.buildArticleInfo(articleEntity));
         return "personalCenter/article/myArticleDetail";
     }
 

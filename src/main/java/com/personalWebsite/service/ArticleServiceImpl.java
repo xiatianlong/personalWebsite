@@ -3,12 +3,14 @@ package com.personalWebsite.service;
 import com.personalWebsite.common.enums.ArticleStatus;
 import com.personalWebsite.common.exception.ApplicationException;
 import com.personalWebsite.dao.ArticleRepository;
+import com.personalWebsite.dictionary.DictionaryCache;
 import com.personalWebsite.entity.ArticleCategoryEntity;
 import com.personalWebsite.entity.ArticleEntity;
 import com.personalWebsite.entity.FileRelationEntity;
 import com.personalWebsite.model.request.article.ArticlePageForm;
 import com.personalWebsite.model.request.article.SaveOrUpdateForm;
 import com.personalWebsite.model.response.article.ArticleCard;
+import com.personalWebsite.model.response.article.ArticleInfo;
 import com.personalWebsite.utils.DateUtil;
 import com.personalWebsite.utils.IdUtil;
 import com.personalWebsite.vo.UserInfo;
@@ -201,6 +203,66 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
     @Override
     public List<String> getArticleCategory() {
         return articleRepository.getMyArticleCategory(getLoinUser().getUserId());
+    }
+
+    /**
+     * 构建文章信息
+     *
+     * @param articleEntity 文章实体对象
+     * @return info
+     */
+    @Override
+    public ArticleInfo buildArticleInfo(ArticleEntity articleEntity) {
+        if (articleEntity == null) {
+            return null;
+        }
+        ArticleInfo articleInfo = new ArticleInfo();
+        // 文章id
+        articleInfo.setArticleId(articleEntity.getArticleId());
+        // 文章标题
+        articleInfo.setArticleTitle(articleEntity.getArticleTitle());
+        // 文章摘要
+        articleInfo.setArticleIntroduction(articleEntity.getArticleIntroduction());
+        // 封面图url
+        FileRelationEntity fileRelationEntity = articleEntity.getArticleImgFile();
+        if (fileRelationEntity != null) {
+            articleInfo.setArticleImgUrl(fileRelationEntity.getFileUrl());
+        }
+        // 文章状态代码
+        articleInfo.setArticleStatusCode(articleEntity.getArticleStatus());
+        // 文章状态名称
+        articleInfo.setArticleStatusName(DictionaryCache.getName(articleEntity.getArticleStatus()));
+        // 文章内容
+        articleInfo.setArticleContent(articleEntity.getArticleContent());
+        // 文章访问量
+        articleInfo.setArticleViewsCnt(articleEntity.getArticleViewsCnt());
+        // 文章作者id
+        articleInfo.setUserId(articleEntity.getUser().getUserId());
+        // 文章作者名称
+        articleInfo.setUserName(articleEntity.getUser().getUserName());
+        // 文章分类集合
+        List<ArticleCategoryEntity> categoryEntities = articleEntity.getCategoryEntityList();
+        if (categoryEntities != null && !categoryEntities.isEmpty()) {
+            List<String> strArr = new ArrayList<>();
+            StringBuilder fmtStr = new StringBuilder();
+            for (int i = 0; i < categoryEntities.size(); i++) {
+                strArr.add(categoryEntities.get(i).getArticleCategory());
+                fmtStr.append(categoryEntities.get(i).getArticleCategory());
+                if (categoryEntities.size() != (i + 1)) {
+                    fmtStr.append(",");
+                }
+            }
+            articleInfo.setCategoryList(strArr);
+            articleInfo.setFmtCategoryList(fmtStr.toString());
+        }
+        // 文章创建时间
+        articleInfo.setCreateTime(articleEntity.getCreateTime());
+        articleInfo.setFmtCreateTime(DateUtil.defaultFormat(articleEntity.getCreateTime()));
+        // 文章更新时间
+        articleInfo.setUpdateTime(articleEntity.getUpdateTime());
+        articleInfo.setFmtUpdateTime(DateUtil.defaultFormat(articleEntity.getUpdateTime()));
+
+        return articleInfo;
     }
 
     /**
