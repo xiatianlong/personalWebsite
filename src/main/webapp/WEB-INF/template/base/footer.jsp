@@ -9,7 +9,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div class="layui-container">
     <div class="layui-row">
-        <hr class="layui-bg-blue">
+        <hr class="layui-bg-blue margin-t-30">
         <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 margin-b-30 blue font-size-14 text-c">
             design by xiatl, coding by xiatl.
         </div>
