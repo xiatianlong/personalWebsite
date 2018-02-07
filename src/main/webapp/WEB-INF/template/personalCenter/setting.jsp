@@ -16,7 +16,7 @@
 <div class="layui-container">
     <span class="layui-breadcrumb">
       <a href="${pageContext.request.contextPath}/home"><i class="layui-icon">&#xe68e;</i></a>
-        <a href="${pageContext.request.contextPath}/member/personalCenter/">个人中心</a>
+        <a href="${pageContext.request.contextPath}/member/personalCenter">个人中心</a>
       <a><cite>设置</cite></a>
     </span>
 </div>

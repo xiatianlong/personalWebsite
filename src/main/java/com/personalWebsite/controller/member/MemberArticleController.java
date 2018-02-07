@@ -9,6 +9,7 @@ import com.personalWebsite.model.request.article.ArticlePageForm;
 import com.personalWebsite.model.request.article.SaveOrUpdateForm;
 import com.personalWebsite.model.response.AsynchronousResult;
 import com.personalWebsite.model.response.article.ArticleCard;
+import com.personalWebsite.model.response.article.ArticleInfo;
 import com.personalWebsite.model.response.article.ArticleQueryResult;
 import com.personalWebsite.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +75,18 @@ public class MemberArticleController extends BaseController {
      */
     @GetMapping("/{articleId}")
     public String articleDetail(@PathVariable("articleId") String articleId, Model model) throws Exception {
+        model.addAttribute("article", settingArticleDetail(articleId));
+        return "personalCenter/article/myArticleDetail";
+    }
 
+    /**
+     * 设置文章详细信息
+     *
+     * @param articleId 文章id
+     * @return ArticleInfo
+     * @throws Exception e
+     */
+    private ArticleInfo settingArticleDetail(String articleId) throws Exception {
         ArticleEntity articleEntity = articleService.getArticleById(articleId);
         if (articleEntity == null) {
             throw new ApplicationException(getMessage("article.null"));
@@ -82,8 +94,20 @@ public class MemberArticleController extends BaseController {
         if (!articleEntity.getUserId().equals(getLoinUser().getUserId())) {
             throw new ApplicationException(getMessage("permissions.error"));
         }
-        model.addAttribute("article", articleService.buildArticleInfo(articleEntity));
-        return "personalCenter/article/myArticleDetail";
+        return articleService.buildArticleInfo(articleEntity);
+    }
+
+    /**
+     * 我的文章预览
+     *
+     * @param articleId 文章id
+     * @param model     model
+     * @return 文章页
+     */
+    @GetMapping("/preview/{articleId}")
+    public String articlePreview(@PathVariable("articleId") String articleId, Model model) throws Exception {
+        model.addAttribute("article", settingArticleDetail(articleId));
+        return "personalCenter/article/myArticlePreview";
     }
 
     /**
@@ -113,6 +137,20 @@ public class MemberArticleController extends BaseController {
 
         result.setResult(Constant.SUCCESS);
         return result;
+    }
+
+    /**
+     * 更新文章初始化画面
+     *
+     * @param articleId 文章id
+     * @param model     model
+     * @return 更新文章初始化画面
+     * @throws Exception e
+     */
+    @GetMapping("/update/{articleId}")
+    public String updateInit(@PathVariable("articleId") String articleId, Model model) throws Exception {
+        model.addAttribute("article", settingArticleDetail(articleId));
+        return "personalCenter/article/updateArticle";
     }
 
     /**
@@ -175,9 +213,8 @@ public class MemberArticleController extends BaseController {
             result.setMessage(getMessage("permissions.error"));
             return result;
         }
-        // 保存文章操作
+        // 删除文章操作
         articleService.removeArticle(articleEntity);
-
         result.setResult(Constant.SUCCESS);
         return result;
     }

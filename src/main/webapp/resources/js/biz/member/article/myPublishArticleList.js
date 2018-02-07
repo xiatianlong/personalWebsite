@@ -36,8 +36,6 @@ $(function () {
         submitQuery();
     });
 
-
-
     // 加载更多查询
     $("#loadMore").on('click', function () {
         $("#myArticleListQuestForm").append('<input type="hidden" name="articleId" value="' + $("input[name='loadMoreArticleId']").last().val() + '">');
@@ -195,12 +193,12 @@ $(function () {
         html += '<a href="/member/article/' + article.articleId + '" class="layui-btn layui-btn-primary layui-btn-sm" title="详情">';
         html += '<i class="layui-icon">&#xe60b;</i>';
         html += '</a>';
-        html += '<button class="layui-btn layui-btn-primary layui-btn-sm" title="编辑">';
+        html += '<a href="/member/article/update/' + article.articleId + '" class="layui-btn layui-btn-primary layui-btn-sm" title="编辑">';
         html += '<i class="layui-icon">&#xe642;</i>';
-        html += '</button>';
-        html += '<button class="layui-btn layui-btn-primary layui-btn-sm" title="预览">';
+        html += '</a>';
+        html += '<a href="/member/article/preview/' + article.articleId + '" class="layui-btn layui-btn-primary layui-btn-sm" title="预览">';
         html += '<i class="layui-icon">&#xe602;</i>';
-        html += '</button>';
+        html += '</a>';
         html += '</div>';
         html += '</div>';
         html += '</div>';

@@ -10,8 +10,6 @@
 <head>
     <jsp:include page="../../base/head.jsp"/>
     <title>Title</title>
-    <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/resources/css/biz/personalCenter/personalCenter.css">
 </head>
 <body>
 
@@ -84,11 +82,11 @@
             </c:if>
 
 
-
-
-            <a class="layui-btn layui-btn-sm layui-btn-radius layui-btn-normal">去查看</a>
+            <a href="${pageContext.request.contextPath}/member/article/preview/${article.articleId}"
+               class="layui-btn layui-btn-sm layui-btn-radius layui-btn-normal">去查看</a>
             <a class="layui-btn layui-btn-sm layui-btn-radius">去编辑</a>
-            <a class="layui-btn layui-btn-sm layui-btn-radius layui-btn-danger" id="removeArticle">删除文章</a>
+            <a class="layui-btn layui-btn-sm layui-btn-radius layui-btn-danger" data-article-id="${article.articleId}"
+               id="removeArticle">删除文章</a>
 
         </div>
     </div>
@@ -101,14 +99,24 @@
 <jsp:include page="../../base/footer.jsp"/>
 <script>
 
+    // 删除文章
     $("#removeArticle").on('click', function () {
-
+        var articleId = $(this).data("articleId");
         layer.confirm('确定要删除这篇文章?', {icon: 3, title: '提示', btn: ['取消', '确认']}, function (index) {
             layer.close(index);
         }, function () {
-            layer.msg('删除成功！', {icon: 6, shade: 0.01}, function () {
-                // do something
-                console.log("关闭了");
+            common.ajax({
+                url: "/member/article/delete/" + articleId,
+                type: "POST",
+                success: function (res) {
+                    if (res.result === 'success') {
+                        layer.msg('删除成功！', {icon: 6, shade: 0.01}, function () {
+                            window.location.href = "/member/article/list";
+                        });
+                    } else {
+                        layer.msg(res.message, {icon: 5, anim: 6});
+                    }
+                }
             });
         });
     });

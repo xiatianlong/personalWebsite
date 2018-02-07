@@ -100,12 +100,14 @@
                    class="layui-btn layui-btn-primary layui-btn-sm" title="详情">
                     <i class="layui-icon">&#xe60b;</i>
                 </a>
-                <button class="layui-btn layui-btn-primary layui-btn-sm" title="编辑">
+                <a href="${pageContext.request.contextPath}/member/article/update/${article.articleId}"
+                   class="layui-btn layui-btn-primary layui-btn-sm" title="编辑">
                     <i class="layui-icon">&#xe642;</i>
-                </button>
-                <button class="layui-btn layui-btn-primary layui-btn-sm" title="预览">
+                </a>
+                <a href="${pageContext.request.contextPath}/member/article/preview/${article.articleId}"
+                   class="layui-btn layui-btn-primary layui-btn-sm" title="预览">
                     <i class="layui-icon">&#xe602;</i>
-                </button>
+                </a>
             </div>
         </div>
     </div>

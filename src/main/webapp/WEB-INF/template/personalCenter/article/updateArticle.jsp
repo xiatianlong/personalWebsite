@@ -2,15 +2,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <jsp:include page="../base/head.jsp"/>
+    <jsp:include page="../../base/head.jsp"/>
     <title>Title</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/plugins/wangEditor_v3.0.15/wangEditor-fullscreen-plugin.css">
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/resources/plugins/wangEditor_v3.0.15/wangEditor-fullscreen-plugin.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/biz/personalCenter/publish.css">
 </head>
 <body>
 
 <!--header begin-->
-<jsp:include page="../base/header.jsp"/>
+<jsp:include page="../../base/header.jsp"/>
 <!--header end-->
 <div class="layui-container">
     <span class="layui-breadcrumb">
@@ -81,7 +82,8 @@
                     <div class="layui-form-item layui-form-text">
                         <label class="layui-form-label">&nbsp;</label>
                         <div class="layui-input-block">
-                            <div class="margin-b-15" id="xtl-publish-tips"><i class="layui-icon">&#xe60b;</i> 发布须知</div><br>
+                            <div class="margin-b-15" id="xtl-publish-tips"><i class="layui-icon">&#xe60b;</i> 发布须知</div>
+                            <br>
                             <a class="layui-btn" lay-submit lay-filter="saveToDraftForm">保存为草稿</a>
                             <a class="layui-btn layui-btn-normal" lay-submit lay-filter="saveToUnderReviewForm"><i
                                     class="layui-icon">&#xe609;</i> 直接提交审核</a>
@@ -98,7 +100,7 @@
 
 <!-- 你的HTML代码 -->
 
-<jsp:include page="../base/footer.jsp"/>
+<jsp:include page="../../base/footer.jsp"/>
 <script src="${pageContext.request.contextPath}/resources/plugins/wangEditor_v3.0.15/wangEditor-fullscreen-plugin.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/biz/publish.js"></script>
 </body>
