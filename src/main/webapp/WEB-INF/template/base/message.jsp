@@ -5,7 +5,7 @@
   Time: 10:01
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block padding-l-15 padding-r-15">
     <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
