@@ -74,7 +74,8 @@
             tt:     [],
             u:      [],
             ul:     [],
-            video:  ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width']
+            video: ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width'],
+            strike: []
         };
     }
 
