@@ -47,6 +47,11 @@ public class ArticleEntity extends BaseEntity {
     private int articleViewsCnt;
 
     /**
+     * 是否置顶
+     */
+    private boolean top;
+
+    /**
      * 是否删除
      */
     private boolean deleted;
@@ -178,6 +183,21 @@ public class ArticleEntity extends BaseEntity {
     }
 
     /**
+     * 获取 是否置顶
+     */
+    @Column(name = "IS_TOP", nullable = false)
+    public boolean isTop() {
+        return this.top;
+    }
+
+    /**
+     * 设置 是否置顶
+     */
+    public void setTop(boolean top) {
+        this.top = top;
+    }
+
+    /**
      * 获取 是否删除
      */
     @Column(name = "IS_DELETE", nullable = false)
@@ -257,4 +277,5 @@ public class ArticleEntity extends BaseEntity {
     public void setUser(UserEntity user) {
         this.user = user;
     }
+
 }
