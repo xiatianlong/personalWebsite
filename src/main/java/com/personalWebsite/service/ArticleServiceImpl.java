@@ -223,6 +223,8 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
         articleInfo.setArticleTitle(articleEntity.getArticleTitle());
         // 文章摘要
         articleInfo.setArticleIntroduction(articleEntity.getArticleIntroduction());
+        // 封面图文件编号
+        articleInfo.setArticleImgFileNo(articleEntity.getArticleImg());
         // 封面图url
         FileRelationEntity fileRelationEntity = articleEntity.getArticleImgFile();
         if (fileRelationEntity != null) {

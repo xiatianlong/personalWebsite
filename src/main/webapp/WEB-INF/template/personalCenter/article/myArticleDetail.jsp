@@ -9,7 +9,7 @@
 <html lang="en">
 <head>
     <jsp:include page="../../base/head.jsp"/>
-    <title>Title</title>
+    <title>${article.articleTitle}</title>
 </head>
 <body>
 

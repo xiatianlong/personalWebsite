@@ -27,6 +27,11 @@ public class ArticleInfo implements Serializable {
     private String articleIntroduction;
 
     /**
+     * 文章封面图片文件编号
+     */
+    private String articleImgFileNo;
+
+    /**
      * 文章封面图片url
      */
     private String articleImgUrl;
@@ -314,5 +319,20 @@ public class ArticleInfo implements Serializable {
      */
     public void setFmtUpdateTime(String fmtUpdateTime) {
         this.fmtUpdateTime = fmtUpdateTime;
+    }
+
+
+    /**
+     * 获取 文章封面图片文件编号
+     */
+    public String getArticleImgFileNo() {
+        return this.articleImgFileNo;
+    }
+
+    /**
+     * 设置 文章封面图片文件编号
+     */
+    public void setArticleImgFileNo(String articleImgFileNo) {
+        this.articleImgFileNo = articleImgFileNo;
     }
 }
