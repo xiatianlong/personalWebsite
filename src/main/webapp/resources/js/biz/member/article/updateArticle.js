@@ -37,10 +37,14 @@ layui.use(['form', 'upload'], function () {
     // 表情
     messageEditor.customConfig.emotions = [{title: '默认', type: 'image', content: weboEmoji}];
     messageEditor.create();
+    // 初始化内容
+    if (EasyCheck.StringUtils.isNotEmpty($("#articleContent").val())) {
+        messageEditor.txt.html($("#articleContent").val());
+    }
     // 添加全屏编辑
     messageE.fullscreen.init('#xtl-publish-editor');
 
-    // 隔热和介绍字数监听
+    // 个人介绍字数监听
     $("textarea[name='introduction']").on('input', function () {
         var that = $(this);
         $("#introduction-cnt").text(that.val().length + "/200");

@@ -14,7 +14,7 @@
 }
 
 .xtl-content .content {
-    padding: 40px;
+    padding: 0 40px;
     overflow-y: auto;
 }
 
@@ -50,7 +50,7 @@
     }
 
     .xtl-content .content {
-        padding: 10px;
+        padding: 0 10px;
     }
 
     .xtl-content .footer {

@@ -96,6 +96,11 @@ public class ArticleInfo implements Serializable {
      */
     private String fmtUpdateTime;
 
+    /**
+     * 是否置顶
+     */
+    private boolean top;
+
 
     /**
      * 获取 文章id
@@ -334,5 +339,19 @@ public class ArticleInfo implements Serializable {
      */
     public void setArticleImgFileNo(String articleImgFileNo) {
         this.articleImgFileNo = articleImgFileNo;
+    }
+
+    /**
+     * 获取 是否置顶
+     */
+    public boolean isTop() {
+        return this.top;
+    }
+
+    /**
+     * 设置 是否置顶
+     */
+    public void setTop(boolean top) {
+        this.top = top;
     }
 }

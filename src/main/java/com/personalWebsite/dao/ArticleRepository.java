@@ -35,14 +35,14 @@ public interface ArticleRepository extends JpaRepository<ArticleEntity, String>,
     List<String> getMyArticleCategory(String userId);
 
     /**
-     * 查询全部文章分类
+     * 查询审核通过的文章分类
      *
      * @return list
      */
     @Query(value = "SELECT category.ARTICLE_CATEGORY\n" +
             "FROM t_article_category category LEFT JOIN t_article article\n" +
-            "    ON category.ARTICLE_ID = article.ARTICLE_ID AND article.IS_DELETE = 0\n" +
+            "    ON category.ARTICLE_ID = article.ARTICLE_ID AND article.IS_DELETE = 0 AND article.IS_DELETE = '002003'\n" +
             "GROUP BY category.ARTICLE_CATEGORY", nativeQuery = true)
-    List<String> getAllArticleCategory();
+    List<String> getViewArticleCategory();
 
 }

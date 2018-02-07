@@ -51,7 +51,7 @@ public class MemberArticleController extends BaseController {
     }
 
     /**
-     * 文章列表
+     * 文章列表条件搜索
      *
      * @return 文章列表页
      */

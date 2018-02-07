@@ -1,5 +1,6 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,6 +62,7 @@
                                         <c:otherwise>
                                             <img class="layui-upload-img" draggable="false"
                                                  src="${pageContext.request.contextPath}/resources/images/blank_img.png"
+                                                 <c:if test="${not empty article.articleImgUrl}">style="display: block"</c:if>
                                                  id="uploadImgPreView">
                                         </c:otherwise>
                                     </c:choose>
@@ -78,7 +80,8 @@
                         <div class="layui-input-block">
                             <textarea placeholder="请输入文章摘要..." name="introduction"
                                       class="layui-textarea">${article.articleIntroduction}</textarea>
-                            <span class="float-r" id="introduction-cnt">0/200</span>
+                            <span class="float-r"
+                                  id="introduction-cnt">${fn:length(article.articleIntroduction)}/200</span>
                         </div>
                     </div>
 
@@ -103,6 +106,7 @@
                     </div>
 
                     <input type="hidden" id="articleId" value="${article.articleId}">
+                    <textarea class="hide" id="articleContent">${article.articleContent}</textarea>
                 </form>
 
             </div>

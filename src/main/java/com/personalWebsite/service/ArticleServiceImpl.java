@@ -148,7 +148,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
     @Override
     public List<ArticleCard> getMyArticleList(final ArticlePageForm articlePageForm) {
 
-        // 创建时间倒序
+        // 创建时间倒序（id）
         Sort.Order order = new Sort.Order(Sort.Direction.DESC, "articleId");
         Pageable pageable = new PageRequest(articlePageForm.getPageNo() - 1, articlePageForm.getPageSize(), new Sort(order));
         Specification<ArticleEntity> specification = new Specification<ArticleEntity>() {
@@ -196,6 +196,53 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
     }
 
     /**
+     * 获取可查看的文章列表
+     *
+     * @param articlePageForm form
+     * @return 文章列表
+     */
+    @Override
+    public List<ArticleCard> getViewArticleList(final ArticlePageForm articlePageForm) {
+        // 创建时间倒序(id)
+        Sort.Order order1 = new Sort.Order(Sort.Direction.DESC, "top");
+        Sort.Order order2 = new Sort.Order(Sort.Direction.DESC, "articleId");
+        Pageable pageable = new PageRequest(articlePageForm.getPageNo() - 1, articlePageForm.getPageSize(), new Sort(order1, order2));
+        Specification<ArticleEntity> specification = new Specification<ArticleEntity>() {
+            @Override
+            public Predicate toPredicate(Root<ArticleEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+
+                List<Predicate> predicateList = new ArrayList<>();
+                // 审核通过的
+                predicateList.add(cb.equal(root.get("articleStatus"), ArticleStatus.REVIEW_PASSED.getCode()));
+                predicateList.add(cb.equal(root.get("deleted"), false));
+
+                // 查询条件-类别
+                if (articlePageForm.getArticleCategory() != null && articlePageForm.getArticleCategory().length > 0) {
+                    Join<ArticleEntity, ArticleCategoryEntity> categoryJoin = root.join("categoryEntityList", JoinType.LEFT);
+                    CriteriaBuilder.In<String> in = cb.in(categoryJoin.<String>get("articleCategory"));
+                    for (String str : articlePageForm.getArticleCategory()) {
+                        in.value(str);
+                    }
+                    predicateList.add(in);
+                }
+
+                // 排序条件
+                if (!StringUtils.isEmpty(articlePageForm.getArticleId())) {
+                    predicateList.add(cb.lessThan(root.<String>get("articleId"), articlePageForm.getArticleId()));
+                }
+
+                // 去重处理
+                query.distinct(true);
+
+                Predicate[] pre = new Predicate[predicateList.size()];
+                return cb.and(predicateList.toArray(pre));
+            }
+        };
+
+        return buildArticleCard(articleRepository.findAll(specification, pageable).getContent());
+    }
+
+    /**
      * 获取文章类别
      *
      * @return 类别集合
@@ -203,6 +250,16 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
     @Override
     public List<String> getArticleCategory() {
         return articleRepository.getMyArticleCategory(getLoinUser().getUserId());
+    }
+
+    /**
+     * 获取可见的文章类别
+     *
+     * @return 类别集合
+     */
+    @Override
+    public List<String> getViewArticleCategory() {
+        return articleRepository.getViewArticleCategory();
     }
 
     /**
@@ -236,6 +293,8 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
         articleInfo.setArticleStatusName(DictionaryCache.getName(articleEntity.getArticleStatus()));
         // 文章内容
         articleInfo.setArticleContent(articleEntity.getArticleContent());
+        // 是否置顶
+        articleInfo.setTop(articleEntity.isTop());
         // 文章访问量
         articleInfo.setArticleViewsCnt(articleEntity.getArticleViewsCnt());
         // 文章作者id
