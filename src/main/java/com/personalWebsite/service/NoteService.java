@@ -1,7 +1,11 @@
 package com.personalWebsite.service;
 
 import com.personalWebsite.entity.NoteEntity;
+import com.personalWebsite.model.request.note.NotePageForm;
 import com.personalWebsite.model.request.note.SaveOrUpdateForm;
+import com.personalWebsite.model.response.note.NoteCard;
+
+import java.util.List;
 
 /**
  * 笔记Service
@@ -16,6 +20,28 @@ public interface NoteService extends BaseService {
      * @return 笔记
      */
     NoteEntity getNoteById(String noteId);
+
+    /**
+     * 获取我的笔记列表
+     *
+     * @param notePageForm form
+     * @return 笔记列表
+     */
+    List<NoteCard> getMyNoteList(NotePageForm notePageForm);
+
+    /**
+     * 获取笔记类别
+     *
+     * @return 类别集合
+     */
+    List<String> getNoteCategory();
+
+    /**
+     * 获取可见的笔记类别
+     *
+     * @return 类别集合
+     */
+    List<String> getViewNoteCategory();
 
     /**
      * 创建笔记

@@ -5,8 +5,11 @@ import com.personalWebsite.common.exception.ApplicationException;
 import com.personalWebsite.common.system.Constant;
 import com.personalWebsite.controller.BaseController;
 import com.personalWebsite.entity.NoteEntity;
+import com.personalWebsite.model.request.note.NotePageForm;
 import com.personalWebsite.model.request.note.SaveOrUpdateForm;
 import com.personalWebsite.model.response.AsynchronousResult;
+import com.personalWebsite.model.response.note.NoteCard;
+import com.personalWebsite.model.response.note.NoteQueryResult;
 import com.personalWebsite.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * 会员笔记controller
@@ -33,10 +37,34 @@ public class MemberNoteController extends BaseController {
      *
      * @return 笔记列表页
      */
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String list() {
+    @GetMapping("/list")
+    public String list(NotePageForm form, Model model) {
+
+        List<NoteCard> articleCards = noteService.getMyNoteList(form);
+        // 文章集合
+        model.addAttribute("myNoteList", articleCards);
+        // 是否显示加载更多
+        model.addAttribute("hasMore", articleCards != null && articleCards.size() >= form.getPageSize());
+        // 分类集合
+        model.addAttribute("noteCategoryList", noteService.getNoteCategory());
 
         return "personalCenter/note/myPublishNoteList";
+    }
+
+    /**
+     * 文章列表条件搜索
+     *
+     * @return 文章列表页
+     */
+    @PostMapping("/query")
+    @ResponseBody
+    public NoteQueryResult query(NotePageForm form) {
+        NoteQueryResult result = new NoteQueryResult();
+        List<NoteCard> noteCards = noteService.getMyNoteList(form);
+        result.setNoteCardList(noteCards);
+        result.setHasMore(noteCards != null && noteCards.size() >= form.getPageSize());
+        result.setResult(Constant.SUCCESS);
+        return result;
     }
 
     /**
@@ -46,7 +74,7 @@ public class MemberNoteController extends BaseController {
      * @param model  model
      * @return 笔记页
      */
-    @RequestMapping(value = "/{noteId}", method = RequestMethod.GET)
+    @GetMapping("/{noteId}")
     public String noteDetail(@PathVariable("noteId") String noteId, Model model) throws Exception {
 
         NoteEntity noteEntity = noteService.getNoteById(noteId);

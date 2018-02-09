@@ -228,7 +228,7 @@ public class CommentEntity extends BaseEntity {
      * 获取 该评论下面的评论
      */
     @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumns(value = {@JoinColumn(name = "COMMENT_ROOT_ID", referencedColumnName = "COMMENT_ID", updatable = false, insertable = false)})
+    @JoinColumn(name = "COMMENT_ROOT_ID", referencedColumnName = "COMMENT_ID", updatable = false, insertable = false)
     @OrderBy(" COMMENT_ID ASC")
     @Where(clause = " COMMENT_PARENT_ID IS NOT NULL ")
     public List<CommentEntity> getChildCommentList() {

@@ -392,7 +392,7 @@ fieldset legend{
 }
 
 .xtl-article-card{
-    min-height: 120px;
+    /*min-height: 120px;*/
     margin-bottom: 15px;
 }
 .xtl-article-card:hover{
@@ -411,6 +411,7 @@ fieldset legend{
 .xtl-article-card .article-title{
     font-size: 16px;
     font-weight: 500;
+    word-break: break-all;
 }
 .xtl-article-card .article-summary{
     text-indent: 2em;
@@ -423,6 +424,19 @@ fieldset legend{
     line-height: 1.7;
 }
 
+#article-status-content > a.active {
+    position: relative;
+}
+
+#article-status-content > a.active:after {
+    content: "\f0a6";
+    font: normal normal normal 14px/1 FontAwesome;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.8em;
+    color: #1E9FFF;
+}
 .article-classification > a{
     margin-bottom: 10px;
 }

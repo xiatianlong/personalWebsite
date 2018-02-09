@@ -1,8 +1,7 @@
 package com.personalWebsite.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * 笔记表实体
@@ -38,6 +37,11 @@ public class NoteEntity extends BaseEntity {
     private int noteViewCnt;
 
     /**
+     * 是否置顶
+     */
+    private boolean top;
+
+    /**
      * 是否删除
      */
     private boolean deleted;
@@ -46,6 +50,16 @@ public class NoteEntity extends BaseEntity {
      * 笔记作者id
      */
     private String userId;
+
+    /**
+     * 笔记所属类别
+     */
+    private List<NoteCategoryEntity> categoryEntityList;
+
+    /**
+     * 笔记作者信息
+     */
+    private UserEntity user;
 
 
     /**
@@ -125,6 +139,21 @@ public class NoteEntity extends BaseEntity {
     }
 
     /**
+     * 获取 是否置顶
+     */
+    @Column(name = "IS_TOP", nullable = false)
+    public boolean isTop() {
+        return this.top;
+    }
+
+    /**
+     * 设置 是否置顶
+     */
+    public void setTop(boolean top) {
+        this.top = top;
+    }
+
+    /**
      * 获取 是否删除
      */
     @Column(name = "IS_DELETE", nullable = false)
@@ -152,5 +181,38 @@ public class NoteEntity extends BaseEntity {
      */
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+
+    /**
+     * 获取 笔记所属类别
+     */
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "NOTE_ID", referencedColumnName = "NOTE_ID", updatable = false, insertable = false)
+    public List<NoteCategoryEntity> getCategoryEntityList() {
+        return this.categoryEntityList;
+    }
+
+    /**
+     * 设置 笔记所属类别
+     */
+    public void setCategoryEntityList(List<NoteCategoryEntity> categoryEntityList) {
+        this.categoryEntityList = categoryEntityList;
+    }
+
+    /**
+     * 获取 笔记作者信息
+     */
+    @ManyToOne
+    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID", updatable = false, insertable = false)
+    public UserEntity getUser() {
+        return this.user;
+    }
+
+    /**
+     * 设置 笔记作者信息
+     */
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 }

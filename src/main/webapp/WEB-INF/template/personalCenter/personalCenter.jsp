@@ -64,7 +64,7 @@
             </a>
         </div>
         <div class="layui-col-xs4 layui-col-sm3 layui-col-md3 horizontal-vertical-middle personal-center-item">
-            <a>
+            <a href="${pageContext.request.contextPath}/member/note/list">
                 <div><i class="layui-icon">&#xe60a;</i></div>
                 <div>我的笔记</div>
             </a>

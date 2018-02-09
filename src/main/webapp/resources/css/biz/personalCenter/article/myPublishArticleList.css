@@ -3,16 +3,3 @@
 .xtl-article-card:hover{
     cursor: default;
 }
-#article-status-content > a.active{
-    position: relative;
-}
-
-#article-status-content > a.active:after {
-    content: "\f0a6";
-    font: normal normal normal 14px/1 FontAwesome;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -0.8em;
-    color: #1E9FFF;
-}

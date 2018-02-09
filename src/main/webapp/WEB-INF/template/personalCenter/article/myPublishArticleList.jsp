@@ -19,9 +19,9 @@
 <!--header end-->
 <div class="layui-container">
     <span class="layui-breadcrumb">
-      <a href="${pageContext.request.contextPath}/home"><i class="layui-icon">&#xe68e;</i></a>
+        <a href="${pageContext.request.contextPath}/home"><i class="layui-icon">&#xe68e;</i></a>
         <a href="${pageContext.request.contextPath}/member/personalCenter">个人中心</a>
-      <a><cite>我的文章</cite></a>
+        <a><cite>我的文章</cite></a>
     </span>
 </div>
 
@@ -88,7 +88,6 @@
     </div>
 
 </div>
-<!-- 你的HTML代码 -->
 
 <jsp:include page="../../base/footer.jsp"/>
 <script src="${pageContext.request.contextPath}/resources/js/biz/member/article/myPublishArticleList.js"></script>

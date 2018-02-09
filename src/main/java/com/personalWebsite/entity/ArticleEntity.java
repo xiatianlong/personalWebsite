@@ -249,7 +249,7 @@ public class ArticleEntity extends BaseEntity {
      * 获取 文章所属类别
      */
     @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumns(value = {@JoinColumn(name = "ARTICLE_ID", referencedColumnName = "ARTICLE_ID", updatable = false, insertable = false)})
+    @JoinColumn(name = "ARTICLE_ID", referencedColumnName = "ARTICLE_ID", updatable = false, insertable = false)
     public List<ArticleCategoryEntity> getCategoryEntityList() {
         return this.categoryEntityList;
     }
