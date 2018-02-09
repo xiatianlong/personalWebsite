@@ -115,9 +115,9 @@ public class DateUtil {
             long day = ((second / 60) / 60) / 24;
             interval = day + "天前";
         } else if (second <= 60 * 60 * 24 * 365) {//大于7天小于365天
-            interval = format(date, DATEFORMATTER_MMDDHHmm);
+            interval = format(date, DATEFORMATTER_MMDD_CN);
         } else {//大于365天
-            interval = format(date, DATEFORMATTER_HHMM);
+            interval = format(date, DATEFORMATTER_YYMM_CN);
         }
 
         return interval;

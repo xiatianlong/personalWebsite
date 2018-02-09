@@ -47,6 +47,11 @@ public class ArticleCard implements Serializable {
     private String fmtCreateTime;
 
     /**
+     * 文章创建时间(中文格式化)
+     */
+    private String fmtCreateTimeCN;
+
+    /**
      * 分类集合
      */
     private List<String> categoryList;
@@ -55,6 +60,26 @@ public class ArticleCard implements Serializable {
      * 分类集合(格式化)
      */
     private String fmtCategoryList;
+
+    /**
+     * 文章作者id
+     */
+    private String userId;
+
+    /**
+     * 文章作者名称
+     */
+    private String userName;
+
+    /**
+     * 文章访问量
+     */
+    private int articleViewsCnt;
+
+    /**
+     * 是否置顶
+     */
+    private boolean top;
 
     /**
      * 获取 文章id
@@ -182,5 +207,75 @@ public class ArticleCard implements Serializable {
      */
     public void setFmtCategoryList(String fmtCategoryList) {
         this.fmtCategoryList = fmtCategoryList;
+    }
+
+    /**
+     * 获取 文章作者id
+     */
+    public String getUserId() {
+        return this.userId;
+    }
+
+    /**
+     * 设置 文章作者id
+     */
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    /**
+     * 获取 文章作者名称
+     */
+    public String getUserName() {
+        return this.userName;
+    }
+
+    /**
+     * 设置 文章作者名称
+     */
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    /**
+     * 获取 文章访问量
+     */
+    public int getArticleViewsCnt() {
+        return this.articleViewsCnt;
+    }
+
+    /**
+     * 设置 文章访问量
+     */
+    public void setArticleViewsCnt(int articleViewsCnt) {
+        this.articleViewsCnt = articleViewsCnt;
+    }
+
+    /**
+     * 获取  文章创建时间(中文格式化)
+     */
+    public String getFmtCreateTimeCN() {
+        return this.fmtCreateTimeCN;
+    }
+
+    /**
+     * 设置  文章创建时间(中文格式化)
+     */
+    public void setFmtCreateTimeCN(String fmtCreateTimeCN) {
+        this.fmtCreateTimeCN = fmtCreateTimeCN;
+    }
+
+    /**
+     * 获取 是否置顶
+     */
+    public boolean isTop() {
+        return this.top;
+    }
+
+    /**
+     * 设置 是否置顶
+     */
+    public void setTop(boolean top) {
+        this.top = top;
     }
 }

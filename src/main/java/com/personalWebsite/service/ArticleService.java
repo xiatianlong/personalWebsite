@@ -61,6 +61,20 @@ public interface ArticleService extends BaseService {
     List<ArticleCard> getViewArticleList(ArticlePageForm articlePageForm);
 
     /**
+     * 获取最新文章列表
+     *
+     * @return 文章列表
+     */
+    List<ArticleCard> getNewArticleList();
+
+    /**
+     * 获取最热文章列表
+     *
+     * @return 文章列表
+     */
+    List<ArticleCard> getHotArticleList();
+
+    /**
      * 获取文章类别
      *
      * @return 类别集合
@@ -81,5 +95,12 @@ public interface ArticleService extends BaseService {
      * @return info
      */
     ArticleInfo buildArticleInfo(ArticleEntity articleEntity);
+
+    /**
+     * 增加文章访问量
+     *
+     * @param articleId 文章id
+     */
+    void addArticleViewCnt(String articleId) throws Exception;
 
 }

@@ -38,6 +38,10 @@ public class ArticleController extends BaseController {
         List<ArticleCard> articleCards = articleService.getViewArticleList(form);
         // 文章集合
         model.addAttribute("articleList", articleCards);
+        // 热门文章列表
+        model.addAttribute("hotArticleList", articleService.getHotArticleList());
+        // 最新文章列表
+        model.addAttribute("newArticleList", articleService.getNewArticleList());
         // 是否显示加载更多
         model.addAttribute("hasMore", articleCards != null && articleCards.size() >= form.getPageSize());
         // 分类集合
@@ -71,8 +75,11 @@ public class ArticleController extends BaseController {
      */
     @GetMapping("/{articleId}")
     public String articleDetail(@PathVariable("articleId") String articleId, Model model) throws Exception {
+        // 获取文章详细信息
         model.addAttribute("article", settingArticleDetail(articleId));
-        return "personalCenter/article/myArticleDetail";
+        // 设置文章访问量 + 1
+        articleService.addArticleViewCnt(articleId);
+        return "article/articleDetail";
     }
 
     /**

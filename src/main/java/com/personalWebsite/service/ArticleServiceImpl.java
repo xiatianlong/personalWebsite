@@ -243,6 +243,55 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
     }
 
     /**
+     * 获取最新文章列表
+     *
+     * @return 文章列表
+     */
+    @Override
+    public List<ArticleCard> getNewArticleList() {
+        // 创建时间倒序(id)
+        Sort.Order order = new Sort.Order(Sort.Direction.DESC, "createTime");
+        return getArticleListBase(order);
+    }
+
+    /**
+     * 获取文章列表基础条件
+     *
+     * @param order 排序
+     * @return 列表
+     */
+    private List<ArticleCard> getArticleListBase(Sort.Order order) {
+        Pageable pageable = new PageRequest(0, 5, new Sort(order));
+        Specification<ArticleEntity> specification = new Specification<ArticleEntity>() {
+            @Override
+            public Predicate toPredicate(Root<ArticleEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+
+                List<Predicate> predicateList = new ArrayList<>();
+                // 审核通过的
+                predicateList.add(cb.equal(root.get("articleStatus"), ArticleStatus.REVIEW_PASSED.getCode()));
+                predicateList.add(cb.equal(root.get("deleted"), false));
+
+                Predicate[] pre = new Predicate[predicateList.size()];
+                return cb.and(predicateList.toArray(pre));
+            }
+        };
+
+        return buildArticleCard(articleRepository.findAll(specification, pageable).getContent());
+    }
+
+    /**
+     * 获取最热文章列表
+     *
+     * @return 文章列表
+     */
+    @Override
+    public List<ArticleCard> getHotArticleList() {
+        // 访问量倒序
+        Sort.Order order = new Sort.Order(Sort.Direction.DESC, "articleViewsCnt");
+        return getArticleListBase(order);
+    }
+
+    /**
      * 获取文章类别
      *
      * @return 类别集合
@@ -293,8 +342,6 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
         articleInfo.setArticleStatusName(DictionaryCache.getName(articleEntity.getArticleStatus()));
         // 文章内容
         articleInfo.setArticleContent(articleEntity.getArticleContent());
-        // 是否置顶
-        articleInfo.setTop(articleEntity.isTop());
         // 文章访问量
         articleInfo.setArticleViewsCnt(articleEntity.getArticleViewsCnt());
         // 文章作者id
@@ -327,6 +374,21 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
     }
 
     /**
+     * 增加文章访问量
+     *
+     * @param articleId 文章id
+     */
+    @Transactional
+    @Override
+    public void addArticleViewCnt(String articleId) throws Exception {
+        ArticleEntity articleEntity = getArticleById(articleId);
+        if (articleEntity != null) {
+            articleEntity.setArticleViewsCnt(articleEntity.getArticleViewsCnt() + 1);
+            articleRepository.saveAndFlush(articleEntity);
+        }
+    }
+
+    /**
      * 构建文章卡片信息
      *
      * @param articleEntities 文章实体对象集合
@@ -349,6 +411,14 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
                 if (fileRelationEntity != null) {
                     articleCard.setArticleImgUrl(fileRelationEntity.getFileUrl());
                 }
+                // 创建者id
+                articleCard.setUserId(articleEntity.getUser().getUserId());
+                // 创建者名称
+                articleCard.setUserName(articleEntity.getUser().getUserName());
+                // 访问量
+                articleCard.setArticleViewsCnt(articleEntity.getArticleViewsCnt());
+                // 是否置顶
+                articleCard.setTop(articleEntity.isTop());
                 // 文章分类
                 List<ArticleCategoryEntity> categoryEntities = articleEntity.getCategoryEntityList();
                 if (categoryEntities != null && !categoryEntities.isEmpty()) {
@@ -370,6 +440,8 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
                 articleCard.setCreateTime(articleEntity.getCreateTime());
                 // 文章创建时间(格式化)
                 articleCard.setFmtCreateTime(DateUtil.defaultFormat(articleEntity.getCreateTime()));
+                // 文章创建时间(中文格式化)
+                articleCard.setFmtCreateTimeCN(DateUtil.getStrDate(articleEntity.getCreateTime()));
 
                 articleCards.add(articleCard);
             }
