@@ -84,7 +84,8 @@
 
             <a href="${pageContext.request.contextPath}/member/article/preview/${article.articleId}"
                class="layui-btn layui-btn-sm layui-btn-radius layui-btn-normal">去查看</a>
-            <a class="layui-btn layui-btn-sm layui-btn-radius">去编辑</a>
+            <a href="${pageContext.request.contextPath}/member/article/update/${article.articleId}"
+               class="layui-btn layui-btn-sm layui-btn-radius">去编辑</a>
             <a class="layui-btn layui-btn-sm layui-btn-radius layui-btn-danger" data-article-id="${article.articleId}"
                id="removeArticle">删除文章</a>
 
