@@ -9,6 +9,7 @@ import com.personalWebsite.model.request.note.NotePageForm;
 import com.personalWebsite.model.request.note.SaveOrUpdateForm;
 import com.personalWebsite.model.response.AsynchronousResult;
 import com.personalWebsite.model.response.note.NoteCard;
+import com.personalWebsite.model.response.note.NoteInfo;
 import com.personalWebsite.model.response.note.NoteQueryResult;
 import com.personalWebsite.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,11 +41,11 @@ public class MemberNoteController extends BaseController {
     @GetMapping("/list")
     public String list(NotePageForm form, Model model) {
 
-        List<NoteCard> articleCards = noteService.getMyNoteList(form);
-        // 文章集合
-        model.addAttribute("myNoteList", articleCards);
+        List<NoteCard> noteCards = noteService.getMyNoteList(form);
+        // 笔记集合
+        model.addAttribute("myNoteList", noteCards);
         // 是否显示加载更多
-        model.addAttribute("hasMore", articleCards != null && articleCards.size() >= form.getPageSize());
+        model.addAttribute("hasMore", noteCards != null && noteCards.size() >= form.getPageSize());
         // 分类集合
         model.addAttribute("noteCategoryList", noteService.getNoteCategory());
 
@@ -52,9 +53,9 @@ public class MemberNoteController extends BaseController {
     }
 
     /**
-     * 文章列表条件搜索
+     * 笔记列表条件搜索
      *
-     * @return 文章列表页
+     * @return 笔记列表页
      */
     @PostMapping("/query")
     @ResponseBody
@@ -84,7 +85,7 @@ public class MemberNoteController extends BaseController {
         if (!noteEntity.getUserId().equals(getLoinUser().getUserId())) {
             throw new ApplicationException(getMessage("permissions.error"));
         }
-        model.addAttribute("note", noteEntity);
+        model.addAttribute("note", noteService.buildNoteInfo(noteEntity));
         return "personalCenter/note/myNoteDetail";
     }
 
@@ -116,6 +117,38 @@ public class MemberNoteController extends BaseController {
 
         result.setResult(Constant.SUCCESS);
         return result;
+    }
+
+    /**
+     * 设置笔记详细信息
+     *
+     * @param noteId 笔记id
+     * @return NoteInfo
+     * @throws Exception e
+     */
+    private NoteInfo settingNoteDetail(String noteId) throws Exception {
+        NoteEntity noteEntity = noteService.getNoteById(noteId);
+        if (noteEntity == null) {
+            throw new ApplicationException(getMessage("note.null"));
+        }
+        if (!noteEntity.getUserId().equals(getLoinUser().getUserId())) {
+            throw new ApplicationException(getMessage("permissions.error"));
+        }
+        return noteService.buildNoteInfo(noteEntity);
+    }
+
+    /**
+     * 更新笔记初始化画面
+     *
+     * @param noteId 笔记id
+     * @param model  model
+     * @return 更新笔记初始化画面
+     * @throws Exception e
+     */
+    @GetMapping("/update/{noteId}")
+    public String updateInit(@PathVariable("noteId") String noteId, Model model) throws Exception {
+        model.addAttribute("note", settingNoteDetail(noteId));
+        return "personalCenter/note/updateNote";
     }
 
     /**

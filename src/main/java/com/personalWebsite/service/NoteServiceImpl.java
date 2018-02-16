@@ -1,13 +1,15 @@
 package com.personalWebsite.service;
 
-import com.personalWebsite.common.enums.NoteStatus;
 import com.personalWebsite.common.exception.ApplicationException;
 import com.personalWebsite.dao.NoteRepository;
+import com.personalWebsite.dictionary.DictionaryCache;
 import com.personalWebsite.entity.NoteCategoryEntity;
 import com.personalWebsite.entity.NoteEntity;
+import com.personalWebsite.entity.UserEntity;
 import com.personalWebsite.model.request.note.NotePageForm;
 import com.personalWebsite.model.request.note.SaveOrUpdateForm;
 import com.personalWebsite.model.response.note.NoteCard;
+import com.personalWebsite.model.response.note.NoteInfo;
 import com.personalWebsite.utils.DateUtil;
 import com.personalWebsite.utils.IdUtil;
 import com.personalWebsite.vo.UserInfo;
@@ -130,7 +132,7 @@ public class NoteServiceImpl extends BaseServiceImpl implements NoteService {
     private List<NoteCard> buildNoteCard(List<NoteEntity> noteEntities) {
 
         if (noteEntities != null && !noteEntities.isEmpty()) {
-            List<NoteCard> articleCards = new ArrayList<>();
+            List<NoteCard> noteCards = new ArrayList<>();
             for (NoteEntity noteEntity : noteEntities) {
                 NoteCard noteCard = new NoteCard();
                 // 笔记id
@@ -169,9 +171,9 @@ public class NoteServiceImpl extends BaseServiceImpl implements NoteService {
                 // 笔记创建时间(中文格式化)
                 noteCard.setFmtCreateTimeCN(DateUtil.getStrDate(noteEntity.getCreateTime()));
 
-                articleCards.add(noteCard);
+                noteCards.add(noteCard);
             }
-            return articleCards;
+            return noteCards;
         } else {
             return null;
         }
@@ -243,12 +245,66 @@ public class NoteServiceImpl extends BaseServiceImpl implements NoteService {
     @Override
     public void removeNote(NoteEntity noteEntity) throws Exception {
         if (noteEntity != null) {
-            noteEntity.setNoteStatus(NoteStatus.DELETE.getCode());
+            noteEntity.setDeleted(true);
             noteEntity.setUpdateTime(new Date());
             noteEntity.setUpdateUser(getLoinUser().getUserId());
             noteRepository.saveAndFlush(noteEntity);
         } else {
             throw new ApplicationException(getMessage("note.null"));
         }
+    }
+
+    /**
+     * 构建笔记信息
+     *
+     * @param noteEntity 笔记实体对象
+     * @return info
+     */
+    @Override
+    public NoteInfo buildNoteInfo(NoteEntity noteEntity) {
+        if (noteEntity == null) {
+            return null;
+        }
+        NoteInfo noteInfo = new NoteInfo();
+        // 笔记id
+        noteInfo.setNoteId(noteEntity.getNoteId());
+        // 笔记标题
+        noteInfo.setNoteTitle(noteEntity.getNoteTitle());
+        // 笔记状态
+        noteInfo.setNoteStatus(noteEntity.getNoteStatus());
+        noteInfo.setNoteStatusName(DictionaryCache.getName(noteEntity.getNoteStatus()));
+        // 笔记内容
+        noteInfo.setNoteContent(noteEntity.getNoteContent());
+        // 笔记访问量
+        noteInfo.setNoteViewCnt(noteEntity.getNoteViewCnt());
+        // 是否置顶
+        noteInfo.setTop(noteEntity.isTop());
+        // 作者信息
+        UserEntity userEntity = noteEntity.getUser();
+        noteInfo.setUserId(userEntity.getUserId());
+        noteInfo.setUserName(userEntity.getUserName());
+        // 笔记分类
+        // 笔记分类
+        List<NoteCategoryEntity> categoryEntities = noteEntity.getCategoryEntityList();
+        if (categoryEntities != null && !categoryEntities.isEmpty()) {
+            List<String> strArr = new ArrayList<>();
+            StringBuilder fmtStr = new StringBuilder();
+            for (int i = 0; i < categoryEntities.size(); i++) {
+                strArr.add(categoryEntities.get(i).getNoteCategory());
+                fmtStr.append(categoryEntities.get(i).getNoteCategory());
+                if (categoryEntities.size() != (i + 1)) {
+                    fmtStr.append(",");
+                }
+            }
+            noteInfo.setCategoryList(strArr);
+            noteInfo.setFmtCategoryList(fmtStr.toString());
+        }
+        // 创建时间
+        noteInfo.setCreateTime(noteEntity.getCreateTime());
+        noteInfo.setFmtCreateTime(DateUtil.defaultFormat(noteEntity.getCreateTime()));
+        // 更新时间
+        noteInfo.setUpdateTime(noteEntity.getUpdateTime());
+        noteInfo.setFmtUpdateTime(DateUtil.defaultFormat(noteEntity.getUpdateTime()));
+        return noteInfo;
     }
 }

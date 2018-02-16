@@ -4,6 +4,7 @@ import com.personalWebsite.entity.NoteEntity;
 import com.personalWebsite.model.request.note.NotePageForm;
 import com.personalWebsite.model.request.note.SaveOrUpdateForm;
 import com.personalWebsite.model.response.note.NoteCard;
+import com.personalWebsite.model.response.note.NoteInfo;
 
 import java.util.List;
 
@@ -64,4 +65,12 @@ public interface NoteService extends BaseService {
      * @param noteEntity 笔记对象
      */
     void removeNote(NoteEntity noteEntity) throws Exception;
+
+    /**
+     * 构建笔记信息
+     *
+     * @param noteEntity 笔记实体对象
+     * @return info
+     */
+    NoteInfo buildNoteInfo(NoteEntity noteEntity);
 }
