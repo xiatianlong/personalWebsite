@@ -24,12 +24,7 @@ public enum ArticleStatus {
     /**
      * 审核不通过
      */
-    REVIEW_NOT_PASSED("002004"),
-
-    /**
-     * 删除
-     */
-    DELETE("002005");
+    REVIEW_NOT_PASSED("002004");
 
     private String code;
 

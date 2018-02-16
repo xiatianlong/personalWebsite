@@ -24,12 +24,7 @@ public enum NoteStatus {
     /**
      * 审核不通过
      */
-    REVIEW_NOT_PASSED("003004"),
-
-    /**
-     * 删除
-     */
-    DELETE("003005");
+    REVIEW_NOT_PASSED("003004");
 
     private String code;
 
