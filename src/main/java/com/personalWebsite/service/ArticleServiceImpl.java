@@ -115,7 +115,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
     @Override
     public void removeArticle(ArticleEntity articleEntity) throws Exception {
         if (articleEntity != null) {
-            articleEntity.setArticleStatus(ArticleStatus.DELETE.getCode());
+            articleEntity.setDeleted(true);
             articleEntity.setUpdateTime(new Date());
             articleEntity.setUpdateUser(getLoinUser().getUserId());
             articleRepository.saveAndFlush(articleEntity);
