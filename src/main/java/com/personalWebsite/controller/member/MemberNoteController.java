@@ -89,6 +89,19 @@ public class MemberNoteController extends BaseController {
         return "personalCenter/note/myNoteDetail";
     }
 
+    /**
+     * 我的笔记预览
+     *
+     * @param noteId 笔记id
+     * @param model  model
+     * @return 笔记页
+     */
+    @GetMapping("/preview/{noteId}")
+    public String articlePreview(@PathVariable("noteId") String noteId, Model model) throws Exception {
+        model.addAttribute("note", settingNoteDetail(noteId));
+        return "personalCenter/note/myNotePreview";
+    }
+
 
     /**
      * 创建笔记
