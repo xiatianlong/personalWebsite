@@ -1,5 +1,6 @@
 package com.personalWebsite.service;
 
+import com.personalWebsite.common.enums.NoteStatus;
 import com.personalWebsite.common.exception.ApplicationException;
 import com.personalWebsite.dao.NoteRepository;
 import com.personalWebsite.dictionary.DictionaryCache;
@@ -306,5 +307,67 @@ public class NoteServiceImpl extends BaseServiceImpl implements NoteService {
         noteInfo.setUpdateTime(noteEntity.getUpdateTime());
         noteInfo.setFmtUpdateTime(DateUtil.defaultFormat(noteEntity.getUpdateTime()));
         return noteInfo;
+    }
+
+    /**
+     * 获取可查看的笔记列表
+     *
+     * @param notePageForm form
+     * @return 笔记列表
+     */
+    @Override
+    public List<NoteCard> getViewNoteList(final NotePageForm notePageForm) {
+        // 创建时间倒序(id)
+        Sort.Order order1 = new Sort.Order(Sort.Direction.DESC, "top");
+        Sort.Order order2 = new Sort.Order(Sort.Direction.DESC, "noteId");
+        Pageable pageable = new PageRequest(notePageForm.getPageNo() - 1, notePageForm.getPageSize(), new Sort(order1, order2));
+        Specification<NoteEntity> specification = new Specification<NoteEntity>() {
+            @Override
+            public Predicate toPredicate(Root<NoteEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+
+                List<Predicate> predicateList = new ArrayList<>();
+                // 审核通过的
+                predicateList.add(cb.equal(root.get("noteStatus"), NoteStatus.REVIEW_PASSED.getCode()));
+                predicateList.add(cb.equal(root.get("deleted"), false));
+
+                // 查询条件-类别
+                if (notePageForm.getNoteCategory() != null && notePageForm.getNoteCategory().length > 0) {
+                    Join<NoteEntity, NoteCategoryEntity> categoryJoin = root.join("categoryEntityList", JoinType.LEFT);
+                    CriteriaBuilder.In<String> in = cb.in(categoryJoin.<String>get("noteCategory"));
+                    for (String str : notePageForm.getNoteCategory()) {
+                        in.value(str);
+                    }
+                    predicateList.add(in);
+                }
+
+                // 排序条件
+                if (!StringUtils.isEmpty(notePageForm.getNoteId())) {
+                    predicateList.add(cb.lessThan(root.<String>get("noteId"), notePageForm.getNoteId()));
+                }
+
+                // 去重处理
+                query.distinct(true);
+
+                Predicate[] pre = new Predicate[predicateList.size()];
+                return cb.and(predicateList.toArray(pre));
+            }
+        };
+
+        return buildNoteCard(noteRepository.findAll(specification, pageable).getContent());
+    }
+
+    /**
+     * 增加笔记访问量
+     *
+     * @param noteId 笔记id
+     */
+    @Transactional
+    @Override
+    public void addNoteViewCnt(String noteId) throws Exception {
+        NoteEntity noteEntity = getNoteById(noteId);
+        if (noteEntity != null) {
+            noteEntity.setNoteViewCnt(noteEntity.getNoteViewCnt() + 1);
+            noteRepository.saveAndFlush(noteEntity);
+        }
     }
 }

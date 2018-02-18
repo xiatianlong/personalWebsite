@@ -73,4 +73,19 @@ public interface NoteService extends BaseService {
      * @return info
      */
     NoteInfo buildNoteInfo(NoteEntity noteEntity);
+
+    /**
+     * 获取可查看的笔记列表
+     *
+     * @param notePageForm form
+     * @return 笔记列表
+     */
+    List<NoteCard> getViewNoteList(NotePageForm notePageForm);
+
+    /**
+     * 增加笔记访问量
+     *
+     * @param noteId 笔记id
+     */
+    void addNoteViewCnt(String noteId) throws Exception;
 }
