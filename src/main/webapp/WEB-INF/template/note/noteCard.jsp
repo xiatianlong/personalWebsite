@@ -9,7 +9,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 
-<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block xtl-article-card">
+<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block xtl-article-card" data-note-id="${note.noteId}">
     <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 article-card-right-content">
         <div class="article-title">
             <c:if test="${note.top}"><span class="layui-badge">置顶</span></c:if>

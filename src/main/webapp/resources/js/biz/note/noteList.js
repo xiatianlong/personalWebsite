@@ -86,6 +86,11 @@ $(function () {
         });
     });
 
+    // 卡片去详情点击
+    $("#noteListContent").on('click', '.xtl-article-card', function () {
+        var noteId = $(this).data("noteId");
+        window.open("/note/" + noteId);
+    });
 
     /**
      * 构建笔记卡片html
@@ -94,7 +99,7 @@ $(function () {
      */
     function buildNoteCard(note) {
 
-        var html = '<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block xtl-article-card">';
+        var html = '<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block xtl-article-card" data-note-id="' + note.noteId + '">';
         html += '<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 article-card-right-content">';
         html += '<div class="article-title">';
         if (note.top) {
