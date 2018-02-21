@@ -73,7 +73,7 @@
                                 <div class="layui-col-xs9 layui-col-sm9 layui-col-md9 layui-elip">
                                     <i class="fa fa-hand-o-right blue" aria-hidden="true"></i>
                                     <a href="${pageContext.request.contextPath}/article/${hotArticle.articleId}"
-                                       class="article-hot-title"
+                                       class="article-hot-title" target="_blank"
                                        title="${hotArticle.articleTitle}">${hotArticle.articleTitle}</a>
                                 </div>
                                 <div class="layui-col-xs3 layui-col-sm3 layui-col-md3 gray">
@@ -95,7 +95,7 @@
                                 <div class="layui-col-xs9 layui-col-sm9 layui-col-md9 layui-elip">
                                     <i class="fa fa-hand-o-right blue" aria-hidden="true"></i>
                                     <a href="${pageContext.request.contextPath}/article/${newArticle.articleId}"
-                                       class="article-new-title"
+                                       class="article-new-title" target="_blank"
                                        title="${newArticle.articleTitle}">${newArticle.articleTitle}</a>
                                 </div>
                                 <div class="layui-col-xs3 layui-col-sm3 layui-col-md3 gray">

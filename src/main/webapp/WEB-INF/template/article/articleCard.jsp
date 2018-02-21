@@ -9,7 +9,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 
-<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block xtl-article-card">
+<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block xtl-article-card"
+     data-article-id="${article.articleId}">
     <c:choose>
         <c:when test="${not empty article.articleImgUrl}">
             <div class="layui-col-xs12 layui-col-sm4 layui-col-md4 article-card-left-img">

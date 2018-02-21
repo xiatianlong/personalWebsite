@@ -86,6 +86,12 @@ $(function () {
         });
     });
 
+    // 卡片去详情点击
+    $("#articleListContent").on('click', '.xtl-article-card', function () {
+        var articleId = $(this).data("articleId");
+        window.open("/article/" + articleId);
+    });
+
 
     /**
      * 构建文章卡片html
@@ -93,7 +99,7 @@ $(function () {
      * @returns {string}    html
      */
     function buildArticleCard(article) {
-        var html = '<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block xtl-article-card">';
+        var html = '<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block xtl-article-card" data-article-id="' + article.articleId + '">';
         if (EasyCheck.StringUtils.isNotEmpty(article.articleImgUrl)) {
             html += '<div class="layui-col-xs12 layui-col-sm4 layui-col-md4 article-card-left-img">';
             html += '<img src="' + article.articleImgUrl + '">';
