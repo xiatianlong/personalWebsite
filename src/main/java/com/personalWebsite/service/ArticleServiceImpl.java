@@ -389,6 +389,16 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
     }
 
     /**
+     * 获取审核通过文章数量
+     *
+     * @return int
+     */
+    @Override
+    public int getReviewPassedArticleCnt() {
+        return articleRepository.getReviewPassedArticleCnt();
+    }
+
+    /**
      * 构建文章卡片信息
      *
      * @param articleEntities 文章实体对象集合

@@ -45,4 +45,13 @@ public interface ArticleRepository extends JpaRepository<ArticleEntity, String>,
             "GROUP BY category.ARTICLE_CATEGORY", nativeQuery = true)
     List<String> getViewArticleCategory();
 
+    /**
+     * 获取审核通过文章数量
+     *
+     * @return int
+     */
+    @Query(value = "SELECT count(article.ARTICLE_ID)\n" +
+            "FROM t_article article\n" +
+            "WHERE article.IS_DELETE = 0 AND article.ARTICLE_STATUS = '002003'", nativeQuery = true)
+    int getReviewPassedArticleCnt();
 }

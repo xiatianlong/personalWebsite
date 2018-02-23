@@ -1,5 +1,8 @@
 package com.personalWebsite.entity;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -189,6 +192,7 @@ public class NoteEntity extends BaseEntity {
      */
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "NOTE_ID", referencedColumnName = "NOTE_ID", updatable = false, insertable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
     public List<NoteCategoryEntity> getCategoryEntityList() {
         return this.categoryEntityList;
     }

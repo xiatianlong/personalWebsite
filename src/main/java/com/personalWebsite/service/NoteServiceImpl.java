@@ -370,4 +370,14 @@ public class NoteServiceImpl extends BaseServiceImpl implements NoteService {
             noteRepository.saveAndFlush(noteEntity);
         }
     }
+
+    /**
+     * 获取审核通过笔记数量
+     *
+     * @return int
+     */
+    @Override
+    public int getReviewPassedNoteCnt() {
+        return noteRepository.getReviewPassedNoteCnt();
+    }
 }

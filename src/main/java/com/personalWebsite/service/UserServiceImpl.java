@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by xiatianlong on 2017/12/27.
  */
@@ -78,5 +80,15 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
             userEntity.setUserIntroduction(form.getUserIntroduction());
             userRepository.saveAndFlush(userEntity);
         }
+    }
+
+    /**
+     * 获取用户列表
+     *
+     * @return list
+     */
+    @Override
+    public List<UserEntity> getUserList() {
+        return userRepository.getUserList();
     }
 }

@@ -88,4 +88,11 @@ public interface NoteService extends BaseService {
      * @param noteId 笔记id
      */
     void addNoteViewCnt(String noteId) throws Exception;
+
+    /**
+     * 获取审核通过笔记数量
+     *
+     * @return int
+     */
+    int getReviewPassedNoteCnt();
 }

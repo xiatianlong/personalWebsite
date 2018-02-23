@@ -11,6 +11,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by xiatianlong on 2017/12/27.
@@ -65,5 +66,17 @@ public class UserServiceImplTest{
         userService.findLastUser();
     }
 
+    @Test
+    public void testGetUserList() {
+
+        List<UserEntity> userEntityList = userService.getUserList();
+
+        if (userEntityList != null && userEntityList.size() > 0) {
+            for (UserEntity userEntity : userEntityList) {
+                System.out.println(userEntity.getUserName());
+            }
+        }
+
+    }
 
 }

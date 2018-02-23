@@ -44,4 +44,14 @@ public interface NoteRepository extends JpaRepository<NoteEntity, String>, JpaSp
             "    ON category.NOTE_ID = note.NOTE_ID AND note.IS_DELETE = 0 AND note.IS_DELETE = '002003'\n" +
             "GROUP BY category.NOTE_CATEGORY", nativeQuery = true)
     List<String> getViewNoteCategory();
+
+    /**
+     * 获取审核通过笔记数量
+     *
+     * @return int
+     */
+    @Query(value = "SELECT count(note.NOTE_ID)\n" +
+            "FROM t_note note\n" +
+            "WHERE note.IS_DELETE = 0 AND note.NOTE_STATUS = '003003'", nativeQuery = true)
+    int getReviewPassedNoteCnt();
 }

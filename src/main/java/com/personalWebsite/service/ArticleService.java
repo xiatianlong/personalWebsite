@@ -103,4 +103,11 @@ public interface ArticleService extends BaseService {
      */
     void addArticleViewCnt(String articleId) throws Exception;
 
+    /**
+     * 获取审核通过文章数量
+     *
+     * @return int
+     */
+    int getReviewPassedArticleCnt();
+
 }
