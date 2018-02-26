@@ -16,8 +16,7 @@ import java.util.List;
  * 审核通过的文章和笔记视图
  * Created by xiatianlong on 2018/2/21.
  */
-@Entity
-@Table(name = "t_view_article_note_review_passed")
+@Entity(name = "t_view_article_note_review_passed")
 public class ArticleNoteReviewPassedView implements Serializable {
 
     private static final long serialVersionUID = -8956229297075990638L;
