@@ -32,6 +32,6 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
      *
      * @return list
      */
-    @Query(value = "SELECT * FROM t_user u WHERE u.IS_DELETE = 0", nativeQuery = true)
+    @Query(value = "SELECT * FROM t_user u WHERE u.IS_DELETE = 0 ORDER BY u.CREATE_TIME DESC ", nativeQuery = true)
     List<UserEntity> getUserList();
 }
