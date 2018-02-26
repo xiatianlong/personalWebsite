@@ -86,6 +86,11 @@ public class ArticleNoteReviewPassedCard implements Serializable {
      */
     private String fmtCreateTimeCn;
 
+    /**
+     * 排序字段
+     */
+    private String orderKey;
+
 
     /**
      * 获取 类型（article, note）
@@ -295,5 +300,19 @@ public class ArticleNoteReviewPassedCard implements Serializable {
      */
     public void setUserHeadImg(String userHeadImg) {
         this.userHeadImg = userHeadImg;
+    }
+
+    /**
+     * 获取 排序字段
+     */
+    public String getOrderKey() {
+        return this.orderKey;
+    }
+
+    /**
+     * 设置 排序字段
+     */
+    public void setOrderKey(String orderKey) {
+        this.orderKey = orderKey;
     }
 }

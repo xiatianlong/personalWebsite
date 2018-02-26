@@ -76,6 +76,11 @@ public class ArticleNoteReviewPassedView implements Serializable {
      */
     private String type;
 
+    /**
+     * 排序字段
+     */
+    private String orderKey;
+
 
     /**
      * 文章所属类别
@@ -329,5 +334,21 @@ public class ArticleNoteReviewPassedView implements Serializable {
      */
     public void setArticleImgFile(FileRelationEntity articleImgFile) {
         this.articleImgFile = articleImgFile;
+    }
+
+
+    /**
+     * 获取 排序字段
+     */
+    @Column(name = "ORDER_KEY")
+    public String getOrderKey() {
+        return this.orderKey;
+    }
+
+    /**
+     * 设置 排序字段
+     */
+    public void setOrderKey(String orderKey) {
+        this.orderKey = orderKey;
     }
 }

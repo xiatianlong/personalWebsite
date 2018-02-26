@@ -204,9 +204,8 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
     @Override
     public List<ArticleCard> getViewArticleList(final ArticlePageForm articlePageForm) {
         // 创建时间倒序(id)
-        Sort.Order order1 = new Sort.Order(Sort.Direction.DESC, "top");
-        Sort.Order order2 = new Sort.Order(Sort.Direction.DESC, "articleId");
-        Pageable pageable = new PageRequest(articlePageForm.getPageNo() - 1, articlePageForm.getPageSize(), new Sort(order1, order2));
+        Sort.Order order = new Sort.Order(Sort.Direction.DESC, "articleId");
+        Pageable pageable = new PageRequest(articlePageForm.getPageNo() - 1, articlePageForm.getPageSize(), new Sort(order));
         Specification<ArticleEntity> specification = new Specification<ArticleEntity>() {
             @Override
             public Predicate toPredicate(Root<ArticleEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
@@ -363,6 +362,9 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
             articleInfo.setCategoryList(strArr);
             articleInfo.setFmtCategoryList(fmtStr.toString());
         }
+        if (StringUtils.isEmpty(articleInfo.getFmtCategoryList())) {
+            articleInfo.setFmtCategoryList("--");
+        }
         // 文章创建时间
         articleInfo.setCreateTime(articleEntity.getCreateTime());
         articleInfo.setFmtCreateTime(DateUtil.defaultFormat(articleEntity.getCreateTime()));
@@ -443,6 +445,9 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
                     }
                     articleCard.setCategoryList(strArr);
                     articleCard.setFmtCategoryList(fmtStr.toString());
+                }
+                if (StringUtils.isEmpty(articleCard.getFmtCategoryList())) {
+                    articleCard.setFmtCategoryList("--");
                 }
                 // 文章状态
                 articleCard.setArticleStatus(articleEntity.getArticleStatus());

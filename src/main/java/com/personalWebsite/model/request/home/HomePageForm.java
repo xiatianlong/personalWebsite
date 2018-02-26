@@ -9,21 +9,40 @@ import com.personalWebsite.model.request.PageForm;
 public class HomePageForm extends PageForm {
 
     /**
-     * id
+     * orderKey
      */
-    private String id;
+    private String orderKey;
 
     /**
-     * 获取 id
+     * 关键字搜索
      */
-    public String getId() {
-        return this.id;
+    private String keyword;
+
+    /**
+     * 获取 关键字搜索
+     */
+    public String getKeyword() {
+        return this.keyword;
     }
 
     /**
-     * 设置 id
+     * 设置 关键字搜索
      */
-    public void setId(String id) {
-        this.id = id;
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    /**
+     * 获取 orderKey
+     */
+    public String getOrderKey() {
+        return this.orderKey;
+    }
+
+    /**
+     * 设置 orderKey
+     */
+    public void setOrderKey(String orderKey) {
+        this.orderKey = orderKey;
     }
 }

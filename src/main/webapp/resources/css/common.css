@@ -478,6 +478,29 @@ fieldset legend{
     cursor: pointer;
 }
 
+.xtl-search-input-content {
+    position: relative;
+}
+
+.xtl-search-input-content > input {
+    padding-left: 10px;
+    padding-right: 30px;
+}
+
+.xtl-search-input-content > i {
+    position: absolute;
+    right: 6px;
+    font-size: 20px;
+    top: calc(50% - 10px);
+    transition: all .3s;
+    -webkit-transition: all .3s;
+}
+
+.xtl-search-input-content > i:hover {
+    cursor: pointer;
+    color: #5FB878;
+}
+
 .xtl-blank-page {
     padding: 2em 0;
     -moz-user-select: none;

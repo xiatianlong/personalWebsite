@@ -163,6 +163,9 @@ public class NoteServiceImpl extends BaseServiceImpl implements NoteService {
                     noteCard.setCategoryList(strArr);
                     noteCard.setFmtCategoryList(fmtStr.toString());
                 }
+                if (StringUtils.isEmpty(noteCard.getFmtCategoryList())) {
+                    noteCard.setFmtCategoryList("--");
+                }
                 // 笔记状态
                 noteCard.setNoteStatus(noteEntity.getNoteStatus());
                 // 笔记创建时间
@@ -300,6 +303,9 @@ public class NoteServiceImpl extends BaseServiceImpl implements NoteService {
             noteInfo.setCategoryList(strArr);
             noteInfo.setFmtCategoryList(fmtStr.toString());
         }
+        if (StringUtils.isEmpty(noteInfo.getFmtCategoryList())) {
+            noteInfo.setFmtCategoryList("--");
+        }
         // 创建时间
         noteInfo.setCreateTime(noteEntity.getCreateTime());
         noteInfo.setFmtCreateTime(DateUtil.defaultFormat(noteEntity.getCreateTime()));
@@ -318,9 +324,8 @@ public class NoteServiceImpl extends BaseServiceImpl implements NoteService {
     @Override
     public List<NoteCard> getViewNoteList(final NotePageForm notePageForm) {
         // 创建时间倒序(id)
-        Sort.Order order1 = new Sort.Order(Sort.Direction.DESC, "top");
-        Sort.Order order2 = new Sort.Order(Sort.Direction.DESC, "noteId");
-        Pageable pageable = new PageRequest(notePageForm.getPageNo() - 1, notePageForm.getPageSize(), new Sort(order1, order2));
+        Sort.Order order = new Sort.Order(Sort.Direction.DESC, "noteId");
+        Pageable pageable = new PageRequest(notePageForm.getPageNo() - 1, notePageForm.getPageSize(), new Sort(order));
         Specification<NoteEntity> specification = new Specification<NoteEntity>() {
             @Override
             public Predicate toPredicate(Root<NoteEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {

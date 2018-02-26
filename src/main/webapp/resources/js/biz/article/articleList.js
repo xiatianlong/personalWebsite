@@ -106,9 +106,6 @@ $(function () {
             html += '</div>';
             html += '<div class="layui-col-xs12 layui-col-sm8 layui-col-md8 article-card-right-content">';
             html += '<div class="article-title layui-elip">';
-            if (article.top) {
-                html += '<span class="layui-badge">置顶</span>';
-            }
             html += article.articleTitle;
             html += '</div>';
             html += '<div class="article-summary">' + article.articleIntroduction + '</div>';
@@ -116,9 +113,6 @@ $(function () {
         } else {
             html += '<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 article-card-right-content">';
             html += '<div class="article-title layui-elip">';
-            if (article.top) {
-                html += '<span class="layui-badge">置顶</span>';
-            }
             html += article.articleTitle;
             html += '</div>';
             html += '<div class="article-summary">' + article.articleIntroduction + '</div>';
@@ -146,4 +140,4 @@ $(function () {
         return html;
     }
 
-})
+});

@@ -58,7 +58,11 @@ public class HomeController extends BaseController{
 
         // 用户列表
         List<UserEntity> userEntityList = userService.getUserList();
-        model.addAttribute("userEntityList", userEntityList);
+        if (userEntityList != null && userEntityList.size() > 12) {
+            model.addAttribute("userEntityList", userEntityList.subList(0, 12));
+        } else {
+            model.addAttribute("userEntityList", userEntityList);
+        }
         // 用户数
         model.addAttribute("userCnt", userEntityList == null ? 0 : userEntityList.size());
         // 热门文章
@@ -66,8 +70,10 @@ public class HomeController extends BaseController{
         // 最新文章
         model.addAttribute("newList", homeService.getNewList());
         // 文章&笔记列表
-        model.addAttribute("viewList", homeService.getViewList(form));
-
+        List<ArticleNoteReviewPassedCard> articleNoteReviewPassedCards = homeService.getViewList(form);
+        model.addAttribute("viewList", articleNoteReviewPassedCards);
+        // 是否显示加载更多
+        model.addAttribute("hasMore", articleNoteReviewPassedCards != null && articleNoteReviewPassedCards.size() >= form.getPageSize());
         return "index";
     }
 

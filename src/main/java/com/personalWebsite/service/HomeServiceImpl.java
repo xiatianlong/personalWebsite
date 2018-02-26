@@ -43,18 +43,23 @@ public class HomeServiceImpl extends BaseServiceImpl implements HomeService {
      */
     @Override
     public List<ArticleNoteReviewPassedCard> getViewList(final HomePageForm homePageForm) {
-        // 创建时间倒序(id)
-        Sort.Order order1 = new Sort.Order(Sort.Direction.DESC, "top");
-        Sort.Order order2 = new Sort.Order(Sort.Direction.DESC, "id");
-        Pageable pageable = new PageRequest(homePageForm.getPageNo() - 1, homePageForm.getPageSize(), new Sort(order1, order2));
+        // orderKey倒序(id)
+        Sort.Order order = new Sort.Order(Sort.Direction.DESC, "orderKey");
+        Pageable pageable = new PageRequest(homePageForm.getPageNo() - 1, homePageForm.getPageSize(), new Sort(order));
         Specification<ArticleNoteReviewPassedView> specification = new Specification<ArticleNoteReviewPassedView>() {
             @Override
             public Predicate toPredicate(Root<ArticleNoteReviewPassedView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 List<Predicate> predicateList = new ArrayList<>();
                 // 排序条件
-                if (!StringUtils.isEmpty(homePageForm.getId())) {
-                    predicateList.add(cb.lessThan(root.<String>get("id"), homePageForm.getId()));
+                if (!StringUtils.isEmpty(homePageForm.getOrderKey())) {
+                    predicateList.add(cb.lessThan(root.<String>get("orderKey"), homePageForm.getOrderKey()));
                 }
+
+                // 关键字搜索
+                if (!StringUtils.isEmpty(homePageForm.getKeyword())) {
+                    predicateList.add(cb.like(root.<String>get("title"), "%" + homePageForm.getKeyword() + "%"));
+                }
+
                 // 去重处理
                 query.distinct(true);
                 Predicate[] pre = new Predicate[predicateList.size()];
@@ -148,6 +153,9 @@ public class HomeServiceImpl extends BaseServiceImpl implements HomeService {
                         card.setFmtCategoryList(fmtStr.toString());
                     }
                 }
+                if (StringUtils.isEmpty(card.getFmtCategoryList())) {
+                    card.setFmtCategoryList("--");
+                }
                 // 是否置顶
                 card.setTop(view.isTop());
                 // 作者信息
@@ -161,6 +169,8 @@ public class HomeServiceImpl extends BaseServiceImpl implements HomeService {
                 card.setFmtCreateTime(DateUtil.defaultFormat(view.getCreateTime()));
                 // 创建时间(中文格式化)
                 card.setFmtCreateTimeCn(DateUtil.getStrDate(view.getCreateTime()));
+                // 排序
+                card.setOrderKey(view.getOrderKey());
                 cards.add(card);
             }
             return cards;

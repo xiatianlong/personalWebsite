@@ -102,10 +102,7 @@ $(function () {
         var html = '<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block xtl-article-card" data-note-id="' + note.noteId + '">';
         html += '<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 article-card-right-content">';
         html += '<div class="article-title">';
-        if (note.top) {
-            html += '<span class="layui-badge">置顶</span>';
-        }
-        html += ' ' + note.noteTitle;
+        html += note.noteTitle;
         html += '</div>';
         html += '</div>';
         html += '<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 article-card-footer padding-t-15">';
