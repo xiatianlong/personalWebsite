@@ -19,7 +19,7 @@
                     <span>哎呀、出状况了&nbsp;<span style="margin-left: 0">(｡◕ˇ∀ˇ◕)</span></span>
                 </div>
                 <div>
-                    「${errorMessage}」
+                    「页面找不到了」
                 </div>
                 <div>
                     <a href="javascript:history.back(-1)" class="layui-btn layui-btn-normal">

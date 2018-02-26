@@ -1,0 +1,36 @@
+
+#exceptionContent {
+    border: 10px solid #6ac4bc;
+    margin-top: 10em;
+    padding: 20px;
+    background: #667d9a;
+    box-shadow: 5px 5px #c3d0e0;
+    color: #fff;
+    font-family: '楷体', serif;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#exceptionContent > div:first-child > span {
+    font-size: 2em;
+    display: inline-block;
+    margin-left: 1em;
+}
+
+#exceptionContent > div:first-child > img {
+    height: 100px;
+    width: auto;
+}
+
+#exceptionContent > div:nth-child(2) {
+    font-size: 1.5em;
+    text-align: center;
+}
+
+#exceptionContent > div:nth-child(3) {
+    text-align: center;
+    margin-top: 2em;
+}
