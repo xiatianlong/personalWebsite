@@ -17,19 +17,13 @@
                 <img src="${article.articleImgUrl}">
             </div>
             <div class="layui-col-xs12 layui-col-sm8 layui-col-md8 article-card-right-content">
-                <div class="article-title layui-elip">
-                    <c:if test="${article.top}"><span class="layui-badge">置顶</span></c:if>
-                        ${article.articleTitle}
-                </div>
+                <div class="article-title layui-elip">${article.articleTitle}</div>
                 <div class="article-summary">${article.articleIntroduction}</div>
             </div>
         </c:when>
         <c:otherwise>
             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 article-card-right-content">
-                <div class="article-title layui-elip">
-                    <c:if test="${article.top}"><span class="layui-badge">置顶</span></c:if>
-                        ${article.articleTitle}
-                </div>
+                <div class="article-title layui-elip">${article.articleTitle}</div>
                 <div class="article-summary">${article.articleIntroduction}</div>
             </div>
         </c:otherwise>
