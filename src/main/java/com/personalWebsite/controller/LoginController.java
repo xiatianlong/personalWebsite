@@ -6,6 +6,7 @@ import com.personalWebsite.common.system.Constant;
 import com.personalWebsite.entity.UserEntity;
 import com.personalWebsite.service.UserService;
 import com.personalWebsite.utils.AccountUtil;
+import com.personalWebsite.utils.DateUtil;
 import com.qq.connect.api.OpenID;
 import com.qq.connect.api.qzone.UserInfo;
 import com.qq.connect.javabeans.AccessToken;
@@ -117,6 +118,7 @@ public class LoginController extends BaseController {
             } else {
                 u.setHeadImg(userEntity.getUserHeadImgSmall());
             }
+            u.setCreateTime(DateUtil.defaultFormat(now));
 
             // 完成后将用户放入SESSION
             request.getSession().setAttribute("LOGIN_USER", u);

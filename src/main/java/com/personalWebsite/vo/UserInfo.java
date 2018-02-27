@@ -31,6 +31,10 @@ public class UserInfo {
      */
     private String headImg;
 
+    /**
+     * 创建时间
+     */
+    private String createTime;
 
     /**
      * 获取 用户名
@@ -100,5 +104,19 @@ public class UserInfo {
      */
     public void setHeadImg(String headImg) {
         this.headImg = headImg;
+    }
+
+    /**
+     * 获取 创建时间
+     */
+    public String getCreateTime() {
+        return this.createTime;
+    }
+
+    /**
+     * 设置 创建时间
+     */
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
     }
 }
