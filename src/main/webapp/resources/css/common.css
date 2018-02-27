@@ -525,6 +525,29 @@ fieldset legend{
     color: #757575;
 }
 
+#collectionContent {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.collectionBtn {
+    color: #757575;
+    font-size: 32px;
+}
+
+.collectionBtn:before {
+    transition: all .5s;
+    -webkit-transition: all .5s;
+}
+
+.collectionBtn.fa-star,
+.collectionBtn:hover:before {
+    content: "\f005";
+    color: #1E9FFF;
+    cursor: pointer;
+}
 
 .hot-comment-user{
     padding: 10px 0;

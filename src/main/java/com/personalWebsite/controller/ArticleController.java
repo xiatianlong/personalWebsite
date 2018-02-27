@@ -1,14 +1,17 @@
 package com.personalWebsite.controller;
 
 import com.personalWebsite.common.enums.ArticleStatus;
+import com.personalWebsite.common.enums.BizType;
 import com.personalWebsite.common.exception.ApplicationException;
 import com.personalWebsite.common.system.Constant;
 import com.personalWebsite.entity.ArticleEntity;
+import com.personalWebsite.entity.CollectionEntity;
 import com.personalWebsite.model.request.article.ArticlePageForm;
 import com.personalWebsite.model.response.article.ArticleCard;
 import com.personalWebsite.model.response.article.ArticleInfo;
 import com.personalWebsite.model.response.article.ArticleQueryResult;
 import com.personalWebsite.service.ArticleService;
+import com.personalWebsite.service.CollectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +29,8 @@ public class ArticleController extends BaseController {
 
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private CollectionService collectionService;
 
     /**
      * 文章列表画面
@@ -79,6 +84,9 @@ public class ArticleController extends BaseController {
         model.addAttribute("article", settingArticleDetail(articleId));
         // 设置文章访问量 + 1
         articleService.addArticleViewCnt(articleId);
+        // 是否收藏过文章
+        CollectionEntity collectionEntity = collectionService.getCollection(BizType.ARTICLE.getCode(), articleId, getLoinUser().getUserId());
+        model.addAttribute("isCollection", collectionEntity != null);
         return "article/articleDetail";
     }
 

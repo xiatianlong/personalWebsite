@@ -50,6 +50,18 @@
                 ${article.userName}<br>
                 ${article.fmtCreateTime}
             </div>
+            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 text-c font-size-14" id="collectionContent">
+                <c:choose>
+                    <c:when test="${not empty isCollection && isCollection}">
+                        <i class="fa fa-star collectionBtn" aria-hidden="true"></i>
+                    </c:when>
+                    <c:otherwise>
+                        <i class="fa fa-star-o collectionBtn" aria-hidden="true" id="collectionBtn"></i>
+                    </c:otherwise>
+                </c:choose>
+                <div>收藏</div>
+            </div>
+            <input type="hidden" id="articleId" value="${article.articleId}">
         </div>
     </div>
     <!--上部部分end-->
@@ -59,9 +71,6 @@
 <!-- 你的HTML代码 -->
 
 <jsp:include page="../base/footer.jsp"/>
-<script>
-
-
-</script>
+<script src="${pageContext.request.contextPath}/resources/js/biz/article/articleDetail.js"></script>
 </body>
 </html>

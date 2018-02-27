@@ -1,13 +1,16 @@
 package com.personalWebsite.controller;
 
+import com.personalWebsite.common.enums.BizType;
 import com.personalWebsite.common.enums.NoteStatus;
 import com.personalWebsite.common.exception.ApplicationException;
 import com.personalWebsite.common.system.Constant;
+import com.personalWebsite.entity.CollectionEntity;
 import com.personalWebsite.entity.NoteEntity;
 import com.personalWebsite.model.request.note.NotePageForm;
 import com.personalWebsite.model.response.note.NoteCard;
 import com.personalWebsite.model.response.note.NoteInfo;
 import com.personalWebsite.model.response.note.NoteQueryResult;
+import com.personalWebsite.service.CollectionService;
 import com.personalWebsite.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +29,8 @@ public class NoteController extends BaseController {
 
     @Autowired
     private NoteService noteService;
+    @Autowired
+    private CollectionService collectionService;
 
     /**
      * 笔记列表
@@ -75,6 +80,9 @@ public class NoteController extends BaseController {
         model.addAttribute("note", settingArticleDetail(noteId));
         // 设置笔记访问量 + 1
         noteService.addNoteViewCnt(noteId);
+        // 是否收藏过笔记
+        CollectionEntity collectionEntity = collectionService.getCollection(BizType.NOTE.getCode(), noteId, getLoinUser().getUserId());
+        model.addAttribute("isCollection", collectionEntity != null);
         return "note/noteDetail";
     }
 
