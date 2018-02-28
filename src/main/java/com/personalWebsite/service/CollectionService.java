@@ -1,8 +1,10 @@
 package com.personalWebsite.service;
 
 import com.personalWebsite.entity.CollectionEntity;
+import com.personalWebsite.model.response.collection.CollectionInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 收藏Service.
@@ -46,5 +48,12 @@ public interface CollectionService extends BaseService {
      * @return list
      */
     List<CollectionEntity> getCollectionsByUser(String userId);
+
+    /**
+     * 根据BIZ_TYPE分组收藏信息
+     *
+     * @return map
+     */
+    Map<String, List<CollectionInfo>> getCollectionGroupByBizType(List<CollectionEntity> collectionEntities);
 
 }
