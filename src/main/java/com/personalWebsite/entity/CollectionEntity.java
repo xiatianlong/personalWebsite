@@ -1,6 +1,9 @@
 package com.personalWebsite.entity;
 
 import com.personalWebsite.entity.id.CollectionId;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
@@ -36,6 +39,16 @@ public class CollectionEntity extends BaseEntity {
      * 收藏用户
      */
     private UserEntity userEntity;
+
+    /**
+     * 文章
+     */
+    private ArticleEntity articleEntity;
+
+    /**
+     * 笔记
+     */
+    private NoteEntity noteEntity;
 
     /**
      * 获取 业务id
@@ -115,5 +128,42 @@ public class CollectionEntity extends BaseEntity {
      */
     public void setUserEntity(UserEntity userEntity) {
         this.userEntity = userEntity;
+    }
+
+
+    /**
+     * 获取 文章
+     */
+    @ManyToOne
+    @JoinColumn(name = "BIZ_ID", referencedColumnName = "ARTICLE_ID", updatable = false, insertable = false)
+    @Where(clause = " BIZ_TYPE = '001001'")
+    @NotFound(action = NotFoundAction.IGNORE)
+    public ArticleEntity getArticleEntity() {
+        return this.articleEntity;
+    }
+
+    /**
+     * 设置 文章
+     */
+    public void setArticleEntity(ArticleEntity articleEntity) {
+        this.articleEntity = articleEntity;
+    }
+
+    /**
+     * 获取 笔记
+     */
+    @ManyToOne
+    @JoinColumn(name = "BIZ_ID", referencedColumnName = "NOTE_ID", updatable = false, insertable = false)
+    @Where(clause = " BIZ_TYPE = '001002'")
+    @NotFound(action = NotFoundAction.IGNORE)
+    public NoteEntity getNoteEntity() {
+        return this.noteEntity;
+    }
+
+    /**
+     * 设置 笔记
+     */
+    public void setNoteEntity(NoteEntity noteEntity) {
+        this.noteEntity = noteEntity;
     }
 }
