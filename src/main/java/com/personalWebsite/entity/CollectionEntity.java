@@ -28,7 +28,7 @@ public class CollectionEntity extends BaseEntity {
     /**
      * 用户id
      */
-    private String UserId;
+    private String userId;
 
     /**
      * 是否删除
@@ -88,14 +88,14 @@ public class CollectionEntity extends BaseEntity {
     @Id
     @Column(name = "USER_ID", nullable = false, length = 50)
     public String getUserId() {
-        return this.UserId;
+        return this.userId;
     }
 
     /**
      * 设置 用户id
      */
-    public void setUserId(String UserId) {
-        this.UserId = UserId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     /**
