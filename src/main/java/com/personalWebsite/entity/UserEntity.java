@@ -17,7 +17,7 @@ public class UserEntity extends BaseEntity {
     private static final long serialVersionUID = 644210781795341678L;
 
     /**
-     * 用户ID(md5加密的openid)
+     * 用户ID
      */
     private String userId;
 
@@ -83,7 +83,7 @@ public class UserEntity extends BaseEntity {
 
 
     /**
-     * 获取 用户ID(md5加密的openid)
+     * 获取 用户ID
      */
     @Id
     @Column(name = "USER_ID", nullable = false, length = 50)
@@ -92,7 +92,7 @@ public class UserEntity extends BaseEntity {
     }
 
     /**
-     * 设置 用户ID(md5加密的openid)
+     * 设置 用户ID
      */
     public void setUserId(String userId) {
         this.userId = userId;
