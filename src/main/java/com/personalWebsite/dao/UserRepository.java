@@ -20,6 +20,15 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
     UserEntity findByOpenId(String openId);
 
     /**
+     * 根据UserID查询User对象
+     *
+     * @param userId  userId
+     * @param deleted 是否删除
+     * @return User
+     */
+    UserEntity findByUserIdAndDeleted(String userId, boolean deleted);
+
+    /**
      * 查询最后一个用户
      *
      * @return User
