@@ -1,8 +1,10 @@
 package com.personalWebsite.service;
 
 import com.personalWebsite.entity.ArticleEntity;
+import com.personalWebsite.model.request.article.AdminArticlePageForm;
 import com.personalWebsite.model.request.article.ArticlePageForm;
 import com.personalWebsite.model.request.article.SaveOrUpdateForm;
+import com.personalWebsite.model.response.article.AdminArticleQueryResult;
 import com.personalWebsite.model.response.article.ArticleCard;
 import com.personalWebsite.model.response.article.ArticleInfo;
 
@@ -61,6 +63,14 @@ public interface ArticleService extends BaseService {
     List<ArticleCard> getViewArticleList(ArticlePageForm articlePageForm);
 
     /**
+     * 获取全部文章列表
+     *
+     * @param adminArticlePageForm form
+     * @return 文章列表
+     */
+    AdminArticleQueryResult getAllArticleList(AdminArticlePageForm adminArticlePageForm);
+
+    /**
      * 获取最新文章列表
      *
      * @return 文章列表
@@ -79,7 +89,7 @@ public interface ArticleService extends BaseService {
      *
      * @return 类别集合
      */
-    List<String> getArticleCategory();
+    List<String> getMyArticleCategory();
 
     /**
      * 获取可见的文章类别
@@ -87,6 +97,13 @@ public interface ArticleService extends BaseService {
      * @return 类别集合
      */
     List<String> getViewArticleCategory();
+
+    /**
+     * 获取全部的文章类别
+     *
+     * @return 类别集合
+     */
+    List<String> getAllArticleCategory();
 
     /**
      * 构建文章信息

@@ -46,6 +46,16 @@ public interface ArticleRepository extends JpaRepository<ArticleEntity, String>,
     List<String> getViewArticleCategory();
 
     /**
+     * 查询全部的文章分类
+     *
+     * @return list
+     */
+    @Query(value = "SELECT category.ARTICLE_CATEGORY\n" +
+            "FROM t_article_category category \n" +
+            "GROUP BY category.ARTICLE_CATEGORY", nativeQuery = true)
+    List<String> getAllArticleCategory();
+
+    /**
      * 获取审核通过文章数量
      *
      * @return int

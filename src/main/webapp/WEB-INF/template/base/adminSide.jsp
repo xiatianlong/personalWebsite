@@ -12,7 +12,7 @@
         <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
         <ul class="layui-nav layui-nav-tree" lay-filter="test">
             <li class="layui-nav-item layui-this"><a href="${pageContext.request.contextPath}/admin/index">首页</a></li>
-            <li class="layui-nav-item"><a>文章</a></li>
+            <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/admin/article/list">文章</a></li>
             <li class="layui-nav-item"><a>笔记</a></li>
             <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/admin/user/list">用户</a></li>
             <li class="layui-nav-item"><a>焦点图</a></li>

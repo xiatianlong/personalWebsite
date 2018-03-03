@@ -3,6 +3,9 @@
     height: 50px;
 }
 
+.layui-laypage a, .layui-laypage span {
+    background: none;
+}
 .layui-layout-admin .layui-side {
     width: 150px;
 }

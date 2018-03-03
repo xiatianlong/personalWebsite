@@ -46,7 +46,7 @@ public class MemberArticleController extends BaseController {
         // 是否显示加载更多
         model.addAttribute("hasMore", articleCards != null && articleCards.size() >= form.getPageSize());
         // 分类集合
-        model.addAttribute("articleCategoryList", articleService.getArticleCategory());
+        model.addAttribute("articleCategoryList", articleService.getMyArticleCategory());
         return "personalCenter/article/myPublishArticleList";
     }
 

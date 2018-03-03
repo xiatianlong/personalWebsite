@@ -6,4 +6,5 @@ package com.personalWebsite.service;
  */
 public interface BaseService {
 
+
 }

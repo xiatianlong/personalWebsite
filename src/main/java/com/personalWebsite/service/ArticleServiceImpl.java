@@ -7,14 +7,17 @@ import com.personalWebsite.dictionary.DictionaryCache;
 import com.personalWebsite.entity.ArticleCategoryEntity;
 import com.personalWebsite.entity.ArticleEntity;
 import com.personalWebsite.entity.FileRelationEntity;
+import com.personalWebsite.model.request.article.AdminArticlePageForm;
 import com.personalWebsite.model.request.article.ArticlePageForm;
 import com.personalWebsite.model.request.article.SaveOrUpdateForm;
+import com.personalWebsite.model.response.article.AdminArticleQueryResult;
 import com.personalWebsite.model.response.article.ArticleCard;
 import com.personalWebsite.model.response.article.ArticleInfo;
 import com.personalWebsite.utils.DateUtil;
 import com.personalWebsite.utils.IdUtil;
 import com.personalWebsite.vo.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -242,6 +245,84 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
     }
 
     /**
+     * 获取全部文章列表
+     *
+     * @param adminArticlePageForm form
+     * @return 文章列表
+     */
+    @Override
+    public AdminArticleQueryResult getAllArticleList(final AdminArticlePageForm adminArticlePageForm) {
+
+        AdminArticleQueryResult result = new AdminArticleQueryResult();
+
+        // 创建时间倒序(id)
+        Sort.Order order = new Sort.Order(Sort.Direction.DESC, "articleId");
+        Pageable pageable = new PageRequest(adminArticlePageForm.getPageNo() - 1, adminArticlePageForm.getPageSize(), new Sort(order));
+        Specification<ArticleEntity> specification = new Specification<ArticleEntity>() {
+            @Override
+            public Predicate toPredicate(Root<ArticleEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+
+                List<Predicate> predicateList = new ArrayList<>();
+                // 是否删除的
+                if (adminArticlePageForm.getDeleted() != null) {
+                    predicateList.add(cb.equal(root.get("deleted"), adminArticlePageForm.getDeleted() == 1));
+                }
+
+                // 文章id
+                if (adminArticlePageForm.getArticleId() != null) {
+                    predicateList.add(cb.like(root.<String>get("articleId"), "%" + adminArticlePageForm.getArticleId() + "%"));
+                }
+
+                // 关键字（ID、title）
+                if (adminArticlePageForm.getKeyword() != null) {
+                    predicateList.add(
+                            cb.or(
+                                    cb.like(root.<String>get("articleId"), "%" + adminArticlePageForm.getKeyword() + "%"),
+                                    cb.like(root.<String>get("articleTitle"), "%" + adminArticlePageForm.getKeyword() + "%")
+                            )
+                    );
+                }
+
+                // 查询条件-类别
+                if (adminArticlePageForm.getArticleCategory() != null && adminArticlePageForm.getArticleCategory().length > 0) {
+                    Join<ArticleEntity, ArticleCategoryEntity> categoryJoin = root.join("categoryEntityList", JoinType.LEFT);
+                    CriteriaBuilder.In<String> in = cb.in(categoryJoin.<String>get("articleCategory"));
+                    for (String str : adminArticlePageForm.getArticleCategory()) {
+                        in.value(str);
+                    }
+                    predicateList.add(in);
+                }
+
+                // 查询条件-状态
+                if (adminArticlePageForm.getArticleStatus() != null && adminArticlePageForm.getArticleStatus().length > 0) {
+                    CriteriaBuilder.In<String> in = cb.in(root.<String>get("articleStatus"));
+                    for (String str : adminArticlePageForm.getArticleStatus()) {
+                        in.value(str);
+                    }
+                    predicateList.add(in);
+                }
+
+                // 去重处理
+                query.distinct(true);
+
+                Predicate[] pre = new Predicate[predicateList.size()];
+                return cb.and(predicateList.toArray(pre));
+            }
+        };
+        Page<ArticleEntity> page = articleRepository.findAll(specification, pageable);
+        List<ArticleEntity> articleEntities = page.getContent();
+        if (articleEntities != null && !articleEntities.isEmpty()) {
+            List<ArticleInfo> articleInfos = new ArrayList<>();
+            for (ArticleEntity articleEntity : articleEntities) {
+                articleInfos.add(buildArticleInfo(articleEntity));
+            }
+            result.setArticleInfos(articleInfos);
+            result.setDataCount(page.getTotalElements());
+        }
+        return result;
+    }
+
+    /**
      * 获取最新文章列表
      *
      * @return 文章列表
@@ -296,7 +377,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
      * @return 类别集合
      */
     @Override
-    public List<String> getArticleCategory() {
+    public List<String> getMyArticleCategory() {
         return articleRepository.getMyArticleCategory(getLoinUser().getUserId());
     }
 
@@ -308,6 +389,16 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
     @Override
     public List<String> getViewArticleCategory() {
         return articleRepository.getViewArticleCategory();
+    }
+
+    /**
+     * 获取全部的文章类别
+     *
+     * @return 类别集合
+     */
+    @Override
+    public List<String> getAllArticleCategory() {
+        return articleRepository.getAllArticleCategory();
     }
 
     /**
