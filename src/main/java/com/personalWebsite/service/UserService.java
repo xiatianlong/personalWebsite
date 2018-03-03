@@ -2,6 +2,7 @@ package com.personalWebsite.service;
 
 import com.personalWebsite.entity.UserEntity;
 import com.personalWebsite.model.request.member.SettingForm;
+import com.personalWebsite.model.response.user.UserDetail;
 
 import java.util.List;
 
@@ -32,6 +33,15 @@ public interface UserService extends BaseService {
      * @return user
      */
     UserEntity findUserByUserId(String userId);
+
+    /**
+     * 获取用户详情
+     *
+     * @param userId 用户id
+     * @return 用户详情
+     * @throws Exception e
+     */
+    UserDetail getUserDetail(String userId) throws Exception;
 
     /**
      * 获取最后一个用户

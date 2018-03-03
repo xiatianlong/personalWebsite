@@ -1,8 +1,11 @@
 package com.personalWebsite.service;
 
+import com.personalWebsite.common.exception.ApplicationException;
 import com.personalWebsite.dao.UserRepository;
 import com.personalWebsite.entity.UserEntity;
 import com.personalWebsite.model.request.member.SettingForm;
+import com.personalWebsite.model.response.user.UserDetail;
+import com.personalWebsite.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +40,6 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
      */
     @Override
     public UserEntity findUserByOpenId(String openId) {
-
         return userRepository.findByOpenId(openId);
     }
 
@@ -49,7 +51,47 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
      */
     @Override
     public UserEntity findUserByUserId(String userId) {
-        return userRepository.findOne(userId);
+        return userRepository.findByUserIdAndDeleted(userId, false);
+    }
+
+    /**
+     * 获取用户详情
+     *
+     * @param userId 用户id
+     * @return 用户详情
+     * @throws Exception e
+     */
+    @Override
+    public UserDetail getUserDetail(String userId) throws Exception {
+
+        UserEntity userEntity = findUserByUserId(userId);
+        if (userEntity == null) {
+            throw new ApplicationException(getMessage("user.null"));
+        }
+        UserDetail user = new UserDetail();
+        // 用户ID
+        user.setUserId(userEntity.getUserId());
+        // 用户昵称
+        user.setUserName(userEntity.getUserName());
+        // 用户性别
+        user.setUserGender(userEntity.getUserGender());
+        // 用户头像
+        user.setUserHeadImg(userEntity.getUserHeadImg());
+        // 用户邮箱
+        user.setUserEmail(userEntity.getUserEmail());
+        // QQ
+        user.setUserQQ(userEntity.getUserQQ());
+        // 个人简介
+        user.setUserIntroduction(userEntity.getUserIntroduction());
+        // 是否开放个人中心访问
+        user.setOpen(userEntity.isOpen());
+        // 最后登录时间
+        if (userEntity.getLastLoginTime() != null) {
+            user.setFmtLastLoginTime(DateUtil.defaultFormat(userEntity.getLastLoginTime()));
+        }
+        // 用户创建时间
+        user.setFmtCreateTime(DateUtil.defaultFormat(userEntity.getCreateTime()));
+        return user;
     }
 
     /**

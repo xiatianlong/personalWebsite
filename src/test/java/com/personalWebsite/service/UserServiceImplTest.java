@@ -1,6 +1,7 @@
 package com.personalWebsite.service;
 
 import com.personalWebsite.entity.UserEntity;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +78,12 @@ public class UserServiceImplTest{
             }
         }
 
+    }
+
+    @Test
+    public void testFindUserById() {
+        UserEntity userEntity = userService.findUserByUserId("100000");
+        Assert.assertNotNull(userEntity);
     }
 
 }
