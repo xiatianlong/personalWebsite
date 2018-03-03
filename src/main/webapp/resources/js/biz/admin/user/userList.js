@@ -54,6 +54,10 @@ $(function () {
         html += '       </colgroup>';
         html += '       <tbody>';
         html += '           <tr>';
+        html += '                <td>头像</td>';
+        html += '                <td><img src="' + user.userHeadImg + '" style="max-width: 50px;"></td>';
+        html += '           </tr>';
+        html += '           <tr>';
         html += '                <td>ID</td>';
         html += '                <td>' + user.userId + '</td>';
         html += '           </tr>';
