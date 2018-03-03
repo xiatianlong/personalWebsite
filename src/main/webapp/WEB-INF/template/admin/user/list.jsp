@@ -15,7 +15,7 @@
 
     <div class="layui-body">
 
-        <div class="layui-row">
+        <div class="layui-row padding-l-15">
             <span class="layui-breadcrumb">
                 <a href="${pageContext.request.contextPath}/admin/index"><i class="layui-icon">&#xe68e;</i></a>
                 <a><cite>用户</cite></a>
