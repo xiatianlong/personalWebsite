@@ -1,0 +1,21 @@
+
+.layui-header {
+    height: 50px;
+}
+
+.layui-layout-admin .layui-side {
+    width: 150px;
+}
+
+.layui-layout-admin .layui-side,
+.layui-layout-admin .layui-body {
+    top: 50px;
+}
+
+.layui-nav-tree .layui-nav-item:hover {
+    cursor: pointer;
+}
+
+.layui-body {
+    left: 150px;
+}

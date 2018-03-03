@@ -371,6 +371,10 @@ body{
 .layui-nav .layui-nav-item{
     line-height: 50px;
 }
+
+.layui-table td, .layui-table th {
+    word-break: break-all;
+}
 fieldset{
     border: 1px solid #b3b3b3;
     padding: 0;
