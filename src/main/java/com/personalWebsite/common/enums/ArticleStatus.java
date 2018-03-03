@@ -7,6 +7,10 @@ package com.personalWebsite.common.enums;
 public enum ArticleStatus {
 
     /**
+     * 文章
+     */
+    CODE("002"),
+    /**
      * 草稿
      */
     DRAFT("002001"),

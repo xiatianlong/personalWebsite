@@ -7,6 +7,11 @@ package com.personalWebsite.common.enums;
 public enum NoteStatus {
 
     /**
+     * 笔记
+     */
+    CODE("003"),
+
+    /**
      * 草稿
      */
     DRAFT("003001"),

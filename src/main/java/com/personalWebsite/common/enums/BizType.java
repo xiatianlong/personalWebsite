@@ -7,6 +7,11 @@ package com.personalWebsite.common.enums;
 public enum BizType {
 
     /**
+     * 业务
+     */
+    CODE("001"),
+
+    /**
      * 文章
      */
     ARTICLE("001001"),

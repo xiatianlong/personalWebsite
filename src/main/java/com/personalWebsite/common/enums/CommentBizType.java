@@ -7,6 +7,11 @@ package com.personalWebsite.common.enums;
 public enum CommentBizType {
 
     /**
+     * 评论
+     */
+    CODE("004"),
+
+    /**
      * 文章
      */
     ARTICLE("004001"),
