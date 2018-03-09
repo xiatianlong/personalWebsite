@@ -5,6 +5,8 @@ package com.personalWebsite.common.exception;
  */
 public class ApplicationException extends Exception {
 
+    private static final long serialVersionUID = -5903544830579084104L;
+
     /**
      * 附带异常发生提示信息
      *
