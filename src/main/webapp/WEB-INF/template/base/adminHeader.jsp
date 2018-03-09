@@ -14,14 +14,33 @@
     </div>
 
     <ul class="layui-nav layui-layout-right">
-        <li class="layui-nav-item">
-            <a href="javascript:;">
-                <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-            </a>
-            <dl class="layui-nav-child">
-                <dd><a href="">首页</a></dd>
-                <dd><a href="">注销</a></dd>
-            </dl>
-        </li>
+        <c:choose>
+            <c:when test="${not empty LOGIN_USER}">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <img src="${LOGIN_USER.headImg}" class="layui-nav-img">
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="${pageContext.request.contextPath}/home">首页</a></dd>
+                        <dd><a href="${pageContext.request.contextPath}/login/logout">注销</a></dd>
+                    </dl>
+                </li>
+            </c:when>
+            <c:otherwise>
+                <li class="layui-nav-item">
+                    <a href="javascript:" id="qq-login-btn"><i class="fa fa-qq font-size-18"
+                                                               aria-hidden="true"></i></a>
+                </li>
+            </c:otherwise>
+        </c:choose>
     </ul>
 </div>
+<script>
+    <%-- qq登录按钮点击 --%>
+    var qqLoginBtn = document.getElementById("qq-login-btn");
+    if (qqLoginBtn) {
+        qqLoginBtn.addEventListener("click", function () {
+            window.location.href = "${pageContext.request.contextPath}/login/qq?qqRequestUrl=" + window.location.href;
+        })
+    }
+</script>
