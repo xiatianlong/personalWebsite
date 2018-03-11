@@ -59,6 +59,7 @@
                                     </select>
                                 </div>
                             </form>
+
                             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 margin-t-20">
                                 <table class="layui-table">
                                     <colgroup>
@@ -83,7 +84,7 @@
                                     </thead>
                                     <tbody id="articleListContent">
                                     <c:forEach items="${articleList}" var="article">
-                                        <tr>
+                                        <tr id="article-${article.articleId}">
                                             <td>${article.articleId}</td>
                                             <td>${article.articleTitle}</td>
                                             <td>${article.articleStatusName}</td>
@@ -97,13 +98,16 @@
                                             <td>${article.fmtCreateTime}</td>
                                             <td>
                                                 <div class="layui-btn-group">
-                                                    <button class="layui-btn layui-btn-sm margin-t-5" title="审核">
+                                                    <button class="layui-btn layui-btn-sm margin-t-5 auditBtn"
+                                                            data-article-id="${article.articleId}" title="审核">
                                                         <i class="layui-icon">&#xe642;</i>
                                                     </button>
-                                                    <button class="layui-btn layui-btn-sm margin-t-5" title="删除">
+                                                    <button class="layui-btn layui-btn-sm margin-t-5 removeBtn"
+                                                            data-article-id="${article.articleId}" title="删除">
                                                         <i class="layui-icon">&#xe640;</i>
                                                     </button>
-                                                    <button class="layui-btn layui-btn-sm margin-t-5" title="预览">
+                                                    <button class="layui-btn layui-btn-sm margin-t-5 preViewBtn"
+                                                            data-article-id="${article.articleId}" title="预览">
                                                         <i class="layui-icon">&#xe602;</i>
                                                     </button>
                                                 </div>
@@ -127,139 +131,15 @@
                     </c:otherwise>
                 </c:choose>
 
-
             </div>
         </div>
     </div>
+    <input type="hidden" id="pageSize" value="${pageSize}">
+    <input type="hidden" id="dataCount" value="${dataCount}">
     <jsp:include page="../../base/adminFooter.jsp"/>
+    <script src="${pageContext.request.contextPath}/resources/js/biz/admin/article/list.js"></script>
     <script>
-        layui.use(['laypage', 'form'], function () {
-            var laypage = layui.laypage;
-            var form = layui.form
 
-            var pageNo, pageSize;
-            var limits = [${pageSize}, ${pageSize*2}, ${pageSize*3}];
-            laypage.render({
-                elem: 'articlePageContent',
-                count: ${dataCount},
-                limit: ${pageSize},
-                limits: limits,
-                groups: 3,
-                layout: ['prev', 'page', 'next', 'limit', 'count'],
-                jump: function (obj, first) {
-                    console.log(obj);
-                    pageNo = obj.curr;
-                    pageSize = obj.limit;
-                    //首次不执行
-                    if (!first) {
-                        submitQuery();
-                    }
-                }
-            });
-
-            $("input[name='keyword']").keydown(function () {
-                if (event.keyCode == "13") {//keyCode=13是回车键
-                    submitQuery();
-                }
-            });
-            form.on('select(articleCategory)', function (data) {
-                submitQuery();
-            });
-            form.on('select(articleStatus)', function (data) {
-                submitQuery();
-            });
-            form.on('select(deleted)', function (data) {
-                submitQuery();
-            });
-
-            /**
-             * 异步分页、搜索提交
-             */
-            function submitQuery() {
-                var requestData = {
-                    pageNo: pageNo,
-                    pageSize: pageSize,
-                    keyword: $("input[name='keyword']").val(),
-                    deleted: $("select[name='deleted']").val(),
-                    articleStatus: $("select[name='articleStatus']").val(),
-                    articleCategory: $("select[name='articleCategory']").val()
-                };
-                common.ajax({
-                    url: "${pageContext.request.contextPath}/admin/article/query",
-                    type: "POST",
-                    data: requestData,
-                    success: function (res) {
-                        if (res.result === 'success') {
-                            $("#articleListContent").empty();
-                            if (EasyCheck.StringUtils.isNotEmpty(res.articleInfos) && res.articleInfos.length > 0) {
-                                for (var articleInfosIndex = 0; articleInfosIndex < res.articleInfos.length; articleInfosIndex++) {
-                                    $("#articleListContent").append(buildHtml(res.articleInfos[articleInfosIndex]));
-                                }
-                            }
-                            // 重绘分页栏
-                            laypage.render({
-                                elem: 'articlePageContent',
-                                count: res.dataCount,
-                                limit: pageSize,
-                                limits: limits,
-                                curr: pageNo,
-                                groups: 3,
-                                layout: ['prev', 'page', 'next', 'limit', 'count'],
-                                jump: function (obj, first) {
-                                    console.log(obj);
-                                    pageNo = obj.curr;
-                                    pageSize = obj.limit;
-                                    //首次不执行
-                                    if (!first) {
-                                        submitQuery();
-                                    }
-                                }
-                            });
-
-                        } else {
-                            layer.msg(res.message, {icon: 5, anim: 6});
-                        }
-                    }
-                });
-            }
-
-            /**
-             * 封装异步分页数据
-             * @param article
-             * @returns {string}
-             */
-            function buildHtml(article) {
-                var html = '';
-                html += '<tr>';
-                html += '   <td>' + article.articleId + '</td>';
-                html += '   <td>' + article.articleTitle + '</td>';
-                html += '   <td>' + article.articleStatusName + '</td>';
-                if (EasyCheck.StringUtils.isNotEmpty(article.fmtCategoryList)) {
-                    html += '<td>' + article.fmtCategoryList + '</td>';
-                } else {
-                    html += '<td>--</td>';
-                }
-                html += '   <td title="' + article.userName + '">' + article.userId + '</td>';
-                html += '   <td>' + article.fmtCreateTime + '</td>';
-                html += '   <td>';
-                html += '       <div class="layui-btn-group">';
-                html += '           <button class="layui-btn layui-btn-sm margin-t-5" title="审核">';
-                html += '               <i class="layui-icon">&#xe642;</i>';
-                html += '           </button>';
-                html += '           <button class="layui-btn layui-btn-sm margin-t-5" title="删除">';
-                html += '               <i class="layui-icon">&#xe640;</i>';
-                html += '           </button>';
-                html += '           <button class="layui-btn layui-btn-sm margin-t-5" title="预览">';
-                html += '               <i class="layui-icon">&#xe602;</i>';
-                html += '           </button>';
-                html += '       </div>';
-                html += '   </td>';
-                html += '</tr>';
-
-                return html;
-            }
-
-        });
 
     </script>
 </div>

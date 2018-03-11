@@ -10,9 +10,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/images/icon/website_logo_32px.png">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/layui/css/layui.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">
 <link rel="stylesheet"
       href="${pageContext.request.contextPath}/resources/plugins/dataTables/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin.css">
 <%--全局js变量--%>

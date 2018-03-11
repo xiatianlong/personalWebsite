@@ -1,6 +1,7 @@
 package com.personalWebsite.service;
 
 import com.personalWebsite.entity.ArticleEntity;
+import com.personalWebsite.model.request.AuditForm;
 import com.personalWebsite.model.request.article.AdminArticlePageForm;
 import com.personalWebsite.model.request.article.ArticlePageForm;
 import com.personalWebsite.model.request.article.SaveOrUpdateForm;
@@ -126,5 +127,14 @@ public interface ArticleService extends BaseService {
      * @return int
      */
     int getReviewPassedArticleCnt();
+
+    /**
+     * 文章审核
+     *
+     * @param articleId 文章id
+     * @param form      请求表单
+     * @throws Exception e
+     */
+    void auditArticle(String articleId, AuditForm form) throws Exception;
 
 }

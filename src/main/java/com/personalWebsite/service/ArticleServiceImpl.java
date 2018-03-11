@@ -1,12 +1,17 @@
 package com.personalWebsite.service;
 
 import com.personalWebsite.common.enums.ArticleStatus;
+import com.personalWebsite.common.enums.BizType;
 import com.personalWebsite.common.exception.ApplicationException;
+import com.personalWebsite.dao.ArticleCategoryRepository;
 import com.personalWebsite.dao.ArticleRepository;
+import com.personalWebsite.dao.AuditRepository;
 import com.personalWebsite.dictionary.DictionaryCache;
 import com.personalWebsite.entity.ArticleCategoryEntity;
 import com.personalWebsite.entity.ArticleEntity;
+import com.personalWebsite.entity.AuditEntity;
 import com.personalWebsite.entity.FileRelationEntity;
+import com.personalWebsite.model.request.AuditForm;
 import com.personalWebsite.model.request.article.AdminArticlePageForm;
 import com.personalWebsite.model.request.article.ArticlePageForm;
 import com.personalWebsite.model.request.article.SaveOrUpdateForm;
@@ -27,9 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * 文章Service 服务类.
@@ -41,6 +44,10 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
 
     @Autowired
     private ArticleRepository articleRepository;
+    @Autowired
+    private ArticleCategoryRepository articleCategoryRepository;
+    @Autowired
+    private AuditRepository auditRepository;
 
     /**
      * 创建文章
@@ -116,6 +123,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
      * @param articleEntity 文章对象
      */
     @Override
+    @Transactional
     public void removeArticle(ArticleEntity articleEntity) throws Exception {
         if (articleEntity != null) {
             articleEntity.setDeleted(true);
@@ -489,6 +497,79 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
     @Override
     public int getReviewPassedArticleCnt() {
         return articleRepository.getReviewPassedArticleCnt();
+    }
+
+    /**
+     * 文章审核
+     *
+     * @param articleId 文章id
+     * @param form      请求表单
+     * @throws Exception e
+     */
+    @Transactional
+    @Override
+    public void auditArticle(String articleId, AuditForm form) throws Exception {
+
+        // 校验状态
+        if (!ArticleStatus.UNDER_REVIEW.getCode().equals(form.getStatus())
+                && !ArticleStatus.REVIEW_PASSED.getCode().equals(form.getStatus())
+                && !ArticleStatus.REVIEW_NOT_PASSED.getCode().equals(form.getStatus())) {
+            throw new ApplicationException(getMessage("audit.status.error"));
+        }
+        // 检验备注
+        if (StringUtils.isEmpty(form.getAuditMemo()) || form.getAuditMemo().length() > 150) {
+            throw new ApplicationException(getMessage("audit.memo.length"));
+        }
+
+        ArticleEntity articleEntity = getArticleById(articleId);
+        if (articleEntity == null) {
+            throw new ApplicationException(getMessage("article.not.exist"));
+        }
+        // 检验分类
+        if (form.getCategory() == null || form.getCategory().length <= 0 || form.getCategory().length > 5) {
+            throw new ApplicationException(getMessage("audit.category.null"));
+        }
+
+        List<ArticleCategoryEntity> categoryEntities = articleEntity.getCategoryEntityList();
+        // 删除原分类
+        if (categoryEntities != null && !categoryEntities.isEmpty()) {
+            articleCategoryRepository.delete(categoryEntities);
+        }
+
+        Date now = new Date();
+
+        // 添加审核记录
+        AuditEntity auditEntity = new AuditEntity();
+        auditEntity.setBizId(articleId);
+        auditEntity.setBizType(BizType.ARTICLE.getCode());
+        auditEntity.setAuditMemo(form.getAuditMemo());
+        auditEntity.setAuditContent(getMessage("audit.status.change",
+                new Object[]{DictionaryCache.getName(articleEntity.getArticleStatus()),
+                        DictionaryCache.getName(form.getStatus())}));
+        auditEntity.setCreateTime(now);
+        auditEntity.setUpdateTime(now);
+        auditEntity.setCreateUser(getLoinUser().getUserId());
+        auditEntity.setUpdateUser(getLoinUser().getUserId());
+        auditRepository.save(auditEntity);
+
+        // 更新文章状态
+        articleEntity.setArticleStatus(form.getStatus());
+        articleEntity.setUpdateTime(now);
+        articleEntity.setUpdateUser(getLoinUser().getUserId());
+        articleRepository.saveAndFlush(articleEntity);
+
+        // 添加新分类
+        Set<String> categorys = new HashSet<>(Arrays.asList(form.getCategory()));
+        for (String str : categorys) {
+            ArticleCategoryEntity articleCategoryEntity = new ArticleCategoryEntity();
+            articleCategoryEntity.setArticleId(articleId);
+            articleCategoryEntity.setArticleCategory(str);
+            articleCategoryEntity.setCreateTime(now);
+            articleCategoryEntity.setUpdateTime(now);
+            articleCategoryEntity.setCreateUser(getLoinUser().getUserId());
+            articleCategoryEntity.setUpdateUser(getLoinUser().getUserId());
+            articleCategoryRepository.save(articleCategoryEntity);
+        }
     }
 
     /**
