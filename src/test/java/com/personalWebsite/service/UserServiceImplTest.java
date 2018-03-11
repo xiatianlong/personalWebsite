@@ -5,7 +5,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -31,8 +30,8 @@ public class UserServiceImplTest{
 
 
     @Test
-    @Transactional
-    @Rollback(false)
+    @Transactional(readOnly = false)
+//    @Rollback(false)
     public void testSaveUser() {
 
         UserEntity userEntity = new UserEntity();
@@ -47,6 +46,8 @@ public class UserServiceImplTest{
         userEntity.setUpdateUser("admin");
 
         userService.saveAndFlush(userEntity);
+
+        System.out.println(1 / 0);
     }
 
     @Test
