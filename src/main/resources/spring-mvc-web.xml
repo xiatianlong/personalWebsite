@@ -43,6 +43,14 @@
             <mvc:mapping path="/member/**"/>
             <bean id="menuInterceptor" class="com.personalWebsite.interceptor.MenuInterceptor" />
         </mvc:interceptor>
+        <!--后台菜单拦截-->
+        <mvc:interceptor>
+            <mvc:mapping path="/admin/index/**"/>
+            <mvc:mapping path="/admin/article/**"/>
+            <mvc:mapping path="/admin/note/**"/>
+            <mvc:mapping path="/admin/user/**"/>
+            <bean id="adminMenuInterceptor" class="com.personalWebsite.interceptor.AdminMenuInterceptor"/>
+        </mvc:interceptor>
         <!--登录拦截-->
         <mvc:interceptor>
             <mvc:mapping path="/message/add"/>
