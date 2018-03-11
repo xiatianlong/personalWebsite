@@ -27,7 +27,7 @@ layui.use(['laypage', 'form'], function () {
     });
 
     $("input[name='keyword']").keydown(function () {
-        if (event.keyCode === "13") {
+        if (event.keyCode == "13") {
             //keyCode=13是回车键
             submitQuery();
         }

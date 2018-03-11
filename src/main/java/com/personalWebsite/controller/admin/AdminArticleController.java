@@ -89,7 +89,7 @@ public class AdminArticleController extends BaseController {
      */
     @PostMapping("/delete/{articleId}")
     @ResponseBody
-    public AsynchronousResult updateArticle(@PathVariable("articleId") String articleId) throws Exception {
+    public AsynchronousResult removeArticle(@PathVariable("articleId") String articleId) throws Exception {
         AsynchronousResult result = new AsynchronousResult();
         ArticleEntity articleEntity = articleService.getArticleById(articleId);
         if (articleEntity == null) {
