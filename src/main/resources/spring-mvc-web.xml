@@ -15,8 +15,7 @@
     <!-- DispatcherServlet上下文 -->
     <context:component-scan base-package="com.personalWebsite.controller,
         com.personalWebsite.common,
-        com.personalWebsite.job,
-        com.personalWebsite.service"/>
+        com.personalWebsite.job"/>
 
     <!-- 扩充了注解驱动，可以将请求参数绑定到控制器参数 -->
     <mvc:annotation-driven />
