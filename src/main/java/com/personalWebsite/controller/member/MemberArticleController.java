@@ -1,10 +1,12 @@
 package com.personalWebsite.controller.member;
 
 import com.personalWebsite.common.enums.ArticleStatus;
+import com.personalWebsite.common.enums.BizType;
 import com.personalWebsite.common.exception.ApplicationException;
 import com.personalWebsite.common.system.Constant;
 import com.personalWebsite.controller.BaseController;
 import com.personalWebsite.entity.ArticleEntity;
+import com.personalWebsite.entity.AuditEntity;
 import com.personalWebsite.model.request.article.ArticlePageForm;
 import com.personalWebsite.model.request.article.SaveOrUpdateForm;
 import com.personalWebsite.model.response.AsynchronousResult;
@@ -12,6 +14,7 @@ import com.personalWebsite.model.response.article.ArticleCard;
 import com.personalWebsite.model.response.article.ArticleInfo;
 import com.personalWebsite.model.response.article.ArticleQueryResult;
 import com.personalWebsite.service.ArticleService;
+import com.personalWebsite.service.AuditService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +35,8 @@ public class MemberArticleController extends BaseController {
 
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private AuditService auditService;
 
     /**
      * 文章列表
@@ -75,7 +80,15 @@ public class MemberArticleController extends BaseController {
      */
     @GetMapping("/{articleId}")
     public String articleDetail(@PathVariable("articleId") String articleId, Model model) throws Exception {
-        model.addAttribute("article", settingArticleDetail(articleId));
+        ArticleInfo articleInfo = settingArticleDetail(articleId);
+        model.addAttribute("article", articleInfo);
+        if (articleInfo != null && ArticleStatus.REVIEW_NOT_PASSED.getCode().equals(articleInfo.getArticleStatusCode())) {
+            AuditEntity auditEntity = auditService.getLastAudit(articleId, BizType.ARTICLE.getCode());
+            if (auditEntity != null) {
+                model.addAttribute("auditMemo", auditEntity.getAuditMemo());
+            }
+        }
+
         return "personalCenter/article/myArticleDetail";
     }
 
