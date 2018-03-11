@@ -1,20 +1,28 @@
 package com.personalWebsite.service;
 
+import com.personalWebsite.common.enums.BizType;
 import com.personalWebsite.common.enums.NoteStatus;
 import com.personalWebsite.common.exception.ApplicationException;
+import com.personalWebsite.dao.AuditRepository;
+import com.personalWebsite.dao.NoteCategoryRepository;
 import com.personalWebsite.dao.NoteRepository;
 import com.personalWebsite.dictionary.DictionaryCache;
+import com.personalWebsite.entity.AuditEntity;
 import com.personalWebsite.entity.NoteCategoryEntity;
 import com.personalWebsite.entity.NoteEntity;
 import com.personalWebsite.entity.UserEntity;
+import com.personalWebsite.model.request.AuditForm;
+import com.personalWebsite.model.request.note.AdminNotePageForm;
 import com.personalWebsite.model.request.note.NotePageForm;
 import com.personalWebsite.model.request.note.SaveOrUpdateForm;
+import com.personalWebsite.model.response.note.AdminNoteQueryResult;
 import com.personalWebsite.model.response.note.NoteCard;
 import com.personalWebsite.model.response.note.NoteInfo;
 import com.personalWebsite.utils.DateUtil;
 import com.personalWebsite.utils.IdUtil;
 import com.personalWebsite.vo.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -24,9 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * 笔记服务类.
@@ -38,6 +44,10 @@ public class NoteServiceImpl extends BaseServiceImpl implements NoteService {
 
     @Autowired
     private NoteRepository noteRepository;
+    @Autowired
+    private AuditRepository auditRepository;
+    @Autowired
+    private NoteCategoryRepository noteCategoryRepository;
 
     /**
      * 根据笔记id获取笔记
@@ -121,6 +131,16 @@ public class NoteServiceImpl extends BaseServiceImpl implements NoteService {
     @Override
     public List<String> getViewNoteCategory() {
         return noteRepository.getViewNoteCategory();
+    }
+
+    /**
+     * 获取全部笔记类别
+     *
+     * @return 类别集合
+     */
+    @Override
+    public List<String> getAllNoteCategory() {
+        return noteRepository.getAllNoteCategory();
     }
 
 
@@ -362,6 +382,83 @@ public class NoteServiceImpl extends BaseServiceImpl implements NoteService {
     }
 
     /**
+     * 获取全部笔记列表
+     *
+     * @param adminNotePageForm form
+     * @return 笔记列表
+     */
+    @Override
+    public AdminNoteQueryResult getAllNoteList(final AdminNotePageForm adminNotePageForm) {
+        AdminNoteQueryResult result = new AdminNoteQueryResult();
+
+        // 创建时间倒序(id)
+        Sort.Order order = new Sort.Order(Sort.Direction.DESC, "noteId");
+        Pageable pageable = new PageRequest(adminNotePageForm.getPageNo() - 1, adminNotePageForm.getPageSize(), new Sort(order));
+        Specification<NoteEntity> specification = new Specification<NoteEntity>() {
+            @Override
+            public Predicate toPredicate(Root<NoteEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+
+                List<Predicate> predicateList = new ArrayList<>();
+                // 是否删除的
+                if (adminNotePageForm.getDeleted() != null) {
+                    predicateList.add(cb.equal(root.get("deleted"), adminNotePageForm.getDeleted() == 1));
+                }
+
+                // 文章id
+                if (adminNotePageForm.getNoteId() != null) {
+                    predicateList.add(cb.like(root.<String>get("noteId"), "%" + adminNotePageForm.getNoteId() + "%"));
+                }
+
+                // 关键字（ID、title）
+                if (adminNotePageForm.getKeyword() != null) {
+                    predicateList.add(
+                            cb.or(
+                                    cb.like(root.<String>get("noteId"), "%" + adminNotePageForm.getKeyword() + "%"),
+                                    cb.like(root.<String>get("noteTitle"), "%" + adminNotePageForm.getKeyword() + "%")
+                            )
+                    );
+                }
+
+                // 查询条件-类别
+                if (adminNotePageForm.getNoteCategory() != null && adminNotePageForm.getNoteCategory().length > 0) {
+                    Join<NoteEntity, NoteCategoryEntity> categoryJoin = root.join("categoryEntityList", JoinType.LEFT);
+                    CriteriaBuilder.In<String> in = cb.in(categoryJoin.<String>get("noteCategory"));
+                    for (String str : adminNotePageForm.getNoteCategory()) {
+                        in.value(str);
+                    }
+                    predicateList.add(in);
+                }
+
+                // 查询条件-状态
+                if (adminNotePageForm.getNoteStatus() != null && adminNotePageForm.getNoteStatus().length > 0) {
+                    CriteriaBuilder.In<String> in = cb.in(root.<String>get("noteStatus"));
+                    for (String str : adminNotePageForm.getNoteStatus()) {
+                        in.value(str);
+                    }
+                    predicateList.add(in);
+                }
+
+                // 去重处理
+                query.distinct(true);
+
+                Predicate[] pre = new Predicate[predicateList.size()];
+                return cb.and(predicateList.toArray(pre));
+            }
+        };
+        Page<NoteEntity> page = noteRepository.findAll(specification, pageable);
+        List<NoteEntity> noteEntities = page.getContent();
+        if (noteEntities != null && !noteEntities.isEmpty()) {
+            List<NoteInfo> noteInfos = new ArrayList<>();
+            for (NoteEntity noteEntity : noteEntities) {
+                noteInfos.add(buildNoteInfo(noteEntity));
+            }
+            result.setNoteInfos(noteInfos);
+            result.setDataCount(page.getTotalElements());
+        }
+        return result;
+    }
+
+    /**
      * 增加笔记访问量
      *
      * @param noteId 笔记id
@@ -384,5 +481,76 @@ public class NoteServiceImpl extends BaseServiceImpl implements NoteService {
     @Override
     public int getReviewPassedNoteCnt() {
         return noteRepository.getReviewPassedNoteCnt();
+    }
+
+    /**
+     * 笔记审核
+     *
+     * @param noteId 笔记id
+     * @param form   请求表单
+     * @throws Exception e
+     */
+    @Override
+    public void auditNote(String noteId, AuditForm form) throws Exception {
+        // 校验状态
+        if (!NoteStatus.UNDER_REVIEW.getCode().equals(form.getStatus())
+                && !NoteStatus.REVIEW_PASSED.getCode().equals(form.getStatus())
+                && !NoteStatus.REVIEW_NOT_PASSED.getCode().equals(form.getStatus())) {
+            throw new ApplicationException(getMessage("audit.status.error"));
+        }
+        // 检验备注
+        if (StringUtils.isEmpty(form.getAuditMemo()) || form.getAuditMemo().length() > 150) {
+            throw new ApplicationException(getMessage("audit.memo.length"));
+        }
+
+        NoteEntity noteEntity = getNoteById(noteId);
+        if (noteEntity == null) {
+            throw new ApplicationException(getMessage("note.not.exist"));
+        }
+        // 检验分类
+        if (form.getCategory() == null || form.getCategory().length <= 0 || form.getCategory().length > 5) {
+            throw new ApplicationException(getMessage("audit.category.null"));
+        }
+
+        List<NoteCategoryEntity> categoryEntities = noteEntity.getCategoryEntityList();
+        // 删除原分类
+        if (categoryEntities != null && !categoryEntities.isEmpty()) {
+            noteCategoryRepository.delete(categoryEntities);
+        }
+
+        Date now = new Date();
+
+        // 添加审核记录
+        AuditEntity auditEntity = new AuditEntity();
+        auditEntity.setBizId(noteId);
+        auditEntity.setBizType(BizType.NOTE.getCode());
+        auditEntity.setAuditMemo(form.getAuditMemo());
+        auditEntity.setAuditContent(getMessage("audit.status.change",
+                new Object[]{DictionaryCache.getName(noteEntity.getNoteStatus()),
+                        DictionaryCache.getName(form.getStatus())}));
+        auditEntity.setCreateTime(now);
+        auditEntity.setUpdateTime(now);
+        auditEntity.setCreateUser(getLoinUser().getUserId());
+        auditEntity.setUpdateUser(getLoinUser().getUserId());
+        auditRepository.save(auditEntity);
+
+        // 更新文章状态
+        noteEntity.setNoteStatus(form.getStatus());
+        noteEntity.setUpdateTime(now);
+        noteEntity.setUpdateUser(getLoinUser().getUserId());
+        noteRepository.saveAndFlush(noteEntity);
+
+        // 添加新分类
+        Set<String> categorys = new HashSet<>(Arrays.asList(form.getCategory()));
+        for (String str : categorys) {
+            NoteCategoryEntity noteCategoryEntity = new NoteCategoryEntity();
+            noteCategoryEntity.setNoteId(noteId);
+            noteCategoryEntity.setNoteCategory(str);
+            noteCategoryEntity.setCreateTime(now);
+            noteCategoryEntity.setUpdateTime(now);
+            noteCategoryEntity.setCreateUser(getLoinUser().getUserId());
+            noteCategoryEntity.setUpdateUser(getLoinUser().getUserId());
+            noteCategoryRepository.save(noteCategoryEntity);
+        }
     }
 }

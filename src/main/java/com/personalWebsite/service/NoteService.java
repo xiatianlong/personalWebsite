@@ -1,8 +1,11 @@
 package com.personalWebsite.service;
 
 import com.personalWebsite.entity.NoteEntity;
+import com.personalWebsite.model.request.AuditForm;
+import com.personalWebsite.model.request.note.AdminNotePageForm;
 import com.personalWebsite.model.request.note.NotePageForm;
 import com.personalWebsite.model.request.note.SaveOrUpdateForm;
+import com.personalWebsite.model.response.note.AdminNoteQueryResult;
 import com.personalWebsite.model.response.note.NoteCard;
 import com.personalWebsite.model.response.note.NoteInfo;
 
@@ -45,6 +48,13 @@ public interface NoteService extends BaseService {
     List<String> getViewNoteCategory();
 
     /**
+     * 获取全部笔记类别
+     *
+     * @return 类别集合
+     */
+    List<String> getAllNoteCategory();
+
+    /**
      * 创建笔记
      *
      * @param form form
@@ -83,6 +93,14 @@ public interface NoteService extends BaseService {
     List<NoteCard> getViewNoteList(NotePageForm notePageForm);
 
     /**
+     * 获取全部笔记列表
+     *
+     * @param adminNotePageForm form
+     * @return 笔记列表
+     */
+    AdminNoteQueryResult getAllNoteList(AdminNotePageForm adminNotePageForm);
+
+    /**
      * 增加笔记访问量
      *
      * @param noteId 笔记id
@@ -95,4 +113,13 @@ public interface NoteService extends BaseService {
      * @return int
      */
     int getReviewPassedNoteCnt();
+
+    /**
+     * 笔记审核
+     *
+     * @param noteId 笔记id
+     * @param form   请求表单
+     * @throws Exception e
+     */
+    void auditNote(String noteId, AuditForm form) throws Exception;
 }

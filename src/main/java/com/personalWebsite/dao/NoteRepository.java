@@ -46,6 +46,16 @@ public interface NoteRepository extends JpaRepository<NoteEntity, String>, JpaSp
     List<String> getViewNoteCategory();
 
     /**
+     * 查询审核通过的笔记分类
+     *
+     * @return list
+     */
+    @Query(value = "SELECT category.NOTE_CATEGORY\n" +
+            "FROM t_note_category category \n" +
+            "GROUP BY category.NOTE_CATEGORY", nativeQuery = true)
+    List<String> getAllNoteCategory();
+
+    /**
      * 获取审核通过笔记数量
      *
      * @return int
