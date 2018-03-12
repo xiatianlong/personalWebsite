@@ -18,7 +18,7 @@ layui.use(['form', 'upload'], function () {
     // 自定义菜单配置
     messageEditor.customConfig.menus = messageMenu;
     // 配置服务器端地址
-    messageEditor.customConfig.uploadImgServer = '/common/uploadImg';
+    messageEditor.customConfig.uploadImgServer = '/common/uploadCompressionImg';
     // 将图片大小限制为 1M
     messageEditor.customConfig.uploadImgMaxSize = 1024 * 1024;
     // 限制一次最多上传 1 张图片
@@ -51,7 +51,7 @@ layui.use(['form', 'upload'], function () {
      */
     var uploadInst = upload.render({
         elem: '#uploadImgBtn',
-        url: '/common/uploadImg',
+        url: '/common/uploadCompressionImg',
         field: 'file',
         accept: 'images',
         exts: 'jpg|png|gif|bmp|jpeg',
