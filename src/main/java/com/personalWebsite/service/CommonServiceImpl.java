@@ -10,11 +10,17 @@ import com.personalWebsite.entity.FileRelationEntity;
 import com.personalWebsite.model.response.FileUploadResult;
 import com.personalWebsite.utils.FileUtil;
 import com.personalWebsite.utils.UUIDUtil;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.Date;
 
 /**
@@ -40,6 +46,37 @@ public class CommonServiceImpl extends BaseServiceImpl implements CommonService 
     @Transactional
     public FileUploadResult fileUpload(MultipartFile file, long fileSize) throws Exception {
 
+        return uploadFile(file, fileSize, 0);
+    }
+
+
+    /**
+     * 图片上传压缩
+     *
+     * @param file     图片
+     * @param fileSize 文件最大限制
+     * @return result
+     * @throws Exception e
+     */
+    @Override
+    @Transactional
+    public FileUploadResult imgCompression(MultipartFile file, long fileSize) throws Exception {
+
+        return uploadFile(file, fileSize, 1);
+    }
+
+
+    /**
+     * 文件上传
+     *
+     * @param file     文件
+     * @param fileSize 文件最大限制
+     * @param type     类型{0:普通上传；1：图片压缩上传}
+     * @return result
+     * @throws Exception e
+     */
+    private FileUploadResult uploadFile(MultipartFile file, long fileSize, int type) throws Exception {
+
         if (file != null) {
             FileUploadResult result = new FileUploadResult();
 
@@ -56,8 +93,41 @@ public class CommonServiceImpl extends BaseServiceImpl implements CommonService 
                 ossClient.createBucket(createBucketRequest);
             }
             String uuid = UUIDUtil.getUUID();
+            InputStream fileInputStream = file.getInputStream();
+            // type = 1; 图片上传压缩 begin--
+            if (type == 1) {
+                Thumbnails.Builder<? extends InputStream> builder = Thumbnails.of(fileInputStream);
+                if (file.getSize() > 1.5 * 1024 * 1024) {
+                    // 1.5mb - ~
+                    builder.scale(0.4);
+                    builder.outputQuality(0.65f);
+                } else if (file.getSize() > 1024 * 1024) {
+                    // 1mb - 1.5mg
+                    builder.scale(0.45);
+                    builder.outputQuality(0.65f);
+                } else if (file.getSize() > 0.512 * 1024 * 1024) {
+                    // 512kb - 1mb
+                    builder.scale(0.55);
+                    builder.outputQuality(0.7f);
+                } else if (file.getSize() > 0.256 * 1024 * 1024) {
+                    // 256kb - 512kb
+                    builder.scale(0.7);
+                    builder.outputQuality(0.65f);
+                } else {
+                    // ~ - 256kb
+                    builder.scale(0.9);
+                    builder.outputQuality(0.9f);
+                }
+                builder.outputFormat(FileUtil.getFileSuffix(file.getOriginalFilename()).replace(".", ""));
+                BufferedImage bufferedImage = builder.asBufferedImage();
+                ByteArrayOutputStream os = new ByteArrayOutputStream();
+                ImageIO.write(bufferedImage, FileUtil.getFileSuffix(file.getOriginalFilename()).replace(".", ""), os);
+                fileInputStream = new ByteArrayInputStream(os.toByteArray());
+            }
+            // type = 1; 图片上传压缩 end--
+
             // 文件上传
-            ossClient.putObject(Constant.BACKET, uuid + FileUtil.getFileSuffix(file.getOriginalFilename()), file.getInputStream());
+            ossClient.putObject(Constant.BACKET, uuid + FileUtil.getFileSuffix(file.getOriginalFilename()), fileInputStream);
             // 拼装文件物理url
             String fileUrl = Constant.ALIYUN_UPLOAD_URL +
                     "/" + uuid + FileUtil.getFileSuffix(file.getOriginalFilename());

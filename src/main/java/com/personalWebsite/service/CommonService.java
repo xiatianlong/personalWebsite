@@ -19,4 +19,14 @@ public interface CommonService extends BaseService {
      */
     FileUploadResult fileUpload(MultipartFile file, long fileSize) throws Exception;
 
+    /**
+     * 图片上传压缩
+     *
+     * @param file     图片
+     * @param fileSize 文件最大限制
+     * @return result
+     * @throws Exception e
+     */
+    FileUploadResult imgCompression(MultipartFile file, long fileSize) throws Exception;
+
 }
