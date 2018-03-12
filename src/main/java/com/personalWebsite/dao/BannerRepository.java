@@ -1,6 +1,6 @@
 package com.personalWebsite.dao;
 
-import com.personalWebsite.entity.view.BannerEntity;
+import com.personalWebsite.entity.BannerEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

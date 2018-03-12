@@ -1,8 +1,6 @@
-package com.personalWebsite.entity.view;
+package com.personalWebsite.entity;
 
-import com.personalWebsite.entity.BaseEntity;
-import com.personalWebsite.entity.FileRelationEntity;
-import org.springframework.data.annotation.Id;
+
 
 import javax.persistence.*;
 
