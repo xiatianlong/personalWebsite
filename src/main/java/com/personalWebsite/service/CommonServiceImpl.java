@@ -96,33 +96,7 @@ public class CommonServiceImpl extends BaseServiceImpl implements CommonService 
             InputStream fileInputStream = file.getInputStream();
             // type = 1; 图片上传压缩 begin--
             if (type == 1) {
-                Thumbnails.Builder<? extends InputStream> builder = Thumbnails.of(fileInputStream);
-                if (file.getSize() > 1.5 * 1024 * 1024) {
-                    // 1.5mb - ~
-                    builder.scale(0.4);
-                    builder.outputQuality(0.65f);
-                } else if (file.getSize() > 1024 * 1024) {
-                    // 1mb - 1.5mg
-                    builder.scale(0.45);
-                    builder.outputQuality(0.65f);
-                } else if (file.getSize() > 0.512 * 1024 * 1024) {
-                    // 512kb - 1mb
-                    builder.scale(0.55);
-                    builder.outputQuality(0.7f);
-                } else if (file.getSize() > 0.256 * 1024 * 1024) {
-                    // 256kb - 512kb
-                    builder.scale(0.7);
-                    builder.outputQuality(0.65f);
-                } else {
-                    // ~ - 256kb
-                    builder.scale(0.9);
-                    builder.outputQuality(0.9f);
-                }
-                builder.outputFormat(FileUtil.getFileSuffix(file.getOriginalFilename()).replace(".", ""));
-                BufferedImage bufferedImage = builder.asBufferedImage();
-                ByteArrayOutputStream os = new ByteArrayOutputStream();
-                ImageIO.write(bufferedImage, FileUtil.getFileSuffix(file.getOriginalFilename()).replace(".", ""), os);
-                fileInputStream = new ByteArrayInputStream(os.toByteArray());
+                fileInputStream = imgBuilder(file);
             }
             // type = 1; 图片上传压缩 end--
 
@@ -160,5 +134,45 @@ public class CommonServiceImpl extends BaseServiceImpl implements CommonService 
         } else {
             throw new ApplicationException(getMessage("file.upload.null"));
         }
+    }
+
+
+    /**
+     * 文件比例压缩处理
+     *
+     * @param file 文件
+     * @return
+     * @throws Exception
+     */
+    private InputStream imgBuilder(MultipartFile file) throws Exception {
+
+        Thumbnails.Builder<? extends InputStream> builder = Thumbnails.of(file.getInputStream());
+        if (file.getSize() > 1.5 * 1024 * 1024) {
+            // 1.5mb - ~
+            builder.scale(0.4);
+            builder.outputQuality(0.65f);
+        } else if (file.getSize() > 1024 * 1024) {
+            // 1mb - 1.5mg
+            builder.scale(0.45);
+            builder.outputQuality(0.65f);
+        } else if (file.getSize() > 0.512 * 1024 * 1024) {
+            // 512kb - 1mb
+            builder.scale(0.55);
+            builder.outputQuality(0.7f);
+        } else if (file.getSize() > 0.256 * 1024 * 1024) {
+            // 256kb - 512kb
+            builder.scale(0.7);
+            builder.outputQuality(0.65f);
+        } else {
+            // ~ - 256kb
+            builder.scale(0.9);
+            builder.outputQuality(0.9f);
+        }
+        builder.outputFormat(FileUtil.getFileSuffix(file.getOriginalFilename()).replace(".", ""));
+        BufferedImage bufferedImage = builder.asBufferedImage();
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        ImageIO.write(bufferedImage, FileUtil.getFileSuffix(file.getOriginalFilename()).replace(".", ""), os);
+
+        return new ByteArrayInputStream(os.toByteArray());
     }
 }
