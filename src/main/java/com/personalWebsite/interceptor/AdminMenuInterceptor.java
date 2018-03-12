@@ -31,8 +31,11 @@ public class AdminMenuInterceptor implements HandlerInterceptor {
             // 菜单笔记选中
             request.setAttribute("admin_menu_note", true);
         } else if (requestUri.startsWith("/admin/user")) {
-            // 菜单留言选中
+            // 菜单用户选中
             request.setAttribute("admin_menu_user", true);
+        } else if (requestUri.startsWith("/admin/user")) {
+            // 菜单焦点图选中
+            request.setAttribute("admin_menu_banner", true);
         }
 
     }

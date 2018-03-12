@@ -19,7 +19,8 @@
                 <a href="${pageContext.request.contextPath}/admin/note/list">笔记</a></li>
             <li class="layui-nav-item <c:if test="${not empty admin_menu_user && admin_menu_user}">layui-this</c:if> ">
                 <a href="${pageContext.request.contextPath}/admin/user/list">用户</a></li>
-            <li class="layui-nav-item"><a>焦点图</a></li>
+            <li class="layui-nav-item <c:if test="${not empty admin_menu_banner && admin_menu_banner}">layui-this</c:if> ">
+                <a href="${pageContext.request.contextPath}/admin/banner/list">焦点图</a></li>
             <li class="layui-nav-item"><a>公告</a></li>
         </ul>
     </div>

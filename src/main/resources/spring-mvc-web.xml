@@ -49,6 +49,7 @@
             <mvc:mapping path="/admin/article/**"/>
             <mvc:mapping path="/admin/note/**"/>
             <mvc:mapping path="/admin/user/**"/>
+            <mvc:mapping path="/admin/banner/**"/>
             <bean id="adminMenuInterceptor" class="com.personalWebsite.interceptor.AdminMenuInterceptor"/>
         </mvc:interceptor>
         <!--登录拦截-->
