@@ -1,9 +1,11 @@
 package com.personalWebsite.controller.member;
 
+import com.personalWebsite.common.enums.BizType;
 import com.personalWebsite.common.enums.NoteStatus;
 import com.personalWebsite.common.exception.ApplicationException;
 import com.personalWebsite.common.system.Constant;
 import com.personalWebsite.controller.BaseController;
+import com.personalWebsite.entity.AuditEntity;
 import com.personalWebsite.entity.NoteEntity;
 import com.personalWebsite.model.request.note.NotePageForm;
 import com.personalWebsite.model.request.note.SaveOrUpdateForm;
@@ -11,6 +13,7 @@ import com.personalWebsite.model.response.AsynchronousResult;
 import com.personalWebsite.model.response.note.NoteCard;
 import com.personalWebsite.model.response.note.NoteInfo;
 import com.personalWebsite.model.response.note.NoteQueryResult;
+import com.personalWebsite.service.AuditService;
 import com.personalWebsite.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +35,8 @@ public class MemberNoteController extends BaseController {
 
     @Autowired
     private NoteService noteService;
+    @Autowired
+    private AuditService auditService;
 
     /**
      * 笔记列表
@@ -85,7 +90,14 @@ public class MemberNoteController extends BaseController {
         if (!noteEntity.getUserId().equals(getLoinUser().getUserId())) {
             throw new ApplicationException(getMessage("permissions.error"));
         }
-        model.addAttribute("note", noteService.buildNoteInfo(noteEntity));
+        NoteInfo noteInfo = noteService.buildNoteInfo(noteEntity);
+        model.addAttribute("note", noteInfo);
+        if (noteInfo != null && NoteStatus.REVIEW_NOT_PASSED.getCode().equals(noteInfo.getNoteStatus())) {
+            AuditEntity auditEntity = auditService.getLastAudit(noteId, BizType.NOTE.getCode());
+            if (auditEntity != null) {
+                model.addAttribute("auditMemo", auditEntity.getAuditMemo());
+            }
+        }
         return "personalCenter/note/myNoteDetail";
     }
 

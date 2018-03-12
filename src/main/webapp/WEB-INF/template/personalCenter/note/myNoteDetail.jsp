@@ -52,6 +52,9 @@
                         <c:when test="${REVIEW_NOT_PASSED eq note.noteStatus}"> <span
                                 class="layui-badge layui-bg-red">审核不通过</span></c:when>
                     </c:choose>
+                    <c:if test="${not empty auditMemo}">
+                        <span class="red">&nbsp;（${auditMemo}）</span>
+                    </c:if>
                 </div>
             </fieldset>
 
