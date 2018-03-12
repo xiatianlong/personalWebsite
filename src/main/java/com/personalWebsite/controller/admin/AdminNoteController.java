@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 /**
+ * 后台笔记 controller.
  * Created by xiatianlong on 2018/2/28.
  */
 @Controller
