@@ -25,10 +25,28 @@
         <div class="layui-col-xs12 layui-col-sm8 layui-col-md8">
             <div class="layui-carousel" id="xtl-index-banner">
                 <div carousel-item>
-                    <div><img src="${pageContext.request.contextPath}/resources/images/banner/banner1.jpg"></div>
-                    <div><img src="${pageContext.request.contextPath}/resources/images/banner/banner2.jpg"></div>
-                    <div><img src="${pageContext.request.contextPath}/resources/images/banner/banner3.jpg"></div>
-                    <div><img src="${pageContext.request.contextPath}/resources/images/banner/banner4.jpg"></div>
+                    <c:choose>
+                        <c:when test="${not empty bannerList && bannerList.size() gt 0}">
+                            <c:forEach items="${bannerList}" var="banner">
+                                <c:choose>
+                                    <c:when test="${not empty banner.bannerUri}">
+                                        <div><a href="${banner.bannerUri}" target="_blank"><img
+                                                src="${banner.articleImgFile.fileUrl}" alt="${banner.bannerText}"></a>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div><img src="${banner.articleImgFile.fileUrl}" alt="${banner.bannerText}">
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <div><img
+                                    src="${pageContext.request.contextPath}/resources/images/banner/defaultBanner.jpg">
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>

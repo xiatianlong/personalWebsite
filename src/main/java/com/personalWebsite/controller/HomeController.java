@@ -6,10 +6,7 @@ import com.personalWebsite.entity.UserEntity;
 import com.personalWebsite.model.request.home.HomePageForm;
 import com.personalWebsite.model.response.home.ArticleNoteReviewPassedCard;
 import com.personalWebsite.model.response.home.HomeQueryResult;
-import com.personalWebsite.service.ArticleService;
-import com.personalWebsite.service.HomeService;
-import com.personalWebsite.service.NoteService;
-import com.personalWebsite.service.UserService;
+import com.personalWebsite.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,6 +37,9 @@ public class HomeController extends BaseController{
     @Autowired
     private HomeService homeService;
 
+    @Autowired
+    private BannerService bannerService;
+
     /**
      * 首页
      *
@@ -49,7 +49,8 @@ public class HomeController extends BaseController{
      */
     @GetMapping
     public String home(HomePageForm form, Model model) {
-
+        // banner图
+        model.addAttribute("bannerList", bannerService.getAllBnner());
         // 文章数
         model.addAttribute("articleCnt", articleService.getReviewPassedArticleCnt());
         // 笔记数

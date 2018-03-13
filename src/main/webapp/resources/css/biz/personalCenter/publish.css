@@ -23,8 +23,8 @@
 
 #removeUploadImgBtn {
     position: absolute;
-    left: 0;
-    top: 0;
+    left: -8px;
+    top: -8px;
     width: 22px;
     height: auto;
     display: none;

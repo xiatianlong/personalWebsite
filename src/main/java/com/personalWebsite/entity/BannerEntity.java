@@ -62,7 +62,7 @@ public class BannerEntity extends BaseEntity {
     /**
      * 获取 banner图片
      */
-    @Column(name = "BANNER_IMG", nullable = false, length = 11)
+    @Column(name = "BANNER_IMG", nullable = false, length = 50)
     public String getBannerImg() {
         return this.bannerImg;
     }
