@@ -6,11 +6,9 @@ import com.personalWebsite.common.exception.ApplicationException;
 import com.personalWebsite.dao.ArticleCategoryRepository;
 import com.personalWebsite.dao.ArticleRepository;
 import com.personalWebsite.dao.AuditRepository;
+import com.personalWebsite.dao.EmailRecordRepository;
 import com.personalWebsite.dictionary.DictionaryCache;
-import com.personalWebsite.entity.ArticleCategoryEntity;
-import com.personalWebsite.entity.ArticleEntity;
-import com.personalWebsite.entity.AuditEntity;
-import com.personalWebsite.entity.FileRelationEntity;
+import com.personalWebsite.entity.*;
 import com.personalWebsite.model.request.AuditForm;
 import com.personalWebsite.model.request.article.AdminArticlePageForm;
 import com.personalWebsite.model.request.article.ArticlePageForm;
@@ -20,7 +18,10 @@ import com.personalWebsite.model.response.article.ArticleCard;
 import com.personalWebsite.model.response.article.ArticleInfo;
 import com.personalWebsite.utils.DateUtil;
 import com.personalWebsite.utils.IdUtil;
+import com.personalWebsite.utils.PropertiesUtil;
+import com.personalWebsite.utils.UUIDUtil;
 import com.personalWebsite.vo.UserInfo;
+import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +30,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.*;
@@ -48,6 +50,8 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
     private ArticleCategoryRepository articleCategoryRepository;
     @Autowired
     private AuditRepository auditRepository;
+    @Autowired
+    private EmailRecordRepository emailRecordRepository;
 
     /**
      * 创建文章
@@ -537,6 +541,32 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
         }
 
         Date now = new Date();
+
+        // 如果文章原状态是审核中，则向作者发送已提醒审核
+        if (ArticleStatus.UNDER_REVIEW.getCode().equals(articleEntity.getArticleStatus())
+                && !StringUtils.isEmpty(articleEntity.getUser().getUserEmail())) {
+            // 给管理员发送错误邮件
+            EmailRecordEntity emailRecordEntity = new EmailRecordEntity();
+            emailRecordEntity.setEmailCode(UUIDUtil.getUUID());
+            emailRecordEntity.setEmailTo(articleEntity.getUser().getUserEmail());
+            emailRecordEntity.setCreateTime(now);
+            emailRecordEntity.setUpdateTime(now);
+            emailRecordEntity.setCreateUser(getLoinUser().getUserId());
+            emailRecordEntity.setUpdateUser(getLoinUser().getUserId());
+            Template template = mailTemplate.getConfiguration().getTemplate("auditTemplate.ftl");
+            Map<String, Object> map = new HashMap<>();
+            map.put("userName", articleEntity.getUser().getUserName());
+            map.put("bizType", DictionaryCache.getName(BizType.ARTICLE.getCode()));
+            map.put("title", articleEntity.getArticleTitle());
+            map.put("status", DictionaryCache.getName(form.getStatus()));
+            map.put("url", PropertiesUtil.getProperty("domain") + "/member/article/" + articleEntity.getArticleId());
+            map.put("time", DateUtil.defaultFormat(now));
+
+
+            String content = FreeMarkerTemplateUtils.processTemplateIntoString(template, map);
+            emailRecordEntity.setEmailContent(content);
+            emailRecordRepository.save(emailRecordEntity);
+        }
 
         // 添加审核记录
         AuditEntity auditEntity = new AuditEntity();
