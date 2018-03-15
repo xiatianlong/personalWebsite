@@ -56,12 +56,23 @@ public interface ArticleRepository extends JpaRepository<ArticleEntity, String>,
     List<String> getAllArticleCategory();
 
     /**
-     * 获取审核通过文章数量
+     * 获取某个状态下的文章数量
      *
      * @return int
      */
     @Query(value = "SELECT count(article.ARTICLE_ID)\n" +
             "FROM t_article article\n" +
-            "WHERE article.IS_DELETE = 0 AND article.ARTICLE_STATUS = '002003'", nativeQuery = true)
-    int getReviewPassedArticleCnt();
+            "WHERE article.IS_DELETE = 0 AND article.ARTICLE_STATUS = ?1", nativeQuery = true)
+    int getArticleCntByStatus(String status);
+
+
+    /**
+     * 获取全部文章数量
+     *
+     * @return int
+     */
+    @Query(value = "SELECT count(article.ARTICLE_ID)\n" +
+            "FROM t_article article\n" +
+            "WHERE article.IS_DELETE = 0", nativeQuery = true)
+    int getAllArticleCnt();
 }

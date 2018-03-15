@@ -1,6 +1,8 @@
 package com.personalWebsite.controller;
 
 
+import com.personalWebsite.common.enums.ArticleStatus;
+import com.personalWebsite.common.enums.NoteStatus;
 import com.personalWebsite.common.system.Constant;
 import com.personalWebsite.entity.UserEntity;
 import com.personalWebsite.model.request.home.HomePageForm;
@@ -52,9 +54,9 @@ public class HomeController extends BaseController{
         // banner图
         model.addAttribute("bannerList", bannerService.getAllBnner());
         // 文章数
-        model.addAttribute("articleCnt", articleService.getReviewPassedArticleCnt());
+        model.addAttribute("articleCnt", articleService.getArticleCntByStatus(ArticleStatus.REVIEW_PASSED.getCode()));
         // 笔记数
-        model.addAttribute("noteCnt", noteService.getReviewPassedNoteCnt());
+        model.addAttribute("noteCnt", noteService.getNoteCntByStatus(NoteStatus.REVIEW_PASSED.getCode()));
         // 留言数
 
         // 用户列表

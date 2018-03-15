@@ -108,13 +108,6 @@ public interface NoteService extends BaseService {
     void addNoteViewCnt(String noteId) throws Exception;
 
     /**
-     * 获取审核通过笔记数量
-     *
-     * @return int
-     */
-    int getReviewPassedNoteCnt();
-
-    /**
      * 笔记审核
      *
      * @param noteId 笔记id
@@ -122,4 +115,19 @@ public interface NoteService extends BaseService {
      * @throws Exception e
      */
     void auditNote(String noteId, AuditForm form) throws Exception;
+
+    /**
+     * 获取笔记总数
+     *
+     * @return 笔记总数
+     */
+    int getNoteCnt();
+
+    /**
+     * 获取某个状态下的笔记数量
+     *
+     * @param status 状态
+     * @return 笔记数
+     */
+    int getNoteCntByStatus(String status);
 }

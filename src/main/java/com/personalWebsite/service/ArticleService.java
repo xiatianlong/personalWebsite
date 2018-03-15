@@ -122,13 +122,6 @@ public interface ArticleService extends BaseService {
     void addArticleViewCnt(String articleId) throws Exception;
 
     /**
-     * 获取审核通过文章数量
-     *
-     * @return int
-     */
-    int getReviewPassedArticleCnt();
-
-    /**
      * 文章审核
      *
      * @param articleId 文章id
@@ -137,4 +130,18 @@ public interface ArticleService extends BaseService {
      */
     void auditArticle(String articleId, AuditForm form) throws Exception;
 
+    /**
+     * 获取文章总数
+     *
+     * @return 文章总数
+     */
+    int getArticleCnt();
+
+    /**
+     * 获取某个状态下的文章数量
+     *
+     * @param status 状态
+     * @return 文章数
+     */
+    int getArticleCntByStatus(String status);
 }

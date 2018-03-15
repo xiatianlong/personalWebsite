@@ -478,16 +478,6 @@ public class NoteServiceImpl extends BaseServiceImpl implements NoteService {
     }
 
     /**
-     * 获取审核通过笔记数量
-     *
-     * @return int
-     */
-    @Override
-    public int getReviewPassedNoteCnt() {
-        return noteRepository.getReviewPassedNoteCnt();
-    }
-
-    /**
      * 笔记审核
      *
      * @param noteId 笔记id
@@ -581,4 +571,26 @@ public class NoteServiceImpl extends BaseServiceImpl implements NoteService {
             noteCategoryRepository.save(noteCategoryEntity);
         }
     }
+
+    /**
+     * 获取文章总数
+     *
+     * @return 文章总数
+     */
+    @Override
+    public int getNoteCnt() {
+        return noteRepository.getAllNoteCnt();
+    }
+
+    /**
+     * 获取某个状态下的文章数量
+     *
+     * @param status 状态
+     * @return 文章数
+     */
+    @Override
+    public int getNoteCntByStatus(String status) {
+        return noteRepository.getNoteCntByStatus(status);
+    }
+
 }

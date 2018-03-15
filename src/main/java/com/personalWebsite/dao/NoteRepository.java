@@ -56,12 +56,22 @@ public interface NoteRepository extends JpaRepository<NoteEntity, String>, JpaSp
     List<String> getAllNoteCategory();
 
     /**
-     * 获取审核通过笔记数量
+     * 获取某个状态下笔记数量
      *
      * @return int
      */
     @Query(value = "SELECT count(note.NOTE_ID)\n" +
             "FROM t_note note\n" +
-            "WHERE note.IS_DELETE = 0 AND note.NOTE_STATUS = '003003'", nativeQuery = true)
-    int getReviewPassedNoteCnt();
+            "WHERE note.IS_DELETE = 0 AND note.NOTE_STATUS = ?1", nativeQuery = true)
+    int getNoteCntByStatus(String status);
+
+    /**
+     * 获取全部笔记数量
+     *
+     * @return int
+     */
+    @Query(value = "SELECT count(note.NOTE_ID)\n" +
+            "FROM t_note note\n" +
+            "WHERE note.IS_DELETE = 0", nativeQuery = true)
+    int getAllNoteCnt();
 }

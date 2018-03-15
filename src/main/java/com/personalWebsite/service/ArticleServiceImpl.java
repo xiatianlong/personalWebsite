@@ -494,16 +494,6 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
     }
 
     /**
-     * 获取审核通过文章数量
-     *
-     * @return int
-     */
-    @Override
-    public int getReviewPassedArticleCnt() {
-        return articleRepository.getReviewPassedArticleCnt();
-    }
-
-    /**
      * 文章审核
      *
      * @param articleId 文章id
@@ -600,6 +590,27 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
             articleCategoryEntity.setUpdateUser(getLoinUser().getUserId());
             articleCategoryRepository.save(articleCategoryEntity);
         }
+    }
+
+    /**
+     * 获取文章总数
+     *
+     * @return 文章总数
+     */
+    @Override
+    public int getArticleCnt() {
+        return articleRepository.getAllArticleCnt();
+    }
+
+    /**
+     * 获取某个状态下的文章数量
+     *
+     * @param status 状态
+     * @return 文章数
+     */
+    @Override
+    public int getArticleCntByStatus(String status) {
+        return articleRepository.getArticleCntByStatus(status);
     }
 
     /**
