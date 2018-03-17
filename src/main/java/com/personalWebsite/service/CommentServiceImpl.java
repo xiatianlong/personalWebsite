@@ -86,6 +86,7 @@ public class CommentServiceImpl extends BaseServiceImpl implements CommentServic
                 List<Predicate> predicateList = new ArrayList<>();
 
                 predicateList.add(cb.equal(root.get("commonBizType"), form.getCommentBizType()));
+                predicateList.add(cb.equal(root.get("commentBizId"), form.getCommentBizId()));
 
                 Predicate[] pre = new Predicate[predicateList.size()];
                 return cb.and(predicateList.toArray(pre));

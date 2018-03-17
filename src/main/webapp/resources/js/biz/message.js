@@ -85,7 +85,8 @@ layui.use(['laypage', 'form'], function () {
         var requestData = {
             pageNo: pageNo,
             pageSize: pageSize,
-            commentBizType: commentBizType
+            commentBizType: commentBizType,
+            commentBizId: commentBizId
         };
         common.ajax({
             url: "/message/query",

@@ -13,6 +13,11 @@ public class CommentPageForm extends PageForm {
      */
     private String commentBizType;
 
+    /**
+     * 留言业务ID
+     */
+    private String commentBizId;
+
 
     /**
      * 获取 留言业务类型
@@ -26,5 +31,19 @@ public class CommentPageForm extends PageForm {
      */
     public void setCommentBizType(String commentBizType) {
         this.commentBizType = commentBizType;
+    }
+
+    /**
+     * 获取 留言业务ID
+     */
+    public String getCommentBizId() {
+        return this.commentBizId;
+    }
+
+    /**
+     * 设置 留言业务ID
+     */
+    public void setCommentBizId(String commentBizId) {
+        this.commentBizId = commentBizId;
     }
 }

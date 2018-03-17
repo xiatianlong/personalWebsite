@@ -98,6 +98,7 @@ public class ArticleController extends BaseController {
         // 留言相关
         CommentPageForm form = new CommentPageForm();
         form.setCommentBizType(CommentBizType.ARTICLE.getCode());
+        form.setCommentBizId(articleId);
         PageVO<CommentEntity> pageVO = commentService.getCommentListByPage(form);
 
         model.addAttribute("dataList", commentService.getCommentInfo(pageVO.getDataList()));

@@ -43,6 +43,7 @@ public class MessageController {
     public String list(Model model, CommentPageForm form) {
 
         form.setCommentBizType(CommentBizType.MESSAGE.getCode());
+        form.setCommentBizId("message");
         PageVO<CommentEntity> pageVO = commentService.getCommentListByPage(form);
 
         model.addAttribute("dataList", commentService.getCommentInfo(pageVO.getDataList()));

@@ -94,6 +94,7 @@ public class NoteController extends BaseController {
         // 留言相关
         CommentPageForm form = new CommentPageForm();
         form.setCommentBizType(CommentBizType.NOTE.getCode());
+        form.setCommentBizId(noteId);
         PageVO<CommentEntity> pageVO = commentService.getCommentListByPage(form);
 
         model.addAttribute("dataList", commentService.getCommentInfo(pageVO.getDataList()));
