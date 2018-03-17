@@ -153,7 +153,7 @@ public class LoginController extends BaseController {
     public String Logout(HttpSession session) {
         session.removeAttribute("LOGIN_USER");
         session.removeAttribute("LOGIN_USER_JSON");
-        return "index";
+        return "redirect:/home";
     }
 
 }
