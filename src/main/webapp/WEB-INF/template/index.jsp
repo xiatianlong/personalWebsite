@@ -56,7 +56,7 @@
                     <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">${articleCnt}</div>
                     <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">${noteCnt}</div>
                     <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">${userCnt}</div>
-                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">20</div>
+                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">${commentCnt}</div>
                     <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">文章数</div>
                     <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">笔记数</div>
                     <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">用户数</div>
@@ -195,60 +195,29 @@
                 </div>
             </c:if>
 
-            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block margin-t-15">
-                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 blue xtl-block-title">热评用户</div>
+            <c:if test="${not empty hotCommentUser && hotCommentUser.size() gt 0}">
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block margin-t-15">
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 blue xtl-block-title">热评用户</div>
 
-                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 margin-t-10">
-                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 hot-comment-user vertical-middle">
-                        <div class="layui-col-xs1 layui-col-sm1 layui-col-md1"><span class="layui-badge">01</span></div>
-                        <div class="layui-col-xs3 layui-col-sm3 layui-col-md3 text-c">
-                            <img src="${pageContext.request.contextPath}/resources/images/icon/website_logo_64px.png">
-                        </div>
-                        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 layui-elip">
-                            <span class="hot-comment-user-name">夏天龙夏天龙夏天龙</span>
-                        </div>
-                        <div class="layui-col-xs2 layui-col-sm2 layui-col-md2">
-                            <i class="fa fa-commenting-o" aria-hidden="true"></i> 100
-                        </div>
-                    </div>
-                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 hot-comment-user vertical-middle">
-                        <div class="layui-col-xs1 layui-col-sm1 layui-col-md1"><span class="layui-badge">02</span></div>
-                        <div class="layui-col-xs3 layui-col-sm3 layui-col-md3 text-c">
-                            <img src="${pageContext.request.contextPath}/resources/images/icon/website_logo_64px.png">
-                        </div>
-                        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 layui-elip">
-                            <span class="hot-comment-user-name">夏天龙夏天龙夏天龙</span>
-                        </div>
-                        <div class="layui-col-xs2 layui-col-sm2 layui-col-md2">
-                            <i class="fa fa-commenting-o" aria-hidden="true"></i> 100
-                        </div>
-                    </div>
-                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 hot-comment-user vertical-middle">
-                        <div class="layui-col-xs1 layui-col-sm1 layui-col-md1"><span class="layui-badge">03</span></div>
-                        <div class="layui-col-xs3 layui-col-sm3 layui-col-md3 text-c">
-                            <img src="${pageContext.request.contextPath}/resources/images/icon/website_logo_64px.png">
-                        </div>
-                        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 layui-elip">
-                            <span class="hot-comment-user-name">夏天龙夏天龙夏天龙</span>
-                        </div>
-                        <div class="layui-col-xs2 layui-col-sm2 layui-col-md2">
-                            <i class="fa fa-commenting-o" aria-hidden="true"></i> 100
-                        </div>
-                    </div>
-                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 hot-comment-user vertical-middle">
-                        <div class="layui-col-xs1 layui-col-sm1 layui-col-md1"><span class="layui-badge">04</span></div>
-                        <div class="layui-col-xs3 layui-col-sm3 layui-col-md3 text-c">
-                            <img src="${pageContext.request.contextPath}/resources/images/icon/website_logo_64px.png">
-                        </div>
-                        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 layui-elip">
-                            <span class="hot-comment-user-name">夏天龙夏天龙夏天龙</span>
-                        </div>
-                        <div class="layui-col-xs2 layui-col-sm2 layui-col-md2">
-                            <i class="fa fa-commenting-o" aria-hidden="true"></i> 100
-                        </div>
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 margin-t-10">
+                        <c:forEach items="${hotCommentUser}" var="user" varStatus="index">
+                            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 hot-comment-user vertical-middle">
+                                <div class="layui-col-xs1 layui-col-sm1 layui-col-md1"><span
+                                        class="layui-badge">0${index.index+1}</span></div>
+                                <div class="layui-col-xs3 layui-col-sm3 layui-col-md3 text-c">
+                                    <img src="${user.userHeadImg}">
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 layui-elip">
+                                    <span class="hot-comment-user-name">${user.userName}</span>
+                                </div>
+                                <div class="layui-col-xs2 layui-col-sm2 layui-col-md2">
+                                    <i class="fa fa-commenting-o" aria-hidden="true"></i> ${user.commentCount}
+                                </div>
+                            </div>
+                        </c:forEach>
                     </div>
                 </div>
-            </div>
+            </c:if>
 
         </div>
 

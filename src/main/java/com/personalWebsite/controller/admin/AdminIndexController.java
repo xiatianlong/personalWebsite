@@ -1,9 +1,11 @@
 package com.personalWebsite.controller.admin;
 
 import com.personalWebsite.common.enums.ArticleStatus;
+import com.personalWebsite.common.enums.CommentBizType;
 import com.personalWebsite.controller.BaseController;
 import com.personalWebsite.entity.UserEntity;
 import com.personalWebsite.service.ArticleService;
+import com.personalWebsite.service.CommentService;
 import com.personalWebsite.service.NoteService;
 import com.personalWebsite.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,8 @@ public class AdminIndexController extends BaseController {
     private ArticleService articleService;
     @Autowired
     private NoteService noteService;
-
+    @Autowired
+    private CommentService commentService;
     /**
      * 后台首页列表服务类
      *
@@ -41,6 +44,7 @@ public class AdminIndexController extends BaseController {
         model.addAttribute("articleUnderReviewCnt", articleService.getArticleCntByStatus(ArticleStatus.UNDER_REVIEW.getCode()));
         model.addAttribute("noteCnt", noteService.getNoteCnt());
         model.addAttribute("noteUnderReviewCnt", noteService.getNoteCntByStatus(ArticleStatus.UNDER_REVIEW.getCode()));
+        model.addAttribute("commentByMessageCnt", commentService.getCommentCount(CommentBizType.MESSAGE.getCode()));
         List<UserEntity> userEntityList = userService.getUserList();
         model.addAttribute("userCnt", userEntityList != null ? userEntityList.size() : 0);
         return "admin/index";

@@ -62,7 +62,7 @@
                         <tbody>
                         <tr>
                             <td>${userCnt}</td>
-                            <td>${0}</td>
+                            <td>${commentByMessageCnt}</td>
                         </tr>
                         </tbody>
                     </table>

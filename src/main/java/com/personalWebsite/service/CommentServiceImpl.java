@@ -4,6 +4,7 @@ import com.personalWebsite.dao.CommentRepository;
 import com.personalWebsite.entity.CommentEntity;
 import com.personalWebsite.model.request.comment.CommentPageForm;
 import com.personalWebsite.model.request.comment.MessageForm;
+import com.personalWebsite.model.response.comment.CommentUserInfo;
 import com.personalWebsite.utils.DateUtil;
 import com.personalWebsite.utils.IdUtil;
 import com.personalWebsite.vo.CommentInfo;
@@ -15,11 +16,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -139,7 +142,49 @@ public class CommentServiceImpl extends BaseServiceImpl implements CommentServic
         return commentInfo;
     }
 
+    /**
+     * 获取热评用户
+     *
+     * @return 热评用户集合
+     */
+    @Override
+    public List<CommentUserInfo> getHotCommentUser() {
 
+        List<Object[]> dataList = commentRepository.getHotCommentUser();
+        if (dataList != null && !dataList.isEmpty()) {
+            List<CommentUserInfo> list = new ArrayList<>();
+            for (Object[] arr : dataList) {
+                CommentUserInfo info = new CommentUserInfo();
+                info.setCommentUserId((String) arr[0]);
+                info.setCommentCount(((BigInteger) arr[1]).longValue());
+                info.setUserName((String) arr[2]);
+                if (!StringUtils.isEmpty(arr[3])) {
+                    info.setUserHeadImg((String) arr[3]);
+                } else {
+                    info.setUserHeadImg((String) arr[4]);
+                }
+                list.add(info);
+            }
+            return list;
+        }
+        return null;
+    }
+
+    /**
+     * 获取评论数
+     *
+     * @param commentBizType 评论业务类型
+     * @return long
+     */
+    @Override
+    public long getCommentCount(String commentBizType) {
+
+        if (StringUtils.isEmpty(commentBizType)) {
+            return commentRepository.getAllCommentCnt();
+        } else {
+            return commentRepository.getCommentCntByBizType(commentBizType);
+        }
+    }
 
 
 }

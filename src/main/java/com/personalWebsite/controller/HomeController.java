@@ -42,6 +42,9 @@ public class HomeController extends BaseController{
     @Autowired
     private BannerService bannerService;
 
+    @Autowired
+    private CommentService commentService;
+
     /**
      * 首页
      *
@@ -58,7 +61,7 @@ public class HomeController extends BaseController{
         // 笔记数
         model.addAttribute("noteCnt", noteService.getNoteCntByStatus(NoteStatus.REVIEW_PASSED.getCode()));
         // 留言数
-
+        model.addAttribute("commentCnt", commentService.getCommentCount(null));
         // 用户列表
         List<UserEntity> userEntityList = userService.getUserList();
         if (userEntityList != null && userEntityList.size() > 12) {
@@ -72,6 +75,8 @@ public class HomeController extends BaseController{
         model.addAttribute("hotList", homeService.getHotList());
         // 最新文章
         model.addAttribute("newList", homeService.getNewList());
+        // 热评用户
+        model.addAttribute("hotCommentUser", commentService.getHotCommentUser());
         // 文章&笔记列表
         List<ArticleNoteReviewPassedCard> articleNoteReviewPassedCards = homeService.getViewList(form);
         model.addAttribute("viewList", articleNoteReviewPassedCards);
