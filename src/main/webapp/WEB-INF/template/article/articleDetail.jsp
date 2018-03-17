@@ -79,7 +79,6 @@
     <!--评论部分end-->
 
 </div>
-<!-- 你的HTML代码 -->
 
 <jsp:include page="../base/footer.jsp"/>
 <script src="${pageContext.request.contextPath}/resources/js/biz/article/articleDetail.js"></script>

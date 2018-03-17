@@ -50,7 +50,6 @@
 
 
 </div>
-<!-- 你的HTML代码 -->
 
 <jsp:include page="../../base/footer.jsp"/>
 <script>

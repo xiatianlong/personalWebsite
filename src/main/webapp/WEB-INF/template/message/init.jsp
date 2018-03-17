@@ -39,9 +39,6 @@
 
 </div>
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<!-- 你的HTML代码 -->
-
 <jsp:include page="../base/footer.jsp"/>
 <%--评论js--%>
 <script src="${pageContext.request.contextPath}/resources/js/biz/message.js"></script>

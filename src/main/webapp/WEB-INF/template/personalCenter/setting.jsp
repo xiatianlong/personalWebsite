@@ -87,16 +87,7 @@
     </div>
     <!--上部部分end-->
 
-
-
-
-
-
 </div>
-
-
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<!-- 你的HTML代码 -->
 
 <jsp:include page="../base/footer.jsp"/>
 <script>
