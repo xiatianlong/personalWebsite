@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <jsp:include page="../base/head.jsp"/>
-    <title>Title</title>
+    <title>我要投稿</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/plugins/wangEditor_v3.0.15/wangEditor-fullscreen-plugin.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/biz/personalCenter/publish.css">
 </head>

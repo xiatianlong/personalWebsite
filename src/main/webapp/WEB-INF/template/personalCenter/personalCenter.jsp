@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <jsp:include page="../base/head.jsp"/>
-    <title>Title</title>
+    <title>个人中心</title>
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/resources/css/biz/personalCenter/personalCenter.css">
 </head>

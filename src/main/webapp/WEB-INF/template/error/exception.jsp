@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <jsp:include page="../base/head.jsp"/>
-    <title>Title</title>
+    <title>哎呀、出状况了</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/biz/exception/exception.css">
 </head>
 <body>

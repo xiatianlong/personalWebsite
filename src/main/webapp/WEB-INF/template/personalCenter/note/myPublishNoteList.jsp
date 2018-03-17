@@ -9,7 +9,7 @@
 <html lang="en">
 <head>
     <jsp:include page="../../base/head.jsp"/>
-    <title>Title</title>
+    <title>我的笔记列表</title>
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/resources/css/biz/personalCenter/note/myPublishNoteList.css">
 </head>

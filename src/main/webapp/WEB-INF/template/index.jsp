@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <jsp:include page="base/head.jsp"/>
-    <title>Title</title>
+    <title>夏天龙的个人网站</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/biz/index.css">
 </head>
 <body>

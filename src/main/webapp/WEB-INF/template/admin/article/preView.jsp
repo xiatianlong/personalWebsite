@@ -9,7 +9,7 @@
 <html lang="en">
 <head>
     <jsp:include page="../../base/head.jsp"/>
-    <title>Title</title>
+    <title>后台管理</title>
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/resources/plugins/wangEditor_v3.0.15/wangEditor.min.css">
     <link rel="stylesheet"

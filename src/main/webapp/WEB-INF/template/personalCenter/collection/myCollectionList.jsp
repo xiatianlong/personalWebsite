@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <jsp:include page="../../base/head.jsp"/>
-    <title>Title</title>
+    <title>我的收藏列表</title>
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/resources/plugins/dataTables/css/jquery.dataTables.min.css">
 </head>

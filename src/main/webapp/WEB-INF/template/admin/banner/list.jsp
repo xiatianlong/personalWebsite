@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <jsp:include page="../../base/adminHead.jsp"/>
-    <title>layout 后台大布局 - Layui</title>
+    <title>后台管理</title>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">

@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <jsp:include page="../base/head.jsp"/>
-    <title>Title</title>
+    <title>笔记列表</title>
 
 </head>
 <body>
