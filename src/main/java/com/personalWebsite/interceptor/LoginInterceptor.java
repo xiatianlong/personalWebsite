@@ -2,6 +2,7 @@ package com.personalWebsite.interceptor;
 
 import com.personalWebsite.common.exception.ApplicationException;
 import com.personalWebsite.utils.AsynchronousRequestUtil;
+import com.personalWebsite.utils.PropertiesUtil;
 import com.personalWebsite.vo.UserInfo;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,6 +27,10 @@ public class LoginInterceptor implements HandlerInterceptor {
                 // 同步从定向去登录
                 response.sendRedirect("/login/qq?qqRequestUrl=" + request.getRequestURL());
                 return false;
+            }
+        } else if (request.getRequestURI().startsWith("/admin/")) {
+            if (!userInfo.getUserId().equals(PropertiesUtil.getProperty("admin_user_id"))) {
+                throw new ApplicationException("对不起，您没有管理员权限~");
             }
         }
         return true;
