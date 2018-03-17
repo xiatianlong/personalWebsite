@@ -2,7 +2,7 @@ package com.personalWebsite.service;
 
 import com.personalWebsite.dao.CommentRepository;
 import com.personalWebsite.entity.CommentEntity;
-import com.personalWebsite.model.request.PageForm;
+import com.personalWebsite.model.request.comment.CommentPageForm;
 import com.personalWebsite.vo.CommentInfo;
 import com.personalWebsite.vo.PageVO;
 import org.junit.Assert;
@@ -42,7 +42,7 @@ public class CommentlServiceImplTest {
     @Test
     public void testGetCommentListByPage() {
 
-        PageVO<CommentEntity> commentEntityPage = commentService.getCommentListByPage(new PageForm());
+        PageVO<CommentEntity> commentEntityPage = commentService.getCommentListByPage(new CommentPageForm());
         if (commentEntityPage != null) {
             System.out.println("totalCnt:" + commentEntityPage.getTotalCnt());
             System.out.println("totalPages:" + commentEntityPage.getTotalPages());

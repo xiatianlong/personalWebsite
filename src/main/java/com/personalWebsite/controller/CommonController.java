@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
+ * 公共接口
  * Created by xiatianlong on 2018/1/20.
  */
 @Controller

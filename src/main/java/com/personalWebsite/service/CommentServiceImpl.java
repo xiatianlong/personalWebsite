@@ -4,7 +4,7 @@ import com.personalWebsite.common.enums.CommentBizType;
 import com.personalWebsite.common.system.Constant;
 import com.personalWebsite.dao.CommentRepository;
 import com.personalWebsite.entity.CommentEntity;
-import com.personalWebsite.model.request.PageForm;
+import com.personalWebsite.model.request.comment.CommentPageForm;
 import com.personalWebsite.model.request.comment.MessageForm;
 import com.personalWebsite.utils.DateUtil;
 import com.personalWebsite.utils.IdUtil;
@@ -47,18 +47,19 @@ public class CommentServiceImpl extends BaseServiceImpl implements CommentServic
     public CommentEntity saveComment(MessageForm form) {
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setCommentId(IdUtil.createId(getLoinUser().getUserId()));
+        // 评论业务ID
         if (form.getCommentBizType().equals(CommentBizType.MESSAGE.getCode())) {
-            commentEntity.setCommentRootId(commentEntity.getCommentId());
             commentEntity.setCommentBizId(Constant.MESSAGE_BIZ_ID);
         } else {
-            commentEntity.setCommentRootId(form.getCommentRootId());
             commentEntity.setCommentBizId(form.getCommentBizId());
         }
-        commentEntity.setCommentParentId(form.getCommentParentId());
+        // 评论人ID
         commentEntity.setCommentUserId(getLoinUser().getUserId());
-        commentEntity.setCommentParentUserId(form.getCommentParentUserId());
+        // 评论内容
         commentEntity.setCommentContent(form.getCommentContent());
+        // 评论业务类型
         commentEntity.setCommonBizType(form.getCommentBizType());
+
         commentEntity.setCreateUser(getLoinUser().getUserId());
         commentEntity.setUpdateUser(getLoinUser().getUserId());
         Date now = new Date();
@@ -76,9 +77,9 @@ public class CommentServiceImpl extends BaseServiceImpl implements CommentServic
      */
     @SuppressWarnings("unchecked")
     @Override
-    public PageVO<CommentEntity> getCommentListByPage(PageForm form) {
+    public PageVO<CommentEntity> getCommentListByPage(final CommentPageForm form) {
 
-        Sort.Order order = new Sort.Order(Sort.Direction.ASC, "commentId");
+        Sort.Order order = new Sort.Order(Sort.Direction.DESC, "commentId");
 
         Pageable pageable = new PageRequest(form.getPageNo() - 1, form.getPageSize(), new Sort(order));
 
@@ -87,8 +88,7 @@ public class CommentServiceImpl extends BaseServiceImpl implements CommentServic
             public Predicate toPredicate(Root<CommentEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 List<Predicate> predicateList = new ArrayList<>();
 
-                predicateList.add(cb.equal(root.get("commonBizType"), CommentBizType.MESSAGE.getCode()));
-                predicateList.add(cb.isNull(root.get("commentParentId")));
+                predicateList.add(cb.equal(root.get("commonBizType"), form.getCommentBizType()));
 
                 Predicate[] pre = new Predicate[predicateList.size()];
                 return cb.and(predicateList.toArray(pre));
@@ -109,47 +109,43 @@ public class CommentServiceImpl extends BaseServiceImpl implements CommentServic
             // 一级评论
             List<CommentInfo> commentInfos = new ArrayList<>();
             for (CommentEntity commentEntity : commentEntityList) {
-                CommentInfo commentInfo = new CommentInfo();
-                commentInfo.setCommentId(commentEntity.getCommentId());
-                commentInfo.setCommentParentId(commentEntity.getCommentParentId());
-                commentInfo.setCommentUserId(commentEntity.getCommentUserId());
-                commentInfo.setCommentUserName(commentEntity.getCommentUser().getUserName());
-                commentInfo.setCommentUserHeadImg(commentEntity.getCommentUser().getUserHeadImg());
-                commentInfo.setCommentParentUserId(commentEntity.getCommentParentUserId());
-                if (commentEntity.getCommentParentUser() != null) {
-                    commentInfo.setCommentParentUserName(commentEntity.getCommentParentUser().getUserName());
-                    commentInfo.setCommentParentUserHeadImg(commentEntity.getCommentParentUser().getUserHeadImg());
-                }
-                commentInfo.setCommentContent(commentEntity.getCommentContent());
-                commentInfo.setCommentFmtTime(DateUtil.getStrDate(commentEntity.getCreateTime()));
-
-                // 二级评论
-                if (commentEntity.getChildCommentList() != null && !commentEntity.getChildCommentList().isEmpty()) {
-                    List<CommentInfo> tempCommentInfos = new ArrayList<>();
-                    for (CommentEntity commentEntity1 : commentEntity.getChildCommentList()) {
-                        CommentInfo commentInfo2 = new CommentInfo();
-                        commentInfo2.setCommentId(commentEntity1.getCommentId());
-                        commentInfo2.setCommentParentId(commentEntity1.getCommentParentId());
-                        commentInfo2.setCommentUserId(commentEntity1.getCommentUserId());
-                        commentInfo2.setCommentUserName(commentEntity1.getCommentUser().getUserName());
-                        commentInfo2.setCommentUserHeadImg(commentEntity1.getCommentUser().getUserHeadImg());
-                        commentInfo2.setCommentParentUserId(commentEntity1.getCommentParentUserId());
-                        if (commentEntity1.getCommentParentUser() != null) {
-                            commentInfo2.setCommentParentUserName(commentEntity1.getCommentParentUser().getUserName());
-                            commentInfo2.setCommentParentUserHeadImg(commentEntity1.getCommentParentUser().getUserHeadImg());
-                        }
-                        commentInfo2.setCommentContent(commentEntity1.getCommentContent());
-                        commentInfo2.setCommentFmtTime(DateUtil.getStrDate(commentEntity1.getCreateTime()));
-                        tempCommentInfos.add(commentInfo2);
-                    }
-                    commentInfo.setCommentInfoList(tempCommentInfos);
-                }
-
-                commentInfos.add(commentInfo);
+                commentInfos.add(getCommentInfo(commentEntity));
             }
             return commentInfos;
         }
         return null;
     }
+
+    /**
+     * 封装评论信息
+     *
+     * @return 评论信息
+     */
+    @Override
+    public CommentInfo getCommentInfo(CommentEntity commentEntity) {
+
+        if (commentEntity == null) {
+            return null;
+        }
+
+        CommentInfo commentInfo = new CommentInfo();
+        // 评论ID
+        commentInfo.setCommentId(commentEntity.getCommentId());
+        // 评论用户ID
+        commentInfo.setCommentUserId(commentEntity.getCommentUserId());
+        // 评论用户名称
+        commentInfo.setCommentUserName(commentEntity.getCommentUser().getUserName());
+        // 评论用户头像
+        commentInfo.setCommentUserHeadImg(commentEntity.getCommentUser().getUserHeadImg());
+        // 评论内容
+        commentInfo.setCommentContent(commentEntity.getCommentContent());
+        // 评论时间
+        commentInfo.setCommentFmtTime(DateUtil.getStrDate(commentEntity.getCreateTime()));
+
+        return commentInfo;
+    }
+
+
+
 
 }

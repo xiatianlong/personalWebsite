@@ -1,7 +1,7 @@
 package com.personalWebsite.service;
 
 import com.personalWebsite.entity.CommentEntity;
-import com.personalWebsite.model.request.PageForm;
+import com.personalWebsite.model.request.comment.CommentPageForm;
 import com.personalWebsite.model.request.comment.MessageForm;
 import com.personalWebsite.vo.CommentInfo;
 import com.personalWebsite.vo.PageVO;
@@ -27,7 +27,7 @@ public interface CommentService extends BaseService {
      * @param form 表单
      * @return 分页结果
      */
-    PageVO<CommentEntity> getCommentListByPage(PageForm form);
+    PageVO<CommentEntity> getCommentListByPage(CommentPageForm form);
 
     /**
      * 封装评论信息
@@ -35,5 +35,12 @@ public interface CommentService extends BaseService {
      * @return 评论信息
      */
     List<CommentInfo> getCommentInfo(List<CommentEntity> commentEntityList);
+
+    /**
+     * 封装评论信息
+     *
+     * @return 评论信息
+     */
+    CommentInfo getCommentInfo(CommentEntity commentEntityList);
 
 }

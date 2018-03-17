@@ -573,15 +573,9 @@ fieldset legend{
 
 
 /*评论css begin*/
-.xtl-comment.level1{
-    padding-bottom: 10px;
-    margin-bottom: 20px;
+.xtl-comment {
+    margin-bottom: 10px;
     border-bottom: 1px dashed #d5d5d5;
-}
-.xtl-comment.level2{
-    padding-top: 10px;
-    margin-top: 10px;
-    border-top: 1px dashed #e5e5e5;
 }
 
 .xtl-comment .xtl-comment-user-img{
@@ -623,13 +617,8 @@ fieldset legend{
 }
 .xtl-comment .xtl-comment-time{
     clear: both;
-}
-.xtl-comment .xtl-comment-time .xtl-comment-reply{
-    display: inline-block;
-    margin-left: 10px;
-}
-.xtl-comment .xtl-comment-time .xtl-comment-reply:hover{
-    cursor: pointer;
+    text-align: right;
+    font-size: 13px;
 }
 #xtl-message-editor .w-e-text-container{
     height: 200px !important;
@@ -639,13 +628,6 @@ fieldset legend{
 }
 #xtl-comment-editor .w-e-text-container{
     height: calc(100% - 35px) !important;
-}
-.comment-reply-to{
-    line-height: 0;
-    padding: 10px 10px 5px 10px;
-    font-size: 12px;
-    display: inline-block;
-    background: #e5e5e5;
 }
 /*评论css end*/
 

@@ -1,7 +1,6 @@
 package com.personalWebsite.vo;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * 评论信息封装结果
@@ -15,10 +14,6 @@ public class CommentInfo implements Serializable {
      */
     private String commentId;
 
-    /**
-     * 评论父ID
-     */
-    private String commentParentId;
 
     /**
      * 评论用户ID
@@ -36,21 +31,6 @@ public class CommentInfo implements Serializable {
     private String commentUserHeadImg;
 
     /**
-     * 父评论的用户ID
-     */
-    private String commentParentUserId;
-
-    /**
-     * 父评论的用户名称
-     */
-    private String commentParentUserName;
-
-    /**
-     * 父评论的用户头像
-     */
-    private String commentParentUserHeadImg;
-
-    /**
      * 评论内容
      */
     private String commentContent;
@@ -59,11 +39,6 @@ public class CommentInfo implements Serializable {
      * 评论时间
      */
     private String commentFmtTime;
-
-    /**
-     * 子评论集合
-     */
-    private List<CommentInfo> commentInfoList;
 
 
     /**
@@ -78,20 +53,6 @@ public class CommentInfo implements Serializable {
      */
     public void setCommentId(String commentId) {
         this.commentId = commentId;
-    }
-
-    /**
-     * 获取 评论父ID
-     */
-    public String getCommentParentId() {
-        return this.commentParentId;
-    }
-
-    /**
-     * 设置 评论父ID
-     */
-    public void setCommentParentId(String commentParentId) {
-        this.commentParentId = commentParentId;
     }
 
     /**
@@ -123,49 +84,6 @@ public class CommentInfo implements Serializable {
     }
 
     /**
-     * 获取 父评论的用户ID
-     */
-    public String getCommentParentUserId() {
-        return this.commentParentUserId;
-    }
-
-    /**
-     * 设置 父评论的用户ID
-     */
-    public void setCommentParentUserId(String commentParentUserId) {
-        this.commentParentUserId = commentParentUserId;
-    }
-
-    /**
-     * 获取 父评论的用户名称
-     */
-    public String getCommentParentUserName() {
-        return this.commentParentUserName;
-    }
-
-    /**
-     * 设置 父评论的用户名称
-     */
-    public void setCommentParentUserName(String commentParentUserName) {
-        this.commentParentUserName = commentParentUserName;
-    }
-
-    /**
-     * 获取 子评论集合
-     */
-    public List<CommentInfo> getCommentInfoList() {
-        return this.commentInfoList;
-    }
-
-    /**
-     * 设置 子评论集合
-     */
-    public void setCommentInfoList(List<CommentInfo> commentInfoList) {
-        this.commentInfoList = commentInfoList;
-    }
-
-
-    /**
      * 获取 评论时间
      */
     public String getCommentFmtTime() {
@@ -194,19 +112,6 @@ public class CommentInfo implements Serializable {
         this.commentUserHeadImg = commentUserHeadImg;
     }
 
-    /**
-     * 获取 父评论的用户头像
-     */
-    public String getCommentParentUserHeadImg() {
-        return this.commentParentUserHeadImg;
-    }
-
-    /**
-     * 设置 父评论的用户头像
-     */
-    public void setCommentParentUserHeadImg(String commentParentUserHeadImg) {
-        this.commentParentUserHeadImg = commentParentUserHeadImg;
-    }
 
     /**
      * 获取 评论内容

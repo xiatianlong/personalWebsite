@@ -25,6 +25,8 @@
     <div class="layui-row">
 
         <!--评论部分begin-->
+
+        <c:set value="004003" var="commentBizType" scope="request"/>
         <c:set value="${dataList}" var="messageDataList" scope="request"/>
         <c:set value="${totalCnt}" var="messageTotalCnt" scope="request"/>
         <c:set value="${pageNo}" var="messagePageNo" scope="request"/>

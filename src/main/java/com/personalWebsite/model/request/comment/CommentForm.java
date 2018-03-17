@@ -11,26 +11,6 @@ public class CommentForm implements Serializable {
 
 
     /**
-     * 评论父ID
-     */
-    private String commentParentId;
-
-    /**
-     * 评论根ID
-     */
-    private String commentRootId;
-
-    /**
-     * 评论用户ID
-     */
-    private String commentUserId;
-
-    /**
-     * 父评论的用户ID
-     */
-    private String commentParentUserId;
-
-    /**
      * 评论内容
      */
     private String commentContent;
@@ -45,62 +25,6 @@ public class CommentForm implements Serializable {
      */
     private String commentBizType;
 
-
-    /**
-     * 获取 评论父ID
-     */
-    public String getCommentParentId() {
-        return this.commentParentId;
-    }
-
-    /**
-     * 设置 评论父ID
-     */
-    public void setCommentParentId(String commentParentId) {
-        this.commentParentId = commentParentId;
-    }
-
-    /**
-     * 获取 评论根ID
-     */
-    public String getCommentRootId() {
-        return this.commentRootId;
-    }
-
-    /**
-     * 设置 评论根ID
-     */
-    public void setCommentRootId(String commentRootId) {
-        this.commentRootId = commentRootId;
-    }
-
-    /**
-     * 获取 评论用户ID
-     */
-    public String getCommentUserId() {
-        return this.commentUserId;
-    }
-
-    /**
-     * 设置 评论用户ID
-     */
-    public void setCommentUserId(String commentUserId) {
-        this.commentUserId = commentUserId;
-    }
-
-    /**
-     * 获取 父评论的用户ID
-     */
-    public String getCommentParentUserId() {
-        return this.commentParentUserId;
-    }
-
-    /**
-     * 设置 父评论的用户ID
-     */
-    public void setCommentParentUserId(String commentParentUserId) {
-        this.commentParentUserId = commentParentUserId;
-    }
 
     /**
      * 获取 评论内容
