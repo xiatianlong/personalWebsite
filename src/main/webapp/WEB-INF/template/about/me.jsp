@@ -28,7 +28,7 @@
             <fieldset class="margin-b-20">
                 <legend>关于我</legend>
                 <div class="layui-field-box layui-row">
-                    <div class="layui-col-xs12 layui-col-sm3 layui-col-md2">
+                    <div class="layui-col-xs12 layui-col-sm3 layui-col-md2 text-c">
                         <img class="layui-circle"
                              src="${pageContext.request.contextPath}/resources/images/xiatianlong.jpg"
                              style="width: 100%;max-width: 100px;">

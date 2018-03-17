@@ -33,11 +33,6 @@
 
     var layer;
     layui.use(['element', 'util', 'code', 'layer'], function () {
-        var util = layui.util;
-
-        //执行去顶部
-        util.fixbar();
-
         //引用code方法, 对code标签的内容做代码格式化
         layui.code({
             elem: 'code',
@@ -47,5 +42,38 @@
         });
         // message
         layer = layui.layer;
+
+        var util = layui.util;
+
+        //执行去顶部
+        util.fixbar({
+            bar1: true,
+            click: function (type) {
+                if (type === 'bar1') {
+                    layer.photos({
+                        photos: {
+                            "title": "Wechat", //相册标题
+                            "id": 123, //相册id
+                            "start": 0, //初始显示的图片序号，默认0
+                            "data": [   //相册包含的图片，数组格式
+                                {
+                                    "alt": "Wechat",
+                                    "pid": 111, //图片id
+                                    "src": "${pageContext.request.contextPath}/resources/images/wechat.jpg", //原图地址
+                                    "thumb": "${pageContext.request.contextPath}/resources/images/wechat.jpg" //缩略图地址
+                                },
+                                {
+                                    "alt": "WechatPay",
+                                    "pid": 222, //图片id
+                                    "src": "${pageContext.request.contextPath}/resources/images/wechatPay.png", //原图地址
+                                    "thumb": "${pageContext.request.contextPath}/resources/images/wechatPay.png" //缩略图地址
+                                }
+                            ]
+                        },
+                        anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机
+                    });
+                }
+            }
+        });
     });
 </script>
