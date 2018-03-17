@@ -648,6 +648,23 @@ fieldset legend{
 }
 /*评论css end*/
 
+/*底部css begin*/
+.xtl-footer-content {
+    text-align: center;
+}
+
+.xtl-footer-content > a {
+    font-size: 13px;
+    color: #b3b3b3;
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.xtl-footer-content > a:hover {
+    color: #333;
+}
+
+/*底部css end*/
 @media (max-width: 767px) {
     .xtl-article-card .article-title{
         margin-top: 10px;

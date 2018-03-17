@@ -10,11 +10,16 @@
 <div class="layui-container">
     <div class="layui-row">
         <hr class="layui-bg-blue margin-t-30">
-        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 margin-b-30 blue font-size-14 text-c">
-            design by xiatl, coding by xiatl.
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 margin-b-30 xtl-footer-content">
+            <a href="${pageContext.request.contextPath}/about/history">网站历史</a>
+            <a href="mailto:xiatianlong@hotmail.com">联系我</a>
+            <a href="${pageContext.request.contextPath}/admin/index">后台管理</a><br>
+            <a>Design by xiatianlong</a>
+            <a href="http://www.miitbeian.gov.cn">鄂ICP备17012255号</a>
         </div>
     </div>
 </div>
+
 
 <script src="${pageContext.request.contextPath}/resources/layui/layui.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
@@ -27,8 +32,11 @@
 <script>
 
     var layer;
-    layui.use(['element', 'code', 'layer'], function () {
-        //导航的hover效果、二级菜单等功能，需要依赖element模块
+    layui.use(['element', 'util', 'code', 'layer'], function () {
+        var util = layui.util;
+
+        //执行去顶部
+        util.fixbar();
 
         //引用code方法, 对code标签的内容做代码格式化
         layui.code({
