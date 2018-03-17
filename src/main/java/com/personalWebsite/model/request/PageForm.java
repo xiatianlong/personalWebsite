@@ -18,7 +18,7 @@ public class PageForm implements Serializable {
     /**
      * 每页数量
      */
-    private int pageSize = 3;
+    private int pageSize = 15;
 
 
     /**
