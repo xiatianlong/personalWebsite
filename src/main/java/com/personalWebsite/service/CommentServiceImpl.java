@@ -1,7 +1,5 @@
 package com.personalWebsite.service;
 
-import com.personalWebsite.common.enums.CommentBizType;
-import com.personalWebsite.common.system.Constant;
 import com.personalWebsite.dao.CommentRepository;
 import com.personalWebsite.entity.CommentEntity;
 import com.personalWebsite.model.request.comment.CommentPageForm;
@@ -48,11 +46,7 @@ public class CommentServiceImpl extends BaseServiceImpl implements CommentServic
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setCommentId(IdUtil.createId(getLoinUser().getUserId()));
         // 评论业务ID
-        if (form.getCommentBizType().equals(CommentBizType.MESSAGE.getCode())) {
-            commentEntity.setCommentBizId(Constant.MESSAGE_BIZ_ID);
-        } else {
-            commentEntity.setCommentBizId(form.getCommentBizId());
-        }
+        commentEntity.setCommentBizId(form.getCommentBizId());
         // 评论人ID
         commentEntity.setCommentUserId(getLoinUser().getUserId());
         // 评论内容

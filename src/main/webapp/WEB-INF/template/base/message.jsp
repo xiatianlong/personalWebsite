@@ -50,7 +50,7 @@
                     </c:forEach>
                 </c:when>
                 <c:otherwise>
-                    暂无评论
+                    <span id="xtl-comment-blank-content">暂无评论</span>
                 </c:otherwise>
             </c:choose>
         </div>
@@ -61,6 +61,7 @@
             <input type="hidden" id="pageSize" value="${messagePageSize}">
             <input type="hidden" id="dataCount" value="${messageTotalCnt}">
             <input type="hidden" id="commentBizType" value="${commentBizType}">
+            <input type="hidden" id="commentBizId" value="${commentBizId}">
             <div id="messagePageContent"></div>
         </div>
         <%--分页end--%>

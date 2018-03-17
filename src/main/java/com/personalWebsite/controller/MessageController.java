@@ -85,7 +85,6 @@ public class MessageController {
 
         MessageResult result = new MessageResult();
 
-        form.setCommentBizType(CommentBizType.MESSAGE.getCode());
         CommentEntity commentEntity = commentService.saveComment(form);
 
         // 留言人信息

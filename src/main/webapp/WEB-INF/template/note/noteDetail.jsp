@@ -66,11 +66,24 @@
     </div>
     <!--上部部分end-->
 
+    <!--评论部分begin-->
+    <div class="layui-row">
+        <c:set value="${note.noteId}" var="commentBizId" scope="request"/>
+        <c:set value="004002" var="commentBizType" scope="request"/>
+        <c:set value="${dataList}" var="messageDataList" scope="request"/>
+        <c:set value="${totalCnt}" var="messageTotalCnt" scope="request"/>
+        <c:set value="${pageNo}" var="messagePageNo" scope="request"/>
+        <c:set value="${pageSize}" var="messagePageSize" scope="request"/>
+        <jsp:include page="../base/message.jsp"/>
+    </div>
+    <!--评论部分end-->
+
 
 </div>
 <!-- 你的HTML代码 -->
 
 <jsp:include page="../base/footer.jsp"/>
 <script src="${pageContext.request.contextPath}/resources/js/biz/note/noteDetail.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/biz/message.js"></script>
 </body>
 </html>

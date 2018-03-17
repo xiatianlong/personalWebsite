@@ -5,6 +5,29 @@
 layui.use(['laypage', 'form'], function () {
     var laypage = layui.laypage;
 
+    // 分页
+    var pageNo;
+    var dataCount = Number($("#dataCount").val());
+    var pageSize = Number($("#pageSize").val());
+    var commentBizType = $("#commentBizType").val();
+    var commentBizId = $("#commentBizId").val();
+    var limits = [pageSize, pageSize * 2, pageSize * 3];
+    laypage.render({
+        elem: 'messagePageContent',
+        count: dataCount,
+        limit: pageSize,
+        limits: limits,
+        groups: 3,
+        layout: ['prev', 'page', 'next', 'limit', 'count'],
+        jump: function (obj, first) {
+            pageNo = obj.curr;
+            pageSize = obj.limit;
+            //首次不执行
+            if (!first) {
+                getMessagePageData();
+            }
+        }
+    });
 
     // 菜单
     var messageMenu = ['bold', 'italic', 'underline', 'strikeThrough', 'foreColor', 'link', 'code', 'emoticon'];
@@ -36,7 +59,9 @@ layui.use(['laypage', 'form'], function () {
             url: "/message/add",
             type: "POST",
             data: {
-                commentContent: messageVal
+                commentContent: messageVal,
+                commentBizId: commentBizId,
+                commentBizType: commentBizType
             },
             success: function (data) {
                 if (data.result == 'success') {
@@ -44,6 +69,7 @@ layui.use(['laypage', 'form'], function () {
                     messageEditor.txt.clear();
                     var html = buildMessageHtml(data.commentInfo);
                     $("#xtl-comment-content").prepend(html);
+                    $("#xtl-comment-blank-content").remove();
                 } else {
                     layer.msg(data.message, {icon: 7, anim: 6});
                 }
@@ -52,30 +78,9 @@ layui.use(['laypage', 'form'], function () {
 
     });
 
-
-    // 分页
-    var pageNo;
-    var dataCount = Number($("#dataCount").val());
-    var pageSize = Number($("#pageSize").val());
-    var commentBizType = $("#commentBizType").val();
-    var limits = [pageSize, pageSize * 2, pageSize * 3];
-    laypage.render({
-        elem: 'messagePageContent',
-        count: dataCount,
-        limit: pageSize,
-        limits: limits,
-        groups: 3,
-        layout: ['prev', 'page', 'next', 'limit', 'count'],
-        jump: function (obj, first) {
-            pageNo = obj.curr;
-            pageSize = obj.limit;
-            //首次不执行
-            if (!first) {
-                getMessagePageData();
-            }
-        }
-    });
-
+    /**
+     * 获取分页数据
+     */
     function getMessagePageData() {
         var requestData = {
             pageNo: pageNo,

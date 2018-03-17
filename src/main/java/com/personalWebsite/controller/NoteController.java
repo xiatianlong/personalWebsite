@@ -1,17 +1,22 @@
 package com.personalWebsite.controller;
 
 import com.personalWebsite.common.enums.BizType;
+import com.personalWebsite.common.enums.CommentBizType;
 import com.personalWebsite.common.enums.NoteStatus;
 import com.personalWebsite.common.exception.ApplicationException;
 import com.personalWebsite.common.system.Constant;
 import com.personalWebsite.entity.CollectionEntity;
+import com.personalWebsite.entity.CommentEntity;
 import com.personalWebsite.entity.NoteEntity;
+import com.personalWebsite.model.request.comment.CommentPageForm;
 import com.personalWebsite.model.request.note.NotePageForm;
 import com.personalWebsite.model.response.note.NoteCard;
 import com.personalWebsite.model.response.note.NoteInfo;
 import com.personalWebsite.model.response.note.NoteQueryResult;
 import com.personalWebsite.service.CollectionService;
+import com.personalWebsite.service.CommentService;
 import com.personalWebsite.service.NoteService;
+import com.personalWebsite.vo.PageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +36,8 @@ public class NoteController extends BaseController {
     private NoteService noteService;
     @Autowired
     private CollectionService collectionService;
+    @Autowired
+    private CommentService commentService;
 
     /**
      * 笔记列表
@@ -83,6 +90,20 @@ public class NoteController extends BaseController {
         // 是否收藏过笔记
         CollectionEntity collectionEntity = collectionService.getCollection(BizType.NOTE.getCode(), noteId, getLoinUser().getUserId());
         model.addAttribute("isCollection", collectionEntity != null);
+
+        // 留言相关
+        CommentPageForm form = new CommentPageForm();
+        form.setCommentBizType(CommentBizType.NOTE.getCode());
+        PageVO<CommentEntity> pageVO = commentService.getCommentListByPage(form);
+
+        model.addAttribute("dataList", commentService.getCommentInfo(pageVO.getDataList()));
+        //数据总数
+        model.addAttribute("totalCnt", pageVO.getTotalCnt());
+        // 页码
+        model.addAttribute("pageNo", form.getPageNo());
+        // 每页显示数量
+        model.addAttribute("pageSize", form.getPageSize());
+
         return "note/noteDetail";
     }
 
