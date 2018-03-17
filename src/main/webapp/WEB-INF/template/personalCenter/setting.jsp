@@ -97,7 +97,7 @@
         var form = layui.form;
         var tipsIndex;
         $("#openLookIcon").hover(function(){
-            tipsIndex = layer.tips('开放访问即允许别人访问我的个人中心', '#openLookIcon', {
+            tipsIndex = layer.tips('开放访问即允许别人访问我的个人中心（功能待完成）', '#openLookIcon', {
                 tips: [2, 'rgba(0,0,0,.6)'] //还可配置颜色
             });
         }, function(){

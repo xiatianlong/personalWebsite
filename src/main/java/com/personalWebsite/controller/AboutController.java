@@ -1,6 +1,7 @@
 package com.personalWebsite.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -9,11 +10,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/about")
-public class AboutController {
+public class AboutController extends BaseController {
 
-    public String init(){
+    /**
+     * 关于我
+     *
+     * @return me
+     */
+    @GetMapping("/me")
+    public String aboutMe() {
 
-        return "";
+        return "about/me";
+    }
+
+    /**
+     * 网站历史
+     *
+     * @return history
+     */
+    @GetMapping("/siteHistory")
+    public String siteHistory() {
+
+        return "about/siteHistory";
     }
 
 }

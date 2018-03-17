@@ -25,7 +25,7 @@
                 <a href="${pageContext.request.contextPath}/message">留言</a>
             </li>
             <li class="layui-nav-item <c:if test="${not empty menu_about && menu_about}">layui-this</c:if>">
-                <a href="${pageContext.request.contextPath}/about">关于</a>
+                <a href="${pageContext.request.contextPath}/about/me">关于</a>
             </li>
             <c:choose>
                 <c:when test="${not empty LOGIN_USER}">

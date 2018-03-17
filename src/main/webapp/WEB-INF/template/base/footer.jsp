@@ -11,7 +11,7 @@
     <div class="layui-row">
         <hr class="layui-bg-blue margin-t-30">
         <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 margin-b-30 xtl-footer-content">
-            <a href="${pageContext.request.contextPath}/about/history">网站历史</a>
+            <a href="${pageContext.request.contextPath}/about/siteHistory">网站历史</a>
             <a href="mailto:xiatianlong@hotmail.com">联系我</a>
             <a href="${pageContext.request.contextPath}/admin/index">后台管理</a><br>
             <a>Design by xiatianlong</a>
