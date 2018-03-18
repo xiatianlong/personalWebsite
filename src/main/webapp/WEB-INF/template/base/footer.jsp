@@ -47,7 +47,7 @@
 
         //执行去顶部
         util.fixbar({
-            bar1: true,
+            bar1: '&#xe650;',
             click: function (type) {
                 if (type === 'bar1') {
                     layer.photos({
