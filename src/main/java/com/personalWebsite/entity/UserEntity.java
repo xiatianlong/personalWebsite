@@ -161,7 +161,7 @@ public class UserEntity extends BaseEntity {
     /**
      * 获取 用户头像（小）
      */
-    @Column(name = "USER_HEAD_IMG_SMALL", length = 255)
+    @Column(name = "USER_HEAD_IMG_SMALL")
     public String getUserHeadImgSmall() {
         return this.userHeadImgSmall;
     }
@@ -176,7 +176,7 @@ public class UserEntity extends BaseEntity {
     /**
      * 获取 用户头像（大）
      */
-    @Column(name = "USER_HEAD_IMG_LARGE", length = 255)
+    @Column(name = "USER_HEAD_IMG_LARGE")
     public String getUserHeadImgLarge() {
         return this.userHeadImgLarge;
     }
@@ -221,7 +221,7 @@ public class UserEntity extends BaseEntity {
     /**
      * 获取 个人简介
      */
-    @Column(name = "USER_INTRODUCTION", length = 255)
+    @Column(name = "USER_INTRODUCTION")
     public String getUserIntroduction() {
         return this.userIntroduction;
     }
