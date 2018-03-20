@@ -344,6 +344,13 @@ body{
     margin:10px 0;
 }
 
+.w-e-text ul li {
+    list-style-type: disc !important;
+}
+
+.w-e-text ol li {
+    list-style-type: decimal !important;
+}
 
 .xtl-header{
     width: 100%;
