@@ -36,7 +36,7 @@
         //引用code方法, 对code标签的内容做代码格式化
         layui.code({
             elem: 'code',
-            height: '100px',
+            height: '1000px',
             encode: true,
             about: false
         });
