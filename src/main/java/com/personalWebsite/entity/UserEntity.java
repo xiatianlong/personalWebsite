@@ -285,6 +285,11 @@ public class UserEntity extends BaseEntity {
      */
     @Transient
     public String getUserHeadImg() {
-        return StringUtils.isEmpty(getUserHeadImgLarge()) ? getUserHeadImgSmall() : getUserHeadImgLarge();
+        String userHeadImg = StringUtils.isEmpty(getUserHeadImgLarge()) ? getUserHeadImgSmall() : getUserHeadImgLarge();
+        if (!StringUtils.isEmpty(userHeadImg)) {
+            // 做http -> https的替换
+            userHeadImg = userHeadImg.replace("http://", "https://");
+        }
+        return userHeadImg;
     }
 }
