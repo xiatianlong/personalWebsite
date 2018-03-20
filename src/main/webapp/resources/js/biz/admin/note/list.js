@@ -295,8 +295,8 @@ layui.use(['laypage', 'form'], function () {
         html += '           <div class="layui-form-item">';
         html += '               <label class="layui-form-label">选择审核状态</label>';
         html += '               <div class="layui-input-block">';
-        html += '                   <input type="radio" name="status" value="002003" title="审核通过">';
-        html += '                   <input type="radio" name="status" value="002004" title="审核不通过">';
+        html += '                   <input type="radio" name="status" value="003003" title="审核通过">';
+        html += '                   <input type="radio" name="status" value="003004" title="审核不通过">';
         html += '               </div>';
         html += '           </div>';
         html += '           <div class="layui-form-item">';
