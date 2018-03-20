@@ -214,6 +214,7 @@ public class NoteServiceImpl extends BaseServiceImpl implements NoteService {
      * @param form form
      */
     @Override
+    @Transactional
     public void saveNote(SaveOrUpdateForm form) {
         NoteEntity noteEntity = new NoteEntity();
 
