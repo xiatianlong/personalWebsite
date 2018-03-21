@@ -164,6 +164,10 @@ public class CommentServiceImpl extends BaseServiceImpl implements CommentServic
                 } else {
                     info.setUserHeadImg((String) arr[4]);
                 }
+                if (!StringUtils.isEmpty(info.getUserHeadImg())) {
+                    // 做http -> https的替换
+                    info.setUserHeadImg(info.getUserHeadImg().replace("http://", "https://"));
+                }
                 list.add(info);
             }
             return list;
