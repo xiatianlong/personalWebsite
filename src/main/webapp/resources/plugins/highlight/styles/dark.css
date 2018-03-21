@@ -5,10 +5,10 @@ Dark style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Or
 */
 
 .hljs {
-    display: block;
-    overflow-x: auto;
-    padding: 0.5em;
-    background: #444;
+    display: block !important;
+    overflow-x: auto !important;
+    padding: 0.5em !important;
+    background: #444 !important;
 }
 
 .hljs-keyword,
@@ -16,12 +16,12 @@ Dark style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Or
 .hljs-literal,
 .hljs-section,
 .hljs-link {
-    color: white;
+    color: white !important;
 }
 
 .hljs,
 .hljs-subst {
-    color: #ddd;
+    color: #ddd !important;
 }
 
 .hljs-string,
@@ -36,14 +36,14 @@ Dark style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Or
 .hljs-variable,
 .hljs-template-tag,
 .hljs-template-variable {
-    color: #d88;
+    color: #d88 !important;
 }
 
 .hljs-comment,
 .hljs-quote,
 .hljs-deletion,
 .hljs-meta {
-    color: #777;
+    color: #777 !important;
 }
 
 .hljs-keyword,
@@ -55,9 +55,9 @@ Dark style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Or
 .hljs-type,
 .hljs-name,
 .hljs-strong {
-    font-weight: bold;
+    font-weight: bold !important;
 }
 
 .hljs-emphasis {
-    font-style: italic;
+    font-style: italic !important;
 }
