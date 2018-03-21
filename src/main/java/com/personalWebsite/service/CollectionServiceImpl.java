@@ -94,6 +94,7 @@ public class CollectionServiceImpl extends BaseServiceImpl implements Collection
      * @param bizId   业务id
      * @throws Exception e
      */
+    @Transactional
     @Override
     public void removeCollection(String bizType, String bizId) throws Exception {
         CollectionEntity collectionEntity = getCollection(bizType, bizId, getLoinUser().getUserId());

@@ -271,6 +271,7 @@ public class NoteServiceImpl extends BaseServiceImpl implements NoteService {
      *
      * @param noteEntity 笔记对象
      */
+    @Transactional
     @Override
     public void removeNote(NoteEntity noteEntity) throws Exception {
         if (noteEntity != null) {
@@ -485,6 +486,7 @@ public class NoteServiceImpl extends BaseServiceImpl implements NoteService {
      * @param form   请求表单
      * @throws Exception e
      */
+    @Transactional
     @Override
     public void auditNote(String noteId, AuditForm form) throws Exception {
         // 校验状态
