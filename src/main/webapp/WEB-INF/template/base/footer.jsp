@@ -26,20 +26,21 @@
 <script src="${pageContext.request.contextPath}/resources/js/canvas-particle.js"></script>
 <script src="${pageContext.request.contextPath}/resources/plugins/wangEditor_v3.0.15/wangEditor.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/plugins/wangEditor_v3.0.15/emoji.js"></script>
+<script src="${pageContext.request.contextPath}/resources/plugins/highlight/highlight.pack.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/xss.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/easy-check.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 <script>
-
     var layer;
     layui.use(['element', 'util', 'code', 'layer'], function () {
         //引用code方法, 对code标签的内容做代码格式化
-        layui.code({
-            elem: 'code',
-            height: '1000px',
-            encode: true,
-            about: false
-        });
+//        layui.code({
+//            elem: 'code',
+//            height: '1000px',
+//            encode: true,
+//            about: false
+//        });
         // message
         layer = layui.layer;
 
