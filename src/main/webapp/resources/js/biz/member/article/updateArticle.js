@@ -10,7 +10,7 @@ layui.use(['form', 'upload'], function () {
     });
 
     // 菜单
-    var messageMenu = ['bold', 'italic', 'underline', 'strikeThrough', 'justify', 'foreColor', 'list', 'link', 'image', 'video', 'table', 'code', 'emoticon'];
+    var messageMenu = ['bold', 'fontSize', 'italic', 'underline', 'strikeThrough', 'justify', 'quote', 'foreColor', 'list', 'link', 'image', 'video', 'table', 'code', 'emoticon'];
 
     //建立编辑器
     var messageE = window.wangEditor;
