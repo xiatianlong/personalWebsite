@@ -17,10 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,25 +43,22 @@ public class HomeServiceImpl extends BaseServiceImpl implements HomeService {
         // orderKey倒序(id)
         Sort.Order order = new Sort.Order(Sort.Direction.DESC, "orderKey");
         Pageable pageable = new PageRequest(homePageForm.getPageNo() - 1, homePageForm.getPageSize(), new Sort(order));
-        Specification<ArticleNoteReviewPassedView> specification = new Specification<ArticleNoteReviewPassedView>() {
-            @Override
-            public Predicate toPredicate(Root<ArticleNoteReviewPassedView> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                List<Predicate> predicateList = new ArrayList<>();
-                // 排序条件
-                if (!StringUtils.isEmpty(homePageForm.getOrderKey())) {
-                    predicateList.add(cb.lessThan(root.<String>get("orderKey"), homePageForm.getOrderKey()));
-                }
-
-                // 关键字搜索
-                if (!StringUtils.isEmpty(homePageForm.getKeyword())) {
-                    predicateList.add(cb.like(root.<String>get("title"), "%" + homePageForm.getKeyword() + "%"));
-                }
-
-                // 去重处理
-                query.distinct(true);
-                Predicate[] pre = new Predicate[predicateList.size()];
-                return cb.and(predicateList.toArray(pre));
+        Specification<ArticleNoteReviewPassedView> specification = (root, query, cb) -> {
+            List<Predicate> predicateList = new ArrayList<>();
+            // 排序条件
+            if (!StringUtils.isEmpty(homePageForm.getOrderKey())) {
+                predicateList.add(cb.lessThan(root.get("orderKey"), homePageForm.getOrderKey()));
             }
+
+            // 关键字搜索
+            if (!StringUtils.isEmpty(homePageForm.getKeyword())) {
+                predicateList.add(cb.like(root.get("title"), "%" + homePageForm.getKeyword() + "%"));
+            }
+
+            // 去重处理
+            query.distinct(true);
+            Predicate[] pre = new Predicate[predicateList.size()];
+            return cb.and(predicateList.toArray(pre));
         };
         return buildCard(articleNoteReviewPassedViewRepository.findAll(specification, pageable).getContent());
     }
@@ -178,7 +172,4 @@ public class HomeServiceImpl extends BaseServiceImpl implements HomeService {
         return null;
 
     }
-
-    ;
-
 }

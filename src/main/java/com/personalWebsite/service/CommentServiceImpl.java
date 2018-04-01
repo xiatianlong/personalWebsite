@@ -18,10 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
@@ -80,17 +77,14 @@ public class CommentServiceImpl extends BaseServiceImpl implements CommentServic
 
         Pageable pageable = new PageRequest(form.getPageNo() - 1, form.getPageSize(), new Sort(order));
 
-        Specification<CommentEntity> specification = new Specification<CommentEntity>() {
-            @Override
-            public Predicate toPredicate(Root<CommentEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                List<Predicate> predicateList = new ArrayList<>();
+        Specification<CommentEntity> specification = (root, query, cb) -> {
+            List<Predicate> predicateList = new ArrayList<>();
 
-                predicateList.add(cb.equal(root.get("commonBizType"), form.getCommentBizType()));
-                predicateList.add(cb.equal(root.get("commentBizId"), form.getCommentBizId()));
+            predicateList.add(cb.equal(root.get("commonBizType"), form.getCommentBizType()));
+            predicateList.add(cb.equal(root.get("commentBizId"), form.getCommentBizId()));
 
-                Predicate[] pre = new Predicate[predicateList.size()];
-                return cb.and(predicateList.toArray(pre));
-            }
+            Predicate[] pre = new Predicate[predicateList.size()];
+            return cb.and(predicateList.toArray(pre));
         };
 
         return new PageVO(commentRepository.findAll(specification, pageable));

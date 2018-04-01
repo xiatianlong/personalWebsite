@@ -141,8 +141,8 @@ public class CommonServiceImpl extends BaseServiceImpl implements CommonService 
      * 文件比例压缩处理
      *
      * @param file 文件
-     * @return
-     * @throws Exception
+     * @return i
+     * @throws Exception e
      */
     private InputStream imgBuilder(MultipartFile file) throws Exception {
 
