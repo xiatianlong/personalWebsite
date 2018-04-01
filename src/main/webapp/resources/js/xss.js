@@ -75,7 +75,9 @@
             u:      [],
             ul:     [],
             video: ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width'],
-            strike: []
+            strike: [],
+            svg: ['viewBox', 'version', 'width', 'height', 'aria-hidden'],
+            path: ['fill-rule', 'd']
         };
     }
 
