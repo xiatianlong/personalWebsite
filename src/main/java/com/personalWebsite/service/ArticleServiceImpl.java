@@ -33,7 +33,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
 import java.util.*;
 
 /**
@@ -166,45 +169,42 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
         // 创建时间倒序（id）
         Sort.Order order = new Sort.Order(Sort.Direction.DESC, "articleId");
         Pageable pageable = new PageRequest(articlePageForm.getPageNo() - 1, articlePageForm.getPageSize(), new Sort(order));
-        Specification<ArticleEntity> specification = new Specification<ArticleEntity>() {
-            @Override
-            public Predicate toPredicate(Root<ArticleEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+        Specification<ArticleEntity> specification = (root, query, cb) -> {
 
-                List<Predicate> predicateList = new ArrayList<>();
+            List<Predicate> predicateList = new ArrayList<>();
 
-                predicateList.add(cb.equal(root.get("userId"), getLoinUser().getUserId()));
-                predicateList.add(cb.equal(root.get("deleted"), false));
+            predicateList.add(cb.equal(root.get("userId"), getLoinUser().getUserId()));
+            predicateList.add(cb.equal(root.get("deleted"), false));
 
-                // 查询条件-状态
-                if (articlePageForm.getArticleStatus() != null && articlePageForm.getArticleStatus().length > 0) {
-                    CriteriaBuilder.In<String> in = cb.in(root.<String>get("articleStatus"));
-                    for (String str : articlePageForm.getArticleStatus()) {
-                        in.value(str);
-                    }
-                    predicateList.add(in);
+            // 查询条件-状态
+            if (articlePageForm.getArticleStatus() != null && articlePageForm.getArticleStatus().length > 0) {
+                CriteriaBuilder.In<String> in = cb.in(root.<String>get("articleStatus"));
+                for (String str : articlePageForm.getArticleStatus()) {
+                    in.value(str);
                 }
-
-                // 查询条件-类别
-                if (articlePageForm.getArticleCategory() != null && articlePageForm.getArticleCategory().length > 0) {
-                    Join<ArticleEntity, ArticleCategoryEntity> categoryJoin = root.join("categoryEntityList", JoinType.LEFT);
-                    CriteriaBuilder.In<String> in = cb.in(categoryJoin.<String>get("articleCategory"));
-                    for (String str : articlePageForm.getArticleCategory()) {
-                        in.value(str);
-                    }
-                    predicateList.add(in);
-                }
-
-                // 排序条件
-                if (!StringUtils.isEmpty(articlePageForm.getArticleId())) {
-                    predicateList.add(cb.lessThan(root.<String>get("articleId"), articlePageForm.getArticleId()));
-                }
-
-                // 去重处理
-                query.distinct(true);
-
-                Predicate[] pre = new Predicate[predicateList.size()];
-                return cb.and(predicateList.toArray(pre));
+                predicateList.add(in);
             }
+
+            // 查询条件-类别
+            if (articlePageForm.getArticleCategory() != null && articlePageForm.getArticleCategory().length > 0) {
+                Join<ArticleEntity, ArticleCategoryEntity> categoryJoin = root.join("categoryEntityList", JoinType.LEFT);
+                CriteriaBuilder.In<String> in = cb.in(categoryJoin.<String>get("articleCategory"));
+                for (String str : articlePageForm.getArticleCategory()) {
+                    in.value(str);
+                }
+                predicateList.add(in);
+            }
+
+            // 排序条件
+            if (!StringUtils.isEmpty(articlePageForm.getArticleId())) {
+                predicateList.add(cb.lessThan(root.get("articleId"), articlePageForm.getArticleId()));
+            }
+
+            // 去重处理
+            query.distinct(true);
+
+            Predicate[] pre = new Predicate[predicateList.size()];
+            return cb.and(predicateList.toArray(pre));
         };
 
         return buildArticleCard(articleRepository.findAll(specification, pageable).getContent());
@@ -221,36 +221,33 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
         // 创建时间倒序(id)
         Sort.Order order = new Sort.Order(Sort.Direction.DESC, "articleId");
         Pageable pageable = new PageRequest(articlePageForm.getPageNo() - 1, articlePageForm.getPageSize(), new Sort(order));
-        Specification<ArticleEntity> specification = new Specification<ArticleEntity>() {
-            @Override
-            public Predicate toPredicate(Root<ArticleEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+        Specification<ArticleEntity> specification = (root, query, cb) -> {
 
-                List<Predicate> predicateList = new ArrayList<>();
-                // 审核通过的
-                predicateList.add(cb.equal(root.get("articleStatus"), ArticleStatus.REVIEW_PASSED.getCode()));
-                predicateList.add(cb.equal(root.get("deleted"), false));
+            List<Predicate> predicateList = new ArrayList<>();
+            // 审核通过的
+            predicateList.add(cb.equal(root.get("articleStatus"), ArticleStatus.REVIEW_PASSED.getCode()));
+            predicateList.add(cb.equal(root.get("deleted"), false));
 
-                // 查询条件-类别
-                if (articlePageForm.getArticleCategory() != null && articlePageForm.getArticleCategory().length > 0) {
-                    Join<ArticleEntity, ArticleCategoryEntity> categoryJoin = root.join("categoryEntityList", JoinType.LEFT);
-                    CriteriaBuilder.In<String> in = cb.in(categoryJoin.<String>get("articleCategory"));
-                    for (String str : articlePageForm.getArticleCategory()) {
-                        in.value(str);
-                    }
-                    predicateList.add(in);
+            // 查询条件-类别
+            if (articlePageForm.getArticleCategory() != null && articlePageForm.getArticleCategory().length > 0) {
+                Join<ArticleEntity, ArticleCategoryEntity> categoryJoin = root.join("categoryEntityList", JoinType.LEFT);
+                CriteriaBuilder.In<String> in = cb.in(categoryJoin.<String>get("articleCategory"));
+                for (String str : articlePageForm.getArticleCategory()) {
+                    in.value(str);
                 }
-
-                // 排序条件
-                if (!StringUtils.isEmpty(articlePageForm.getArticleId())) {
-                    predicateList.add(cb.lessThan(root.<String>get("articleId"), articlePageForm.getArticleId()));
-                }
-
-                // 去重处理
-                query.distinct(true);
-
-                Predicate[] pre = new Predicate[predicateList.size()];
-                return cb.and(predicateList.toArray(pre));
+                predicateList.add(in);
             }
+
+            // 排序条件
+            if (!StringUtils.isEmpty(articlePageForm.getArticleId())) {
+                predicateList.add(cb.lessThan(root.get("articleId"), articlePageForm.getArticleId()));
+            }
+
+            // 去重处理
+            query.distinct(true);
+
+            Predicate[] pre = new Predicate[predicateList.size()];
+            return cb.and(predicateList.toArray(pre));
         };
 
         return buildArticleCard(articleRepository.findAll(specification, pageable).getContent());
@@ -270,56 +267,53 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
         // 创建时间倒序(id)
         Sort.Order order = new Sort.Order(Sort.Direction.DESC, "articleId");
         Pageable pageable = new PageRequest(adminArticlePageForm.getPageNo() - 1, adminArticlePageForm.getPageSize(), new Sort(order));
-        Specification<ArticleEntity> specification = new Specification<ArticleEntity>() {
-            @Override
-            public Predicate toPredicate(Root<ArticleEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+        Specification<ArticleEntity> specification = (root, query, cb) -> {
 
-                List<Predicate> predicateList = new ArrayList<>();
-                // 是否删除的
-                if (adminArticlePageForm.getDeleted() != null) {
-                    predicateList.add(cb.equal(root.get("deleted"), adminArticlePageForm.getDeleted() == 1));
-                }
-
-                // 文章id
-                if (adminArticlePageForm.getArticleId() != null) {
-                    predicateList.add(cb.like(root.<String>get("articleId"), "%" + adminArticlePageForm.getArticleId() + "%"));
-                }
-
-                // 关键字（ID、title）
-                if (adminArticlePageForm.getKeyword() != null) {
-                    predicateList.add(
-                            cb.or(
-                                    cb.like(root.<String>get("articleId"), "%" + adminArticlePageForm.getKeyword() + "%"),
-                                    cb.like(root.<String>get("articleTitle"), "%" + adminArticlePageForm.getKeyword() + "%")
-                            )
-                    );
-                }
-
-                // 查询条件-类别
-                if (adminArticlePageForm.getArticleCategory() != null && adminArticlePageForm.getArticleCategory().length > 0) {
-                    Join<ArticleEntity, ArticleCategoryEntity> categoryJoin = root.join("categoryEntityList", JoinType.LEFT);
-                    CriteriaBuilder.In<String> in = cb.in(categoryJoin.<String>get("articleCategory"));
-                    for (String str : adminArticlePageForm.getArticleCategory()) {
-                        in.value(str);
-                    }
-                    predicateList.add(in);
-                }
-
-                // 查询条件-状态
-                if (adminArticlePageForm.getArticleStatus() != null && adminArticlePageForm.getArticleStatus().length > 0) {
-                    CriteriaBuilder.In<String> in = cb.in(root.<String>get("articleStatus"));
-                    for (String str : adminArticlePageForm.getArticleStatus()) {
-                        in.value(str);
-                    }
-                    predicateList.add(in);
-                }
-
-                // 去重处理
-                query.distinct(true);
-
-                Predicate[] pre = new Predicate[predicateList.size()];
-                return cb.and(predicateList.toArray(pre));
+            List<Predicate> predicateList = new ArrayList<>();
+            // 是否删除的
+            if (adminArticlePageForm.getDeleted() != null) {
+                predicateList.add(cb.equal(root.get("deleted"), adminArticlePageForm.getDeleted() == 1));
             }
+
+            // 文章id
+            if (adminArticlePageForm.getArticleId() != null) {
+                predicateList.add(cb.like(root.get("articleId"), "%" + adminArticlePageForm.getArticleId() + "%"));
+            }
+
+            // 关键字（ID、title）
+            if (adminArticlePageForm.getKeyword() != null) {
+                predicateList.add(
+                        cb.or(
+                                cb.like(root.get("articleId"), "%" + adminArticlePageForm.getKeyword() + "%"),
+                                cb.like(root.get("articleTitle"), "%" + adminArticlePageForm.getKeyword() + "%")
+                        )
+                );
+            }
+
+            // 查询条件-类别
+            if (adminArticlePageForm.getArticleCategory() != null && adminArticlePageForm.getArticleCategory().length > 0) {
+                Join<ArticleEntity, ArticleCategoryEntity> categoryJoin = root.join("categoryEntityList", JoinType.LEFT);
+                CriteriaBuilder.In<String> in = cb.in(categoryJoin.<String>get("articleCategory"));
+                for (String str : adminArticlePageForm.getArticleCategory()) {
+                    in.value(str);
+                }
+                predicateList.add(in);
+            }
+
+            // 查询条件-状态
+            if (adminArticlePageForm.getArticleStatus() != null && adminArticlePageForm.getArticleStatus().length > 0) {
+                CriteriaBuilder.In<String> in = cb.in(root.<String>get("articleStatus"));
+                for (String str : adminArticlePageForm.getArticleStatus()) {
+                    in.value(str);
+                }
+                predicateList.add(in);
+            }
+
+            // 去重处理
+            query.distinct(true);
+
+            Predicate[] pre = new Predicate[predicateList.size()];
+            return cb.and(predicateList.toArray(pre));
         };
         Page<ArticleEntity> page = articleRepository.findAll(specification, pageable);
         List<ArticleEntity> articleEntities = page.getContent();
@@ -354,18 +348,15 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
      */
     private List<ArticleCard> getArticleListBase(Sort.Order order) {
         Pageable pageable = new PageRequest(0, 5, new Sort(order));
-        Specification<ArticleEntity> specification = new Specification<ArticleEntity>() {
-            @Override
-            public Predicate toPredicate(Root<ArticleEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+        Specification<ArticleEntity> specification = (root, query, cb) -> {
 
-                List<Predicate> predicateList = new ArrayList<>();
-                // 审核通过的
-                predicateList.add(cb.equal(root.get("articleStatus"), ArticleStatus.REVIEW_PASSED.getCode()));
-                predicateList.add(cb.equal(root.get("deleted"), false));
+            List<Predicate> predicateList = new ArrayList<>();
+            // 审核通过的
+            predicateList.add(cb.equal(root.get("articleStatus"), ArticleStatus.REVIEW_PASSED.getCode()));
+            predicateList.add(cb.equal(root.get("deleted"), false));
 
-                Predicate[] pre = new Predicate[predicateList.size()];
-                return cb.and(predicateList.toArray(pre));
-            }
+            Predicate[] pre = new Predicate[predicateList.size()];
+            return cb.and(predicateList.toArray(pre));
         };
 
         return buildArticleCard(articleRepository.findAll(specification, pageable).getContent());
@@ -611,6 +602,33 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
     @Override
     public int getArticleCntByStatus(String status) {
         return articleRepository.getArticleCntByStatus(status);
+    }
+
+    /**
+     * 获取用户下上线的文章
+     *
+     * @param userId userid
+     * @return list
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<ArticleCard> getOnlineArticleByUser(String userId) {
+        if (StringUtils.isEmpty(userId)) {
+            return null;
+        }
+        Specification<ArticleEntity> specification = (root, query, cb) -> {
+
+            List<Predicate> predicateList = new ArrayList<>();
+            // 审核通过的
+            predicateList.add(cb.equal(root.get("articleStatus"), ArticleStatus.REVIEW_PASSED.getCode()));
+            predicateList.add(cb.equal(root.get("deleted"), false));
+            predicateList.add(cb.equal(root.get("userId"), userId));
+
+            Predicate[] pre = new Predicate[predicateList.size()];
+            return cb.and(predicateList.toArray(pre));
+        };
+
+        return buildArticleCard(articleRepository.findAll(specification, new Sort(new Sort.Order(Sort.Direction.DESC, "createTime"))));
     }
 
     /**

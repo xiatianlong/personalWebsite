@@ -134,7 +134,9 @@ layui.use(['laypage', 'form'], function () {
         html += '<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-comment">';
         html += '   <div class="xtl-comment-user-img"><img src="' + message.commentUserHeadImg + '"></div>';
         html += '   <div class="xtl-comment-user-info">';
-        html += '       <div class="xtl-comment-user-name">' + message.commentUserName + '</div>';
+        html += '       <div class="xtl-comment-user-name">';
+        html += '           <a href="/user/' + message.commentUserId + '" target="_blank" class="create-user">' + message.commentUserName + '</a>';
+        html += '       </div>';
         html += '       <div class="xtl-comment-content">' + message.commentContent + '</div>';
         html += '       <div class="xtl-comment-time">';
         html += '           <span class="gray">';

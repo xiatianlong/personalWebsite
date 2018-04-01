@@ -1,5 +1,9 @@
 package com.personalWebsite.controller;
 
+import com.personalWebsite.common.exception.ApplicationException;
+import com.personalWebsite.model.response.user.UserDetail;
+import com.personalWebsite.service.ArticleService;
+import com.personalWebsite.service.NoteService;
 import com.personalWebsite.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +22,10 @@ public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private NoteService noteService;
+    @Autowired
+    private ArticleService articleService;
 
     /**
      * 查看用户信息
@@ -29,8 +37,15 @@ public class UserController extends BaseController {
      */
     @GetMapping("/{userId}")
     public String info(@PathVariable("userId") String userId, Model model) throws Exception {
-
-        model.addAttribute("user", userService.getUserDetail(userId));
+        UserDetail userDetail = userService.getUserDetail(userId);
+        if (userDetail == null) {
+            throw new ApplicationException(getMessage("user.null"));
+        }
+        model.addAttribute("user", userDetail);
+        if (userDetail.isOpen()) {
+            model.addAttribute("noteList", noteService.getOnlineNoteByUser(userId));
+            model.addAttribute("articleList", articleService.getOnlineArticleByUser(userId));
+        }
 
         return "user/userInfo";
     }

@@ -418,9 +418,6 @@ fieldset legend{
     -webkit-transform: scale(1.1);
     -o-transform: scale(1.1);
 }
-.xtl-article-card .article-create-user:hover{
-    text-decoration: underline;
-}
 
 .xtl-article-card .article-card-left-img {
     overflow: hidden;
@@ -593,8 +590,18 @@ fieldset legend{
 .hot-comment-user-name:hover{
     color: #5FB878;
     cursor: pointer;
+    text-decoration: underline;
 }
 
+.create-user {
+    color: #5FB878;
+}
+
+.create-user:hover {
+    cursor: pointer;
+    color: #5FB878;
+    text-decoration: underline;
+}
 
 /*评论css begin*/
 .xtl-comment {

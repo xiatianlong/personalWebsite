@@ -47,7 +47,8 @@
                 ${note.noteContent}
             </div>
             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 footer">
-                ${note.userName}<br>
+                <a class="create-user" href="${pageContext.request.contextPath}/user/${note.userId}"
+                   target="_blank">${note.userName}</a><br>
                 ${note.fmtCreateTime}
             </div>
             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 text-c font-size-14" id="collectionContent">

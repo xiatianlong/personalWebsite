@@ -47,7 +47,8 @@
                 ${article.articleContent}
             </div>
             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 footer">
-                ${article.userName}<br>
+                <a class="create-user" href="${pageContext.request.contextPath}/user/${article.userId}"
+                   target="_blank">${article.userName}</a><br>
                 ${article.fmtCreateTime}
             </div>
             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 text-c font-size-14" id="collectionContent">

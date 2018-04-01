@@ -33,7 +33,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
 import java.util.*;
 
 /**
@@ -73,45 +76,42 @@ public class NoteServiceImpl extends BaseServiceImpl implements NoteService {
         // 创建时间倒序（id）
         Sort.Order order = new Sort.Order(Sort.Direction.DESC, "noteId");
         Pageable pageable = new PageRequest(notePageForm.getPageNo() - 1, notePageForm.getPageSize(), new Sort(order));
-        Specification<NoteEntity> specification = new Specification<NoteEntity>() {
-            @Override
-            public Predicate toPredicate(Root<NoteEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+        Specification<NoteEntity> specification = (root, query, cb) -> {
 
-                List<Predicate> predicateList = new ArrayList<>();
+            List<Predicate> predicateList = new ArrayList<>();
 
-                predicateList.add(cb.equal(root.get("userId"), getLoinUser().getUserId()));
-                predicateList.add(cb.equal(root.get("deleted"), false));
+            predicateList.add(cb.equal(root.get("userId"), getLoinUser().getUserId()));
+            predicateList.add(cb.equal(root.get("deleted"), false));
 
-                // 查询条件-状态
-                if (notePageForm.getNoteStatus() != null && notePageForm.getNoteStatus().length > 0) {
-                    CriteriaBuilder.In<String> in = cb.in(root.<String>get("noteStatus"));
-                    for (String str : notePageForm.getNoteStatus()) {
-                        in.value(str);
-                    }
-                    predicateList.add(in);
+            // 查询条件-状态
+            if (notePageForm.getNoteStatus() != null && notePageForm.getNoteStatus().length > 0) {
+                CriteriaBuilder.In<String> in = cb.in(root.<String>get("noteStatus"));
+                for (String str : notePageForm.getNoteStatus()) {
+                    in.value(str);
                 }
-
-                // 查询条件-类别
-                if (notePageForm.getNoteCategory() != null && notePageForm.getNoteCategory().length > 0) {
-                    Join<NoteEntity, NoteCategoryEntity> categoryJoin = root.join("categoryEntityList", JoinType.LEFT);
-                    CriteriaBuilder.In<String> in = cb.in(categoryJoin.<String>get("noteCategory"));
-                    for (String str : notePageForm.getNoteCategory()) {
-                        in.value(str);
-                    }
-                    predicateList.add(in);
-                }
-
-                // 排序条件
-                if (!StringUtils.isEmpty(notePageForm.getNoteId())) {
-                    predicateList.add(cb.lessThan(root.<String>get("noteId"), notePageForm.getNoteId()));
-                }
-
-                // 去重处理
-                query.distinct(true);
-
-                Predicate[] pre = new Predicate[predicateList.size()];
-                return cb.and(predicateList.toArray(pre));
+                predicateList.add(in);
             }
+
+            // 查询条件-类别
+            if (notePageForm.getNoteCategory() != null && notePageForm.getNoteCategory().length > 0) {
+                Join<NoteEntity, NoteCategoryEntity> categoryJoin = root.join("categoryEntityList", JoinType.LEFT);
+                CriteriaBuilder.In<String> in = cb.in(categoryJoin.<String>get("noteCategory"));
+                for (String str : notePageForm.getNoteCategory()) {
+                    in.value(str);
+                }
+                predicateList.add(in);
+            }
+
+            // 排序条件
+            if (!StringUtils.isEmpty(notePageForm.getNoteId())) {
+                predicateList.add(cb.lessThan(root.get("noteId"), notePageForm.getNoteId()));
+            }
+
+            // 去重处理
+            query.distinct(true);
+
+            Predicate[] pre = new Predicate[predicateList.size()];
+            return cb.and(predicateList.toArray(pre));
         };
 
         return buildNoteCard(noteRepository.findAll(specification, pageable).getContent());
@@ -352,36 +352,33 @@ public class NoteServiceImpl extends BaseServiceImpl implements NoteService {
         // 创建时间倒序(id)
         Sort.Order order = new Sort.Order(Sort.Direction.DESC, "noteId");
         Pageable pageable = new PageRequest(notePageForm.getPageNo() - 1, notePageForm.getPageSize(), new Sort(order));
-        Specification<NoteEntity> specification = new Specification<NoteEntity>() {
-            @Override
-            public Predicate toPredicate(Root<NoteEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+        Specification<NoteEntity> specification = (root, query, cb) -> {
 
-                List<Predicate> predicateList = new ArrayList<>();
-                // 审核通过的
-                predicateList.add(cb.equal(root.get("noteStatus"), NoteStatus.REVIEW_PASSED.getCode()));
-                predicateList.add(cb.equal(root.get("deleted"), false));
+            List<Predicate> predicateList = new ArrayList<>();
+            // 审核通过的
+            predicateList.add(cb.equal(root.get("noteStatus"), NoteStatus.REVIEW_PASSED.getCode()));
+            predicateList.add(cb.equal(root.get("deleted"), false));
 
-                // 查询条件-类别
-                if (notePageForm.getNoteCategory() != null && notePageForm.getNoteCategory().length > 0) {
-                    Join<NoteEntity, NoteCategoryEntity> categoryJoin = root.join("categoryEntityList", JoinType.LEFT);
-                    CriteriaBuilder.In<String> in = cb.in(categoryJoin.<String>get("noteCategory"));
-                    for (String str : notePageForm.getNoteCategory()) {
-                        in.value(str);
-                    }
-                    predicateList.add(in);
+            // 查询条件-类别
+            if (notePageForm.getNoteCategory() != null && notePageForm.getNoteCategory().length > 0) {
+                Join<NoteEntity, NoteCategoryEntity> categoryJoin = root.join("categoryEntityList", JoinType.LEFT);
+                CriteriaBuilder.In<String> in = cb.in(categoryJoin.<String>get("noteCategory"));
+                for (String str : notePageForm.getNoteCategory()) {
+                    in.value(str);
                 }
-
-                // 排序条件
-                if (!StringUtils.isEmpty(notePageForm.getNoteId())) {
-                    predicateList.add(cb.lessThan(root.<String>get("noteId"), notePageForm.getNoteId()));
-                }
-
-                // 去重处理
-                query.distinct(true);
-
-                Predicate[] pre = new Predicate[predicateList.size()];
-                return cb.and(predicateList.toArray(pre));
+                predicateList.add(in);
             }
+
+            // 排序条件
+            if (!StringUtils.isEmpty(notePageForm.getNoteId())) {
+                predicateList.add(cb.lessThan(root.get("noteId"), notePageForm.getNoteId()));
+            }
+
+            // 去重处理
+            query.distinct(true);
+
+            Predicate[] pre = new Predicate[predicateList.size()];
+            return cb.and(predicateList.toArray(pre));
         };
 
         return buildNoteCard(noteRepository.findAll(specification, pageable).getContent());
@@ -400,56 +397,53 @@ public class NoteServiceImpl extends BaseServiceImpl implements NoteService {
         // 创建时间倒序(id)
         Sort.Order order = new Sort.Order(Sort.Direction.DESC, "noteId");
         Pageable pageable = new PageRequest(adminNotePageForm.getPageNo() - 1, adminNotePageForm.getPageSize(), new Sort(order));
-        Specification<NoteEntity> specification = new Specification<NoteEntity>() {
-            @Override
-            public Predicate toPredicate(Root<NoteEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+        Specification<NoteEntity> specification = (root, query, cb) -> {
 
-                List<Predicate> predicateList = new ArrayList<>();
-                // 是否删除的
-                if (adminNotePageForm.getDeleted() != null) {
-                    predicateList.add(cb.equal(root.get("deleted"), adminNotePageForm.getDeleted() == 1));
-                }
-
-                // 文章id
-                if (adminNotePageForm.getNoteId() != null) {
-                    predicateList.add(cb.like(root.<String>get("noteId"), "%" + adminNotePageForm.getNoteId() + "%"));
-                }
-
-                // 关键字（ID、title）
-                if (adminNotePageForm.getKeyword() != null) {
-                    predicateList.add(
-                            cb.or(
-                                    cb.like(root.<String>get("noteId"), "%" + adminNotePageForm.getKeyword() + "%"),
-                                    cb.like(root.<String>get("noteTitle"), "%" + adminNotePageForm.getKeyword() + "%")
-                            )
-                    );
-                }
-
-                // 查询条件-类别
-                if (adminNotePageForm.getNoteCategory() != null && adminNotePageForm.getNoteCategory().length > 0) {
-                    Join<NoteEntity, NoteCategoryEntity> categoryJoin = root.join("categoryEntityList", JoinType.LEFT);
-                    CriteriaBuilder.In<String> in = cb.in(categoryJoin.<String>get("noteCategory"));
-                    for (String str : adminNotePageForm.getNoteCategory()) {
-                        in.value(str);
-                    }
-                    predicateList.add(in);
-                }
-
-                // 查询条件-状态
-                if (adminNotePageForm.getNoteStatus() != null && adminNotePageForm.getNoteStatus().length > 0) {
-                    CriteriaBuilder.In<String> in = cb.in(root.<String>get("noteStatus"));
-                    for (String str : adminNotePageForm.getNoteStatus()) {
-                        in.value(str);
-                    }
-                    predicateList.add(in);
-                }
-
-                // 去重处理
-                query.distinct(true);
-
-                Predicate[] pre = new Predicate[predicateList.size()];
-                return cb.and(predicateList.toArray(pre));
+            List<Predicate> predicateList = new ArrayList<>();
+            // 是否删除的
+            if (adminNotePageForm.getDeleted() != null) {
+                predicateList.add(cb.equal(root.get("deleted"), adminNotePageForm.getDeleted() == 1));
             }
+
+            // 文章id
+            if (adminNotePageForm.getNoteId() != null) {
+                predicateList.add(cb.like(root.get("noteId"), "%" + adminNotePageForm.getNoteId() + "%"));
+            }
+
+            // 关键字（ID、title）
+            if (adminNotePageForm.getKeyword() != null) {
+                predicateList.add(
+                        cb.or(
+                                cb.like(root.get("noteId"), "%" + adminNotePageForm.getKeyword() + "%"),
+                                cb.like(root.get("noteTitle"), "%" + adminNotePageForm.getKeyword() + "%")
+                        )
+                );
+            }
+
+            // 查询条件-类别
+            if (adminNotePageForm.getNoteCategory() != null && adminNotePageForm.getNoteCategory().length > 0) {
+                Join<NoteEntity, NoteCategoryEntity> categoryJoin = root.join("categoryEntityList", JoinType.LEFT);
+                CriteriaBuilder.In<String> in = cb.in(categoryJoin.<String>get("noteCategory"));
+                for (String str : adminNotePageForm.getNoteCategory()) {
+                    in.value(str);
+                }
+                predicateList.add(in);
+            }
+
+            // 查询条件-状态
+            if (adminNotePageForm.getNoteStatus() != null && adminNotePageForm.getNoteStatus().length > 0) {
+                CriteriaBuilder.In<String> in = cb.in(root.<String>get("noteStatus"));
+                for (String str : adminNotePageForm.getNoteStatus()) {
+                    in.value(str);
+                }
+                predicateList.add(in);
+            }
+
+            // 去重处理
+            query.distinct(true);
+
+            Predicate[] pre = new Predicate[predicateList.size()];
+            return cb.and(predicateList.toArray(pre));
         };
         Page<NoteEntity> page = noteRepository.findAll(specification, pageable);
         List<NoteEntity> noteEntities = page.getContent();
@@ -594,6 +588,33 @@ public class NoteServiceImpl extends BaseServiceImpl implements NoteService {
     @Override
     public int getNoteCntByStatus(String status) {
         return noteRepository.getNoteCntByStatus(status);
+    }
+
+    /**
+     * 获取用户下上线的笔记
+     *
+     * @param userId userid
+     * @return list
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<NoteCard> getOnlineNoteByUser(String userId) {
+        if (StringUtils.isEmpty(userId)) {
+            return null;
+        }
+        Specification<NoteEntity> specification = (root, query, cb) -> {
+
+            List<Predicate> predicateList = new ArrayList<>();
+            // 审核通过的
+            predicateList.add(cb.equal(root.get("noteStatus"), NoteStatus.REVIEW_PASSED.getCode()));
+            predicateList.add(cb.equal(root.get("deleted"), false));
+            predicateList.add(cb.equal(root.get("userId"), userId));
+
+            Predicate[] pre = new Predicate[predicateList.size()];
+            return cb.and(predicateList.toArray(pre));
+        };
+
+        return buildNoteCard(noteRepository.findAll(specification, new Sort(new Sort.Order(Sort.Direction.DESC, "createTime"))));
     }
 
 }

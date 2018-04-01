@@ -85,7 +85,8 @@
                         <div class="layui-col-xs3 layui-col-sm2 layui-col-md1 xtl-index-new-user-item"
                              title="${user.userName}">
                             <img src="${user.userHeadImg}">
-                            <span class="layui-elip">${user.userName}</span>
+                            <a href="${pageContext.request.contextPath}/user/${user.userId}" target="_blank"
+                               class="layui-elip">${user.userName}</a>
                         </div>
                     </c:forEach>
                 </div>
@@ -208,7 +209,8 @@
                                     <img src="${user.userHeadImg}">
                                 </div>
                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 layui-elip">
-                                    <span class="hot-comment-user-name">${user.userName}</span>
+                                    <a href="${pageContext.request.contextPath}/user/${user.commentUserId}"
+                                       target="_blank" class="hot-comment-user-name">${user.userName}</a>
                                 </div>
                                 <div class="layui-col-xs2 layui-col-sm2 layui-col-md2">
                                     <i class="fa fa-commenting-o" aria-hidden="true"></i> ${user.commentCount}

@@ -130,4 +130,12 @@ public interface NoteService extends BaseService {
      * @return 笔记数
      */
     int getNoteCntByStatus(String status);
+
+    /**
+     * 获取用户下上线的笔记
+     *
+     * @param userId userid
+     * @return list
+     */
+    List<NoteCard> getOnlineNoteByUser(String userId);
 }

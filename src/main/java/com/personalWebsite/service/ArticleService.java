@@ -144,4 +144,12 @@ public interface ArticleService extends BaseService {
      * @return 文章数
      */
     int getArticleCntByStatus(String status);
+
+    /**
+     * 获取用户下上线的文章
+     *
+     * @param userId userid
+     * @return list
+     */
+    List<ArticleCard> getOnlineArticleByUser(String userId);
 }

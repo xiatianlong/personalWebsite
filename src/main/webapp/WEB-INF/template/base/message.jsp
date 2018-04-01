@@ -38,7 +38,11 @@
                         <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-comment">
                             <div class="xtl-comment-user-img"><img src="${message.commentUserHeadImg}"></div>
                             <div class="xtl-comment-user-info">
-                                <div class="xtl-comment-user-name">${message.commentUserName}</div>
+                                <div class="xtl-comment-user-name">
+                                    <a class="create-user"
+                                       href="${pageContext.request.contextPath}/user/${message.commentUserId}"
+                                       target="_blank">${message.commentUserName}</a>
+                                </div>
                                 <div class="xtl-comment-content">${message.commentContent}</div>
                                 <div class="xtl-comment-time">
                                     <span class="gray">

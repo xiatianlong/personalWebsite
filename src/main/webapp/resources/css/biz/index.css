@@ -24,10 +24,17 @@
     width: 100%;
     height: auto;
 }
-.xtl-index-new-user-item span{
+
+.xtl-index-new-user-item a {
     display: inline-block;
     width: 100%;
     text-align: center;
+}
+
+.xtl-index-new-user-item a:hover {
+    text-decoration: underline;
+    color: #5FB878;
+    cursor: pointer;
 }
 
 @media (max-width: 767px) {
