@@ -57,6 +57,11 @@ public class ArticleInfo implements Serializable {
     private int articleViewsCnt;
 
     /**
+     * 是否置顶
+     */
+    private boolean top;
+
+    /**
      * 文章作者id
      */
     private String userId;
@@ -335,4 +340,17 @@ public class ArticleInfo implements Serializable {
         this.articleImgFileNo = articleImgFileNo;
     }
 
+    /**
+     * 获取 是否置顶
+     */
+    public boolean isTop() {
+        return this.top;
+    }
+
+    /**
+     * 设置 是否置顶
+     */
+    public void setTop(boolean top) {
+        this.top = top;
+    }
 }

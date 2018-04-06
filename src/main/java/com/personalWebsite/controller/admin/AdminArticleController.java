@@ -149,4 +149,35 @@ public class AdminArticleController extends BaseController {
         return result;
     }
 
+    /**
+     * 设置文章置顶
+     *
+     * @param articleId 文章id
+     * @return result
+     */
+    @PostMapping("/settingTop/{articleId}")
+    @ResponseBody
+    public AsynchronousResult settingTop(@PathVariable("articleId") String articleId) throws Exception {
+        AsynchronousResult result = new AsynchronousResult();
+        articleService.settingTop(articleId);
+        result.setResult(Constant.SUCCESS);
+        return result;
+    }
+
+    /**
+     * 取消置顶
+     *
+     * @param articleId 文章id
+     * @return result
+     */
+    @PostMapping("/cancelTop/{articleId}")
+    @ResponseBody
+    public AsynchronousResult cancelTop(@PathVariable("articleId") String articleId) throws Exception {
+        AsynchronousResult result = new AsynchronousResult();
+        articleService.cancelTop(articleId);
+        result.setResult(Constant.SUCCESS);
+        return result;
+    }
+
+
 }

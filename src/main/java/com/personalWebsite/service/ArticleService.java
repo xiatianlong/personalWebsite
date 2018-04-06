@@ -152,4 +152,21 @@ public interface ArticleService extends BaseService {
      * @return list
      */
     List<ArticleCard> getOnlineArticleByUser(String userId);
+
+    /**
+     * 设置文章置顶
+     *
+     * @param articleId 文章id
+     * @throws Exception e
+     */
+    void settingTop(String articleId) throws Exception;
+
+    /**
+     * 取消置顶
+     *
+     * @param articleId 文章id
+     * @throws Exception e
+     */
+    void cancelTop(String articleId) throws Exception;
+
 }

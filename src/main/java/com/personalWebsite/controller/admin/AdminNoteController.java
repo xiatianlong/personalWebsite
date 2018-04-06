@@ -149,5 +149,34 @@ public class AdminNoteController extends BaseController {
         return result;
     }
 
+    /**
+     * 设置笔记置顶
+     *
+     * @param noteId 笔记id
+     * @return result
+     */
+    @PostMapping("/settingTop/{noteId}")
+    @ResponseBody
+    public AsynchronousResult settingTop(@PathVariable("noteId") String noteId) throws Exception {
+        AsynchronousResult result = new AsynchronousResult();
+        noteService.settingTop(noteId);
+        result.setResult(Constant.SUCCESS);
+        return result;
+    }
+
+    /**
+     * 取消置顶
+     *
+     * @param noteId 笔记id
+     * @return result
+     */
+    @PostMapping("/cancelTop/{noteId}")
+    @ResponseBody
+    public AsynchronousResult cancelTop(@PathVariable("noteId") String noteId) throws Exception {
+        AsynchronousResult result = new AsynchronousResult();
+        noteService.cancelTop(noteId);
+        result.setResult(Constant.SUCCESS);
+        return result;
+    }
 
 }

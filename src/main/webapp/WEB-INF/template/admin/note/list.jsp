@@ -110,6 +110,17 @@
                                                             data-note-id="${note.noteId}" title="预览">
                                                         <i class="layui-icon">&#xe602;</i>
                                                     </button>
+                                                    <button class="layui-btn layui-btn-sm margin-t-5 settingTopBtn"
+                                                            data-note-id="${note.noteId}" title="置顶">
+                                                        <c:choose>
+                                                            <c:when test="${note.top}">
+                                                                <i class="fa fa-circle"></i>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <i class="fa fa-circle-o"></i>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </button>
                                                 </div>
                                             </td>
                                         </tr>

@@ -617,4 +617,44 @@ public class NoteServiceImpl extends BaseServiceImpl implements NoteService {
         return buildNoteCard(noteRepository.findAll(specification, new Sort(new Sort.Order(Sort.Direction.DESC, "createTime"))));
     }
 
+    /**
+     * 设置文章置顶
+     *
+     * @param articleId 文章id
+     * @throws Exception e
+     */
+    @Transactional
+    @Override
+    public void settingTop(String articleId) throws Exception {
+        NoteEntity noteEntity = getNoteById(articleId);
+        if (noteEntity == null) {
+            throw new ApplicationException(getMessage("note.null"));
+        }
+        if (noteEntity.isTop()) {
+            throw new ApplicationException(getMessage("note.isToped"));
+        }
+        noteEntity.setTop(true);
+        noteRepository.saveAndFlush(noteEntity);
+    }
+
+    /**
+     * 取消置顶
+     *
+     * @param articleId 文章id
+     * @throws Exception e
+     */
+    @Transactional
+    @Override
+    public void cancelTop(String articleId) throws Exception {
+        NoteEntity noteEntity = getNoteById(articleId);
+        if (noteEntity == null) {
+            throw new ApplicationException(getMessage("note.null"));
+        }
+        if (!noteEntity.isTop()) {
+            throw new ApplicationException(getMessage("note.isNotTop"));
+        }
+        noteEntity.setTop(false);
+        noteRepository.saveAndFlush(noteEntity);
+    }
+
 }

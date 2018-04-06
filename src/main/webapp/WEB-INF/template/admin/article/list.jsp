@@ -110,6 +110,17 @@
                                                             data-article-id="${article.articleId}" title="预览">
                                                         <i class="layui-icon">&#xe602;</i>
                                                     </button>
+                                                    <button class="layui-btn layui-btn-sm margin-t-5 settingTopBtn"
+                                                            data-article-id="${article.articleId}" title="置顶">
+                                                        <c:choose>
+                                                            <c:when test="${article.top}">
+                                                                <i class="fa fa-circle"></i>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <i class="fa fa-circle-o"></i>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </button>
                                                 </div>
                                             </td>
                                         </tr>

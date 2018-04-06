@@ -429,6 +429,8 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
         if (fileRelationEntity != null) {
             articleInfo.setArticleImgUrl(fileRelationEntity.getFileUrl());
         }
+        // 是否置顶
+        articleInfo.setTop(articleEntity.isTop());
         // 文章状态代码
         articleInfo.setArticleStatusCode(articleEntity.getArticleStatus());
         // 文章状态名称
@@ -629,6 +631,46 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
         };
 
         return buildArticleCard(articleRepository.findAll(specification, new Sort(new Sort.Order(Sort.Direction.DESC, "createTime"))));
+    }
+
+    /**
+     * 设置文章置顶
+     *
+     * @param articleId 文章id
+     * @throws Exception e
+     */
+    @Transactional
+    @Override
+    public void settingTop(String articleId) throws Exception {
+        ArticleEntity articleEntity = getArticleById(articleId);
+        if (articleEntity == null) {
+            throw new ApplicationException(getMessage("article.null"));
+        }
+        if (articleEntity.isTop()) {
+            throw new ApplicationException(getMessage("article.isToped"));
+        }
+        articleEntity.setTop(true);
+        articleRepository.saveAndFlush(articleEntity);
+    }
+
+    /**
+     * 取消置顶
+     *
+     * @param articleId 文章id
+     * @throws Exception e
+     */
+    @Transactional
+    @Override
+    public void cancelTop(String articleId) throws Exception {
+        ArticleEntity articleEntity = getArticleById(articleId);
+        if (articleEntity == null) {
+            throw new ApplicationException(getMessage("article.null"));
+        }
+        if (!articleEntity.isTop()) {
+            throw new ApplicationException(getMessage("article.isNotTop"));
+        }
+        articleEntity.setTop(false);
+        articleRepository.saveAndFlush(articleEntity);
     }
 
     /**

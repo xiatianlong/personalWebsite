@@ -102,6 +102,38 @@ layui.use(['laypage', 'form'], function () {
     });
 
     /**
+     * 置顶处理
+     */
+    $("#articleListContent").on('click', 'button.settingTopBtn', function () {
+        var articleId = $(this).data("articleId");
+        var $that = $(this);
+        var url = '/admin/article/settingTop/' + articleId;
+        var isTop = false;
+        if ($that.find("i").hasClass("fa-circle")) {
+            url = '/admin/article/cancelTop/' + articleId;
+            isTop = true;
+        }
+        common.ajax({
+            url: url,
+            type: "POST",
+            success: function (res) {
+                if (res.result === 'success') {
+                    if (isTop) {
+                        $that.find("i").removeClass("fa-circle");
+                        $that.find("i").addClass("fa-circle-o");
+                    } else {
+                        $that.find("i").removeClass("fa-circle-o");
+                        $that.find("i").addClass("fa-circle");
+                    }
+                    layer.msg('操作成功', {icon: 6});
+                } else {
+                    layer.msg(res.message, {icon: 5, anim: 6});
+                }
+            }
+        });
+    });
+
+    /**
      * 删除点击
      */
     $("#articleListContent").on('click', 'button.removeBtn', function () {
@@ -362,6 +394,13 @@ layui.use(['laypage', 'form'], function () {
         html += '           </button>';
         html += '           <button class="layui-btn layui-btn-sm margin-t-5 preViewBtn" data-article-id="' + article.articleId + '" title="预览">';
         html += '               <i class="layui-icon">&#xe602;</i>';
+        html += '           </button>';
+        html += '           <button class="layui-btn layui-btn-sm margin-t-5 settingTopBtn" data-article-id="' + article.articleId + '" title="置顶">';
+        if (article.top) {
+            html += '               <i class="fa fa-circle"></i>';
+        } else {
+            html += '               <i class="fa fa-circle-o"></i>';
+        }
         html += '           </button>';
         html += '       </div>';
         html += '   </td>';

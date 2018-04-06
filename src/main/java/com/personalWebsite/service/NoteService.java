@@ -138,4 +138,21 @@ public interface NoteService extends BaseService {
      * @return list
      */
     List<NoteCard> getOnlineNoteByUser(String userId);
+
+
+    /**
+     * 设置笔记置顶
+     *
+     * @param noteId 笔记id
+     * @throws Exception e
+     */
+    void settingTop(String noteId) throws Exception;
+
+    /**
+     * 取消置顶
+     *
+     * @param noteId 笔记id
+     * @throws Exception e
+     */
+    void cancelTop(String noteId) throws Exception;
 }
