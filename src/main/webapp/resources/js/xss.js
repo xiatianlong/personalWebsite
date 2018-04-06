@@ -77,7 +77,9 @@
             video: ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width'],
             strike: [],
             svg: ['viewBox', 'version', 'width', 'height', 'aria-hidden'],
-            path: ['fill-rule', 'd']
+            path: ['fill-rule', 'd'],
+            iframe: ['height', 'width', 'src', 'frameborder', 'allowfullscreen'],
+            embed: ['src', 'allowFullScreen', 'quality', 'width', 'height', 'align', 'allowScriptAccess', 'type']
         };
     }
 
