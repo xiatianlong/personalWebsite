@@ -149,7 +149,9 @@ layui.use(['form', 'upload'], function () {
                 data: requestDate,
                 success: function (res) {
                     if (res.result === 'success') {
-                        layer.msg('操作成功', {icon: 6});
+                        layer.msg('操作成功', {icon: 6, shade: 0.3}, function () {
+                            location.reload();
+                        });
                     } else {
                         layer.msg(res.message, {icon: 5, anim: 6});
                     }
@@ -203,7 +205,9 @@ layui.use(['form', 'upload'], function () {
                 data: requestDate,
                 success: function (res) {
                     if (res.result === 'success') {
-                        layer.msg('操作成功', {icon: 6});
+                        layer.msg('操作成功', {icon: 6, shade: 0.3}, function () {
+                            location.reload();
+                        });
                     } else {
                         layer.msg(res.message, {icon: 5, anim: 6});
                     }
