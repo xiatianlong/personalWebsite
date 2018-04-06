@@ -225,7 +225,7 @@
     </properties>
 
     <build>
-        <finalName>personalWebsite-v1.0.0</finalName>
+        <finalName>personalWebsite-v1.0.1</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
