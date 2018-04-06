@@ -88,8 +88,6 @@
                             </table>
                         </div>
                     </c:if>
-
-
                 </c:when>
                 <c:otherwise>
                     <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 gray">暂未开放个人中心</div>
