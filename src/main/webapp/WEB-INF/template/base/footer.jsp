@@ -24,8 +24,8 @@
 <script src="${pageContext.request.contextPath}/resources/layui/layui.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/canvas-particle.js"></script>
-<script src="${pageContext.request.contextPath}/resources/plugins/wangEditor_v3.0.15/wangEditor.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/plugins/wangEditor_v3.0.15/emoji.js"></script>
+<script src="${pageContext.request.contextPath}/resources/plugins/wangEditor_v3.1.0/wangEditor.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/plugins/wangEditor_v3.1.0/emoji.js"></script>
 <script src="${pageContext.request.contextPath}/resources/plugins/highlight/highlight.pack.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/xss.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/easy-check.js"></script>

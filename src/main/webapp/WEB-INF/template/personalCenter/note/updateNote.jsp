@@ -6,7 +6,7 @@
     <jsp:include page="../../base/head.jsp"/>
     <title>${note.noteId}</title>
     <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/resources/plugins/wangEditor_v3.0.15/wangEditor-fullscreen-plugin.css">
+          href="${pageContext.request.contextPath}/resources/plugins/wangEditor_v3.1.0/wangEditor-fullscreen-plugin.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/biz/personalCenter/publish.css">
 </head>
 <body>
@@ -79,7 +79,7 @@
 
 
 <jsp:include page="../../base/footer.jsp"/>
-<script src="${pageContext.request.contextPath}/resources/plugins/wangEditor_v3.0.15/wangEditor-fullscreen-plugin.js"></script>
+<script src="${pageContext.request.contextPath}/resources/plugins/wangEditor_v3.1.0/wangEditor-fullscreen-plugin.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/biz/member/note/updateNote.js"></script>
 </body>
 </html>

@@ -11,7 +11,7 @@
     <jsp:include page="../base/head.jsp"/>
     <title>${note.noteTitle}</title>
     <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/resources/plugins/wangEditor_v3.0.15/wangEditor.min.css">
+          href="${pageContext.request.contextPath}/resources/plugins/wangEditor_v3.1.0/wangEditor.min.css">
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/resources/css/xtl-content.css">
 </head>

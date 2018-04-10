@@ -30,7 +30,7 @@ layui.use(['laypage', 'form'], function () {
     });
 
     // 菜单
-    var messageMenu = ['bold', 'italic', 'underline', 'quote', 'strikeThrough', 'foreColor', 'link', 'code', 'emoticon'];
+    var messageMenu = ['bold', 'fontSize', 'italic', 'underline', 'quote', 'strikeThrough', 'foreColor', 'link', 'code', 'emoticon'];
 
     //建立编辑器
     var messageE = window.wangEditor;

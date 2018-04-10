@@ -7,7 +7,7 @@
     <jsp:include page="../../base/head.jsp"/>
     <title>${article.articleTitle}</title>
     <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/resources/plugins/wangEditor_v3.0.15/wangEditor-fullscreen-plugin.css">
+          href="${pageContext.request.contextPath}/resources/plugins/wangEditor_v3.1.0/wangEditor-fullscreen-plugin.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/biz/personalCenter/publish.css">
 </head>
 <body>
@@ -117,7 +117,7 @@
 </div>
 
 <jsp:include page="../../base/footer.jsp"/>
-<script src="${pageContext.request.contextPath}/resources/plugins/wangEditor_v3.0.15/wangEditor-fullscreen-plugin.js"></script>
+<script src="${pageContext.request.contextPath}/resources/plugins/wangEditor_v3.1.0/wangEditor-fullscreen-plugin.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/biz/member/article/updateArticle.js"></script>
 </body>
 </html>
