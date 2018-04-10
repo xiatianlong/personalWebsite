@@ -104,11 +104,7 @@ public class DateUtil {
             interval = minute + "分钟前";
         } else if (second < 60 * 60 * 24) {//大于1小时 小于24小时
             long hour = (second / 60) / 60;
-            if (hour <= 3) {
-                interval = hour + "小时前";
-            } else {
-                interval = format(date, DATEFORMATTER_HHmm);
-            }
+            interval = hour + "小时前";
         } else if (second <= 60 * 60 * 24 * 2) {//大于1D 小于2D
             interval = "昨天" + format(date, DATEFORMATTER_HHmm);
         } else if (second <= 60 * 60 * 24 * 7) {//大于2D小时 小于 7天
