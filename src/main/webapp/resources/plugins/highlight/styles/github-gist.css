@@ -13,7 +13,7 @@
 }
 
 .hljs:hover {
-    box-shadow: 3px 3px 3px #d5d5d5;
+    box-shadow: 0 0 30px #d5d5d5;
 }
 
 .hljs-comment,
