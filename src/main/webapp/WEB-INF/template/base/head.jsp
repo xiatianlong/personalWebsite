@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/layui/css/layui.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">
 <%--<script src="${pageContext.request.contextPath}/resources/plugins/wangEditor_v3.1.0/wangEditor.min.css"></script>--%>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/plugins/highlight/styles/dark.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/plugins/highlight/styles/github-gist.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common.css">
 
 <%--全局js变量--%>
