@@ -39,7 +39,7 @@ public class BannerEntity extends BaseEntity {
     /**
      * banner图片文件
      */
-    private FileRelationEntity articleImgFile;
+    private FileRelationEntity bannerImgFile;
 
 
     /**
@@ -125,14 +125,14 @@ public class BannerEntity extends BaseEntity {
      */
     @ManyToOne
     @JoinColumn(name = "BANNER_IMG", referencedColumnName = "FILE_NO", updatable = false, insertable = false)
-    public FileRelationEntity getArticleImgFile() {
-        return this.articleImgFile;
+    public FileRelationEntity getBannerImgFile() {
+        return this.bannerImgFile;
     }
 
     /**
      * 设置 banner图片文件
      */
-    public void setArticleImgFile(FileRelationEntity articleImgFile) {
-        this.articleImgFile = articleImgFile;
+    public void setBannerImgFile(FileRelationEntity bannerImgFile) {
+        this.bannerImgFile = bannerImgFile;
     }
 }

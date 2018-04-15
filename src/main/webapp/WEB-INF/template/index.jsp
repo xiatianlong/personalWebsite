@@ -31,11 +31,11 @@
                                 <c:choose>
                                     <c:when test="${not empty banner.bannerUri}">
                                         <div><a href="${banner.bannerUri}" target="_blank"><img
-                                                src="${banner.articleImgFile.fileUrl}" alt="${banner.bannerText}"></a>
+                                                src="${banner.bannerImgFile.fileUrl}" alt="${banner.bannerText}"></a>
                                         </div>
                                     </c:when>
                                     <c:otherwise>
-                                        <div><img src="${banner.articleImgFile.fileUrl}" alt="${banner.bannerText}">
+                                        <div><img src="${banner.bannerImgFile.fileUrl}" alt="${banner.bannerText}">
                                         </div>
                                     </c:otherwise>
                                 </c:choose>
