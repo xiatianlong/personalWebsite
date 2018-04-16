@@ -167,7 +167,7 @@
 
             <c:if test="${not empty newList && newList.size() gt 0}">
                 <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block margin-t-15">
-                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 blue xtl-block-title">最新分布</div>
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 blue xtl-block-title">最新发布</div>
                     <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 margin-t-10">
                         <c:forEach items="${newList}" var="newItem" varStatus="varStatus">
                             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 article-new-item <c:if test="${varStatus.index == 0}">padding-t-0</c:if> ">
