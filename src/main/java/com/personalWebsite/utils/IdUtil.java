@@ -12,12 +12,12 @@ import java.util.Random;
 public class IdUtil {
 
     public static String createId(String userId) {
-        SimpleDateFormat sd = new SimpleDateFormat("YYMMddHHmmss");
+        SimpleDateFormat sd = new SimpleDateFormat("yyMMddHHmmss");
         return sd.format(new Date()) + userId + new Random().nextInt(10);
     }
 
     public static String createId() {
-        SimpleDateFormat sd = new SimpleDateFormat("YYMMddHHmmssSSS");
+        SimpleDateFormat sd = new SimpleDateFormat("yyMMddHHmmssSSS");
         return sd.format(new Date()) + new Random().nextInt(10);
     }
 }
