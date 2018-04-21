@@ -60,7 +60,7 @@
             s:      [],
             section:[],
             small:  [],
-            span:   [],
+            span: ['style'],
             sub:    [],
             sup:    [],
             strong: [],
