@@ -8,6 +8,7 @@ import com.personalWebsite.model.request.PageForm;
  */
 public class HomePageForm extends PageForm {
 
+    private static final long serialVersionUID = 6728467174598470485L;
     /**
      * orderKey
      */
