@@ -74,7 +74,7 @@
             tt:     [],
             u:      [],
             ul:     [],
-            video: ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width'],
+            video: ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width', 'style'],
             source: ['id', 'src', 'type'],
             strike: [],
             svg: ['viewBox', 'version', 'width', 'height', 'aria-hidden'],
