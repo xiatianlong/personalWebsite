@@ -75,6 +75,7 @@
             u:      [],
             ul:     [],
             video: ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width'],
+            source: ['id', 'src', 'type'],
             strike: [],
             svg: ['viewBox', 'version', 'width', 'height', 'aria-hidden'],
             path: ['fill-rule', 'd'],
