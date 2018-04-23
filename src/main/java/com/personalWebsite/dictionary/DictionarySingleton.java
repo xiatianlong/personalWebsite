@@ -17,7 +17,7 @@ public class DictionarySingleton {
     /**
      * 指向自己实例的私有静态引用
      */
-    public static DictionarySingleton dictionarySingleton = null;
+    private static DictionarySingleton dictionarySingleton = null;
 
     /**
      * 私有无参构造
