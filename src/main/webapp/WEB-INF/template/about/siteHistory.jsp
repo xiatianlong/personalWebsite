@@ -29,6 +29,20 @@
                 <li class="layui-timeline-item">
                     <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
                     <div class="layui-timeline-content layui-text">
+                        <h3 class="layui-timeline-title">18年05月01日</h3>
+                        <p>
+                            开放部分接口获取文章、笔记等<br>
+                            开完完成小程序（因非企业号，仅能发布体验版）<br>
+                            修复富文本添加视频无法播放问题<br>
+                        </p>
+                        <p>
+                            其他细节优化<br>
+                        </p>
+                    </div>
+                </li>
+                <li class="layui-timeline-item">
+                    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                    <div class="layui-timeline-content layui-text">
                         <h3 class="layui-timeline-title">18年04月06日</h3>
                         <p>
                             修复了富文本左右对齐无效的问题<br>
