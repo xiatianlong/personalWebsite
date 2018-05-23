@@ -33,7 +33,7 @@ public class AdminBannerController extends BaseController {
     @GetMapping("/list")
     public String userList(Model model) {
 
-        model.addAttribute("bannerList", bannerService.getAllBnner());
+        model.addAttribute("bannerList", bannerService.getAllBanner());
         return "admin/banner/list";
     }
 

@@ -16,7 +16,7 @@ public interface BannerService extends BaseService {
      *
      * @return list
      */
-    List<BannerEntity> getAllBnner();
+    List<BannerEntity> getAllBanner();
 
     /**
      * 更新或保存banner
