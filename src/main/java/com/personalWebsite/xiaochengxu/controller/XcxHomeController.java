@@ -45,7 +45,7 @@ public class XcxHomeController extends BaseController {
         result.setArticleNoteReviewPassedCards(articleNoteReviewPassedCards);
         result.setHasMore(articleNoteReviewPassedCards != null && articleNoteReviewPassedCards.size() >= form.getPageSize());
         // banner图片
-        result.setBannerList(bannerService.getAllBnner());
+        result.setBannerList(bannerService.getAllBanner());
 
         result.setResult(Constant.SUCCESS);
         return result;

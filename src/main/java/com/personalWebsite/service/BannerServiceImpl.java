@@ -1,7 +1,9 @@
 package com.personalWebsite.service;
 
 import com.personalWebsite.common.exception.ApplicationException;
+import com.personalWebsite.common.system.RedisCacheKeys;
 import com.personalWebsite.dao.BannerRepository;
+import com.personalWebsite.dao.redis.RedisCache;
 import com.personalWebsite.entity.BannerEntity;
 import com.personalWebsite.model.request.banner.SaveBannerForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class BannerServiceImpl extends BaseServiceImpl implements BannerService 
     @Autowired
     private BannerRepository bannerRepository;
 
+    @Autowired
+    private RedisCache redisCache;
+
 
     /**
      * 获取全部banner
@@ -29,8 +34,21 @@ public class BannerServiceImpl extends BaseServiceImpl implements BannerService 
      * @return list
      */
     @Override
-    public List<BannerEntity> getAllBnner() {
-        return bannerRepository.getAllBanner();
+    @SuppressWarnings("unchecked")
+    public List<BannerEntity> getAllBanner() {
+
+        List<BannerEntity> bannerEntities;
+        // 从redis缓存取  没取到则查数据库（缓存30分钟,单位s）
+        Object obj = redisCache.getChche(RedisCacheKeys.BANNER_KEY);
+        if (obj == null) {
+            List<BannerEntity> temp = bannerRepository.getAllBanner();
+            redisCache.setCache(RedisCacheKeys.BANNER_KEY, temp, 60 * 30);
+            bannerEntities = temp;
+        } else {
+            bannerEntities = (List<BannerEntity>) obj;
+        }
+
+        return bannerEntities;
     }
 
     /**
@@ -52,7 +70,7 @@ public class BannerServiceImpl extends BaseServiceImpl implements BannerService 
             throw new ApplicationException(getMessage("banner.request.data.error"));
         }
         // 全删
-        List<BannerEntity> bannerEntities = getAllBnner();
+        List<BannerEntity> bannerEntities = getAllBanner();
         if (bannerEntities != null && !bannerEntities.isEmpty()) {
             bannerRepository.delete(bannerEntities);
         }

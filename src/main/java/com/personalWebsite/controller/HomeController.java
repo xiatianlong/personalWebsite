@@ -55,7 +55,7 @@ public class HomeController extends BaseController{
     @GetMapping
     public String home(HomePageForm form, Model model) {
         // banner图
-        model.addAttribute("bannerList", bannerService.getAllBnner());
+        model.addAttribute("bannerList", bannerService.getAllBanner());
         // 文章数
         model.addAttribute("articleCnt", articleService.getArticleCntByStatus(ArticleStatus.REVIEW_PASSED.getCode()));
         // 笔记数

@@ -126,4 +126,9 @@
     <!-- 配置spring data-->
     <jpa:repositories base-package="com.personalWebsite.dao" entity-manager-factory-ref="entityManagerFactory"/>
 
+
+    <!--配置reids cache-->
+
+    <bean id="redisCache" class="com.personalWebsite.dao.redis.RedisCache"/>
+
 </beans>
