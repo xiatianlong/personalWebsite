@@ -17,7 +17,7 @@ layui.use(['carousel'], function () {
 $(function () {
 
     // 条件查询搜索点击处理
-    $("#searchBtn").on('click', function () {
+    $(".searchBtn").on('click', function () {
         search();
     });
 
@@ -68,7 +68,7 @@ $(function () {
      * 关键字检索
      */
     function search() {
-        var keyword = $("input[name='keyword']").val();
+        var keyword = $("input[name='keyword']:visible").eq(0).val();
         common.ajax({
             url: "/home/query",
             type: "POST",

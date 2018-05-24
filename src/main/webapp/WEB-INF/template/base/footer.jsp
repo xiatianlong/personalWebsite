@@ -31,7 +31,23 @@
 <script src="${pageContext.request.contextPath}/resources/js/easy-check.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
+
 <script>
+
+
+    // 小尺寸上菜单点击
+    $(function () {
+        $("#xtl-menu-sm").on('click', function () {
+            var $menuBg = $(".xtl-header .layui-container");
+            if ($menuBg.is(":hidden")) {
+                $(".xtl-header .layui-container").slideDown(130);
+            } else {
+                $(".xtl-header .layui-container").slideUp(130);
+            }
+        });
+    })
+
+
     var layer;
     layui.use(['element', 'util', 'code', 'layer'], function () {
         //引用code方法, 对code标签的内容做代码格式化

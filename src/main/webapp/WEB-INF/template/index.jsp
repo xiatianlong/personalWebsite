@@ -81,8 +81,8 @@
             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block margin-t-15">
                 <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 blue xtl-block-title">最新用户</div>
                 <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" id="xtl-index-new-user-list">
-                    <c:forEach items="${userEntityList}" var="user">
-                        <div class="layui-col-xs3 layui-col-sm2 layui-col-md1 xtl-index-new-user-item"
+                    <c:forEach items="${userEntityList}" var="user" varStatus="index">
+                        <div class="layui-col-xs3 layui-col-sm2 layui-col-md1  <c:if test="${index.index > 7}">layui-hide-xs</c:if>  xtl-index-new-user-item"
                              title="${user.userName}">
                             <img src="${user.userHeadImg}">
                             <a href="${pageContext.request.contextPath}/user/${user.userId}" target="_blank"
@@ -95,6 +95,17 @@
     </c:if>
 
     <div class="layui-row layui-col-space15">
+
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md8 layui-hide-lg layui-hide-md layui-hide-sm padding-t-0 padding-b-0 margin-b-0">
+            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block margin-b-0">
+                <div class="xtl-search-input-content">
+                    <input type="text" name="keyword" placeholder="请输入标题关键字" autocomplete="off" class="layui-input">
+                    <i class="layui-icon searchBtn">&#xe615;</i>
+                </div>
+            </div>
+        </div>
+
+
         <div class="layui-col-xs12 layui-col-sm12 layui-col-md8">
 
             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" id="listContent">
@@ -129,10 +140,10 @@
         </div>
 
         <div class="layui-col-xs-12 layui-col-sm12 layui-col-md4 index-right-content">
-            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block">
+            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block layui-hide-xs">
                 <div class="xtl-search-input-content">
                     <input type="text" name="keyword" placeholder="请输入标题关键字" autocomplete="off" class="layui-input">
-                    <i class="layui-icon" id="searchBtn">&#xe615;</i>
+                    <i class="layui-icon searchBtn">&#xe615;</i>
                 </div>
             </div>
 

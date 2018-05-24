@@ -228,6 +228,10 @@ body{
 .padding-b-50{
     padding-bottom: 50px !important;
 }
+
+.white {
+    color: #fff !important;
+}
 .blue{
     color: #1E9FFF !important;
 }
@@ -447,6 +451,7 @@ fieldset legend{
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     line-height: 1.7;
+    text-align: justify;
 }
 
 #article-status-content > a.active {
@@ -645,6 +650,8 @@ fieldset legend{
     float: left;
     padding-left: 10px;
     width: calc(100% - 65px);
+    word-break: break-all;
+    text-align: justify;
 }
 .xtl-comment .xtl-comment-time{
     clear: both;
@@ -678,6 +685,11 @@ fieldset legend{
     color: #333;
 }
 
+.xtl-header .xtl-sm-header {
+    display: none;
+}
+
+
 /*底部css end*/
 @media (max-width: 767px) {
     .xtl-article-card .article-title{
@@ -689,4 +701,62 @@ fieldset legend{
     .submission-and-leaveMessage{
         height: 160px;
     }
+
+    /*菜单 css begin*/
+    .xtl-header .xtl-sm-header {
+        display: block;
+        padding: 5px;
+    }
+
+    .xtl-header .xtl-sm-header .xtl-menu-sm {
+        line-height: 35px;
+    }
+
+    .xtl-header .xtl-sm-header .xtl-menu-sm i {
+        font-size: 20px;
+    }
+
+    .xtl-header .layui-container .xtl-logo {
+        display: none;
+    }
+
+    .xtl-header .layui-nav {
+        margin-left: 0;
+        padding: 0;
+        margin-top: 10px;
+    }
+
+    .layui-nav .layui-nav-item {
+        width: 13%;
+        line-height: 45px;
+        padding: 0 5px;
+        text-align: center;
+    }
+
+    .layui-nav .layui-nav-item a {
+        padding: 0;
+        font-size: 14px;
+    }
+
+    .layui-container {
+        padding: 0 10px;
+    }
+
+    .xtl-header nav.layui-container {
+        display: none;
+    }
+
+    /*菜单css end*/
+    .w-e-toolbar {
+        flex-wrap: wrap;
+    }
+
+    .xtl-comment .xtl-comment-user-info {
+        width: calc(100% - 40px);
+    }
+
+    #xtl-index-banner {
+        max-height: 200px !important;
+    }
+
 }

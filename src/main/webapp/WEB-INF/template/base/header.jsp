@@ -8,6 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <header class="xtl-header layui-bg-black">
+    <div class="xtl-sm-header">
+        <a href="" class="xtl-logo-sm"><img
+                src="${pageContext.request.contextPath}/resources/images/icon/website_logo_32px.png"></a>
+        <a class="float-r xtl-menu-sm" id="xtl-menu-sm"><i class="fa fa-reorder white " aria-hidden="true"></i></a>
+    </div>
     <nav class="layui-container">
         <a href="" class="xtl-logo"><img
                 src="${pageContext.request.contextPath}/resources/images/icon/website_logo_32px.png"></a>
