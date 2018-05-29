@@ -29,6 +29,16 @@
                 <li class="layui-timeline-item">
                     <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
                     <div class="layui-timeline-content layui-text">
+                        <h3 class="layui-timeline-title">18年05月15日</h3>
+                        <p>
+                            加入Redis，减少数据库访问（暂只用于Banner图）<br>
+                            进行了移动端样式适配<br>
+                        </p>
+                    </div>
+                </li>
+                <li class="layui-timeline-item">
+                    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                    <div class="layui-timeline-content layui-text">
                         <h3 class="layui-timeline-title">18年05月01日</h3>
                         <p>
                             开放部分接口获取文章、笔记等<br>
