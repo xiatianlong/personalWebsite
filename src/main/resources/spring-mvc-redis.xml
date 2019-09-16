@@ -6,7 +6,7 @@
 
     <bean id="jedisConnFactory"
           class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
-          p:use-pool="true" p:port="6379" p:hostName="106.14.162.40" p:password="xiatianlong"/>
+          p:use-pool="true" p:port="6379" p:hostName="106.14.170.203" p:password="xiatianlong"/>
 
     <!-- redis template definition -->
     <bean id="redisTemplate"
