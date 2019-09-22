@@ -232,21 +232,20 @@
 
 
     <properties>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
     </properties>
 
     <build>
-        <finalName>personalWebsite-v1.0.1</finalName>
+        <finalName>site</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.1.1</version>
+                <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <packagingExcludes>src/test/**</packagingExcludes>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
 

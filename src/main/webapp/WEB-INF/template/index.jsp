@@ -15,11 +15,11 @@
 
 
 <div class="layui-container">
-    <div class="layui-row">
-        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block green margin-b-15">
-            <i class="layui-icon">&#xe645;</i> 夏天龙的个人网站2.0版本上线啦！
-        </div>
-    </div>
+<%--    <div class="layui-row">--%>
+<%--        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 xtl-block green margin-b-15">--%>
+<%--            <i class="layui-icon">&#xe645;</i> 夏天龙的个人网站2.0版本上线啦！--%>
+<%--        </div>--%>
+<%--    </div>--%>
 
     <div class="layui-row layui-col-space15">
         <div class="layui-col-xs12 layui-col-sm8 layui-col-md8">
